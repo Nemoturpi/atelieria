@@ -69,22 +69,22 @@ const C = {
                en: "The result is always the same: you don't know exactly what you're missing." },
   },
   method: {
-    title:   { fr: "Un système, pas un outil de plus.", en: 'A system, not yet another tool.' },
-    intro:   { fr: 'Trois étapes, deux à trois semaines, un livrable que vous gardez.',
-               en: 'Three steps, two to three weeks, a deliverable you keep.' },
+    title:   { fr: "Une infrastructure de veille, pas un outil de plus.", en: 'A monitoring infrastructure, not yet another tool.' },
+    intro:   { fr: 'Trois étapes : audit des sources et des coûts, architecture automatisée avec validation humaine, puis mise en production et maintenance.',
+               en: 'Three steps: source and cost audit, automated architecture with human review, then production rollout and maintenance.' },
     steps: [
-      { name: { fr: 'Cadrage', en: 'Scoping' },
-        body: { fr: "On part de vos sujets, de vos sources existantes et de ce que vos équipes consomment déjà. J'identifie les angles morts, les redondances et ce qui mérite d'être suivi vraiment. Vous repartez avec une cartographie utilisable même sans moi.",
-                en: 'We start from your topics, your existing sources, and what your teams already consume. I identify the blind spots, the redundancies, and what truly deserves to be tracked. You walk away with a mapping that holds up even without me.' },
-        del:  { fr: 'Livrable : note de cadrage et matrice de sources.', en: 'Deliverable: scoping note and source matrix.' } },
-      { name: { fr: 'Construction', en: 'Build' },
-        body: { fr: "Je monte le workflow n8n qui capte, filtre, structure et résume. Pas de SaaS propriétaire. Le système tourne sur votre infrastructure ou la mienne, à votre choix. Vous restez propriétaire du moteur.",
-                en: 'I set up the n8n workflow that captures, filters, structures and summarises. No proprietary SaaS. The system runs on your infrastructure or mine, your choice. You stay the owner of the engine.' },
-        del:  { fr: 'Livrable : workflow opérationnel, documenté.', en: 'Deliverable: a documented, operational workflow.' } },
-      { name: { fr: 'Industrialisation', en: 'Industrialisation' },
-        body: { fr: "Bulletin auto-généré au format que vos équipes utilisent, livré à la fréquence qui vous va. Slack, e-mail, Notion, intranet. On ajuste pendant un mois pour caler le ton et le tri.",
-                en: 'Auto-generated briefing in the format your teams actually use, delivered at the cadence you set. Slack, email, Notion, intranet. We fine-tune for a month to nail the tone and the filtering.' },
-        del:  { fr: "Livrable : bulletins en production + un mois d'ajustement.", en: 'Deliverable: briefings in production + one month of adjustment.' } },
+      { name: { fr: 'Audit sources & coûts', en: 'Source & cost audit' },
+        body: { fr: "On fait le point sur toutes les sources utilisées pour la veille, les outils en place et leur coût réel. Inoreader, Lovable, newsletters, presse, bases institutionnelles : je repère les doublons, les angles morts et les abonnements qui coûtent cher sans produire assez de signal.",
+                en: 'We review every source used for monitoring, the tools already in place, and their real cost. Inoreader, Lovable, newsletters, press sources and institutional databases: I identify duplicates, blind spots, and subscriptions that cost too much for the signal they produce.' },
+        del:  { fr: 'Livrable : cartographie des sources, inventaire des outils/coûts et recommandations chiffrées.', en: 'Deliverable: source map, tool/cost inventory, and costed recommendations.' } },
+      { name: { fr: 'Architecture automatisée', en: 'Automated architecture' },
+        body: { fr: "Je conçois le système de veille cible : dédoublonnage, matching des informations avec les centres d'intérêt de chaque client, sélection pour bulletins personnalisés, push vers webhooks ou CRM, et couche de vérification humaine. On chiffre aussi les coûts et on prévoit une boucle d'auto-amélioration à partir des informations retenues ou écartées.",
+                en: "I design the target monitoring system: deduplication, matching incoming information with each client's interests, selection for personalised briefings, pushes to webhooks or CRMs, and a human review layer. We also estimate operating costs and design a self-improvement loop based on accepted and rejected items." },
+        del:  { fr: 'Livrable : architecture cible, règles de tri, parcours de validation humaine et estimation des coûts.', en: 'Deliverable: target architecture, filtering rules, human review path, and cost estimate.' } },
+      { name: { fr: 'Mise en production', en: 'Production rollout' },
+        body: { fr: "Je mets en œuvre l'infrastructure, je branche les sorties utiles et j'assure la maintenance. Les bulletins partent par e-mail, les opportunités peuvent remonter dans HubSpot ou un CRM, les signaux sensibles déclenchent des alertes. Le système est suivi, ajusté et documenté.",
+                en: 'I implement the infrastructure, connect the useful outputs, and handle maintenance. Briefings can go out by email, opportunities can surface in HubSpot or a CRM, and sensitive signals can trigger alerts. The system is monitored, adjusted, and documented.' },
+        del:  { fr: 'Livrable : infrastructure en production, documentation et maintenance évolutive.', en: 'Deliverable: production infrastructure, documentation, and ongoing maintenance.' } },
     ],
   },
   cases: {
@@ -547,6 +547,7 @@ function HeroAutomationPanel({ lang, tokens, fonts, density, compact = false }) 
   const { accent, accent2, ink } = tokens;
   const { sans, mono, body } = fonts;
   const uid = React.useId().replace(/:/g, '');
+  const panelHeight = compact ? 500 : (density === 'dense' ? 500 : 530);
   const leftApps = [
     { label: lang === 'fr' ? 'RSS' : 'RSS', sub: lang === 'fr' ? 'Flux sources' : 'Source feeds' },
     { label: lang === 'fr' ? 'Commission' : 'Commission', sub: lang === 'fr' ? 'UE' : 'EU' },
@@ -575,7 +576,7 @@ function HeroAutomationPanel({ lang, tokens, fonts, density, compact = false }) 
   };
   return (
     <div style={{
-      position: 'relative', height: compact ? 500 : (density === 'dense' ? 500 : 530), margin: '0 auto', maxWidth: compact ? 300 : 1040,
+      position: 'relative', height: panelHeight, margin: '0 auto', maxWidth: compact ? 300 : 1040,
       borderRadius: 18, overflow: 'hidden', color: '#fff', border: '1px solid rgba(255,255,255,.18)',
       background: 'linear-gradient(135deg, #0f7eb6 0%, #172c74 48%, #17131f 100%)',
       boxShadow: '0 26px 90px rgba(10,18,38,.32)',
@@ -593,10 +594,6 @@ function HeroAutomationPanel({ lang, tokens, fonts, density, compact = false }) 
           0%, 100% { transform: translate(-50%, -50%) scale(1); box-shadow: 0 0 0 12px rgba(255,255,255,.08), 0 0 0 28px rgba(255,255,255,.04); }
           50% { transform: translate(-50%, -50%) scale(1.06); box-shadow: 0 0 0 18px rgba(255,255,255,.11), 0 0 0 42px rgba(255,255,255,.04); }
         }
-        @keyframes hero-card-${uid} {
-          0%, 100% { transform: translateX(-50%) translateY(0); }
-          50% { transform: translateX(-50%) translateY(-6px); }
-        }
         @media (max-width: 760px) {
           .hero-side-${uid}, .hero-wires-${uid} { display: none; }
           .hero-card-${uid} { left: 14px !important; right: 14px !important; width: auto !important; transform: none !important; animation: none !important; }
@@ -612,7 +609,7 @@ function HeroAutomationPanel({ lang, tokens, fonts, density, compact = false }) 
       }}></div>
       <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(circle at 50% 18%, rgba(255,255,255,.34), transparent 30%), linear-gradient(to bottom, rgba(10,16,38,.06), rgba(6,8,14,.86))' }}></div>
 
-      <svg className={`hero-wires-${uid}`} viewBox="0 0 1040 470" preserveAspectRatio="none" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', zIndex: 1 }}>
+      <svg className={`hero-wires-${uid}`} viewBox={`0 0 1040 ${panelHeight}`} preserveAspectRatio="none" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', zIndex: 1 }}>
         <defs>
           <marker id={`hero-arr-${uid}`} viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
             <path d="M0,0 L10,5 L0,10 z" fill="rgba(255,255,255,.65)" />
@@ -629,15 +626,15 @@ function HeroAutomationPanel({ lang, tokens, fonts, density, compact = false }) 
         </defs>
         <g fill="none" stroke="rgba(255,255,255,.45)" strokeWidth="1.4" strokeDasharray="2 8" strokeLinecap="round" markerEnd={`url(#hero-arr-${uid})`}
           style={{ animation: `hero-line-${uid} 5s linear infinite` }}>
-          <path d="M 148 91 H 188 Q 226 91 238 184" />
-          <path d="M 148 167 H 210 Q 232 167 238 206" />
-          <path d="M 148 243 H 210 Q 232 243 238 228" />
-          <path d="M 148 319 H 188 Q 226 319 238 250" />
+          <path d="M 148 91 H 184 C 216 91 222 184 240 184" />
+          <path d="M 148 167 H 204 C 226 167 226 208 240 208" />
+          <path d="M 148 243 H 204 C 226 243 226 232 240 232" />
+          <path d="M 148 319 H 184 C 216 319 222 256 240 256" />
         </g>
         <g fill="none" strokeWidth="2.1" strokeDasharray="3 9" strokeLinecap="round" style={{ animation: `hero-line-${uid} 5s linear infinite` }}>
-          <path d="M 802 190 H 828 Q 856 190 864 127 H 890" stroke="#38bdf8" markerEnd={`url(#hero-arr-mail-${uid})`} />
-          <path d="M 802 222 H 890" stroke="#f59e0b" markerEnd={`url(#hero-arr-hubspot-${uid})`} />
-          <path d="M 802 254 H 828 Q 856 254 864 319 H 890" stroke="#f43f5e" markerEnd={`url(#hero-arr-alerts-${uid})`} />
+          <path d="M 800 190 H 824 C 856 190 856 127 892 127" stroke="#38bdf8" markerEnd={`url(#hero-arr-mail-${uid})`} />
+          <path d="M 800 222 H 892" stroke="#f59e0b" markerEnd={`url(#hero-arr-hubspot-${uid})`} />
+          <path d="M 800 254 H 824 C 856 254 856 319 892 319" stroke="#f43f5e" markerEnd={`url(#hero-arr-alerts-${uid})`} />
         </g>
       </svg>
 
@@ -666,7 +663,7 @@ function HeroAutomationPanel({ lang, tokens, fonts, density, compact = false }) 
         borderRadius: 16, background: 'rgba(12,14,24,.58)', border: '1px solid rgba(255,255,255,.16)',
         boxShadow: '0 28px 80px rgba(0,0,0,.34), inset 0 1px 0 rgba(255,255,255,.12)',
         backdropFilter: 'blur(14px)', WebkitBackdropFilter: 'blur(14px)', padding: 24, textAlign: 'left',
-        animation: `hero-card-${uid} 6s ease-in-out infinite`, zIndex: 2,
+        zIndex: 2,
       }}>
         <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '7px 10px', borderRadius: 999, background: '#67e8a6', color: '#052e1a', font: `700 11px/1 ${mono}`, letterSpacing: '.06em', textTransform: 'uppercase' }}>
           <span style={{ width: 7, height: 7, borderRadius: 999, background: '#047857' }}></span>
@@ -910,9 +907,60 @@ function MethodPipeline({ steps, lang, t, tokens, fonts, density, compact = fals
   const { sans, mono, body } = fonts;
   const [active, setActive] = React.useState(0);
   const cur = steps[active];
+  const processTags = [
+    lang === 'fr' ? ['sources', 'outils', 'coûts'] : ['sources', 'tools', 'costs'],
+    lang === 'fr' ? ['dédoublonnage', 'matching', 'validation'] : ['dedupe', 'matching', 'review'],
+    lang === 'fr' ? ['e-mail', 'CRM / webhooks', 'maintenance'] : ['email', 'CRM / webhooks', 'maintenance'],
+  ];
+  const processCopy = [
+    lang === 'fr' ? 'Ce qui entre dans la veille, ce que ça coûte, ce qui manque.' : 'What enters the monitoring system, what it costs, what is missing.',
+    lang === 'fr' ? "Ce qui peut être automatisé, ce qui doit rester vérifié par un humain." : 'What can be automated, what still needs human review.',
+    lang === 'fr' ? 'Ce qui part aux clients, au CRM, aux alertes et au suivi.' : 'What goes to clients, the CRM, alerts and monitoring.',
+  ];
   return (
     <div>
-      <MethodConstellation steps={steps} active={active} setActive={setActive} lang={lang} t={t} tokens={tokens} fonts={fonts} compact={compact} />
+      <div style={{
+        display: 'grid', gridTemplateColumns: compact || medium ? '1fr' : 'repeat(3, 1fr)', gap: 12,
+      }}>
+        {steps.map((step, i) => {
+          const isActive = i === active;
+          return (
+            <button key={i} onClick={() => setActive(i)} style={{
+              width: '100%', minWidth: 0, minHeight: compact ? 156 : 184, cursor: 'pointer', textAlign: 'left', font: 'inherit',
+              border: `1px solid ${isActive ? accent : border}`, borderRadius: 12, padding: compact ? 18 : 20,
+              background: isActive ? `linear-gradient(165deg, ${surface2}, ${surface})` : surface,
+              color: ink, boxShadow: isActive ? `0 0 0 1px ${accent}44, 0 18px 48px ${accent}22` : '0 14px 36px rgba(0,0,0,.06)',
+              display: 'flex', flexDirection: 'column', justifyContent: 'space-between',
+            }}>
+              <div>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12, marginBottom: 18 }}>
+                  <span style={{ width: 34, height: 34, borderRadius: 999, background: isActive ? accent : surface2, color: isActive ? chipFg : accent, border: `1px solid ${isActive ? accent : border}`, display: 'flex', alignItems: 'center', justifyContent: 'center', font: `800 12px/1 ${mono}` }}>
+                    {`0${i + 1}`}
+                  </span>
+                  <span style={{ font: `700 10px/1 ${mono}`, color: muted, letterSpacing: '.12em', textTransform: 'uppercase' }}>
+                    {i === 0 ? 'audit' : i === 1 ? 'design' : 'run'}
+                  </span>
+                </div>
+                <h4 style={{ font: `650 ${compact ? '19px' : '21px'}/1.15 ${sans}`, letterSpacing: '-0.02em', margin: 0, color: isActive ? accent : ink }}>
+                  {t(step.name)}
+                </h4>
+                <p style={{ margin: '10px 0 0', font: `400 13px/1.5 ${body}`, color: ink2, overflowWrap: 'anywhere' }}>
+                  {processCopy[i]}
+                </p>
+              </div>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 7, marginTop: 18 }}>
+                {processTags[i].map((tag) => (
+                  <span key={tag} style={{
+                    padding: '6px 8px', borderRadius: 999, background: isActive ? `${accent}14` : surface2,
+                    border: `1px solid ${isActive ? `${accent}44` : border}`, color: isActive ? accent : muted,
+                    font: `700 9px/1 ${mono}`, textTransform: 'uppercase', letterSpacing: '.08em',
+                  }}>{tag}</span>
+                ))}
+              </div>
+            </button>
+          );
+        })}
+      </div>
       <div style={{
         marginTop: 14, background: `linear-gradient(165deg, ${surface2}, ${surface})`,
         border: `1px solid ${accent}66`, borderRadius: 14, padding: compact ? '20px' : '24px 28px', position: 'relative',
@@ -985,7 +1033,7 @@ function WfOperator({ lang, density, font, theme = 'paper' }) {
   );
 
   return (
-    <div style={{ background: bg, color: ink, fontFamily: body, position: 'relative', minHeight: '100%' }}>
+    <div style={{ background: bg, color: ink, fontFamily: body, position: 'relative', minHeight: '100%', width: '100%', overflow: 'hidden' }}>
       <div style={{
         position: 'absolute', inset: 0, pointerEvents: 'none',
         backgroundImage: `linear-gradient(${border}55 1px, transparent 1px), linear-gradient(90deg, ${border}55 1px, transparent 1px)`,
@@ -1026,7 +1074,7 @@ function WfOperator({ lang, density, font, theme = 'paper' }) {
           </h1>
           <p style={{ font: `400 ${compact ? '15px' : '17px'}/1.55 ${body}`, color: ink2, margin: '0 auto 32px', maxWidth: compact ? 300 : 660 }}>{t(C.hero.sub)}</p>
           <div style={{ display: 'flex', gap: 12, justifyContent: 'center', marginBottom: 60, flexWrap: 'wrap' }}>
-            <a href={CALENDLY_URL} target="_blank" rel="noreferrer" style={{ padding: '14px 22px', background: ink, color: bg, textDecoration: 'none', font: `600 14px/1 ${sans}`, borderRadius: 8, boxShadow: `${ctaShadow} ${accent}55`, maxWidth: compact ? 300 : 'none', width: compact ? '100%' : 'auto' }}>{t(C.hero.cta)}</a>
+            <a href={CALENDLY_URL} target="_blank" rel="noreferrer" style={{ padding: '14px 22px', background: ink, color: bg, textDecoration: 'none', font: `600 14px/1 ${sans}`, borderRadius: 8, boxShadow: `${ctaShadow} ${accent}55`, maxWidth: compact ? 300 : 'none', width: compact ? '100%' : 'auto', textAlign: 'center', whiteSpace: compact ? 'nowrap' : 'normal' }}>{compact ? (L === 'fr' ? 'Réserver (30 min)' : 'Book (30 min)') : t(C.hero.cta)}</a>
             <a href="#methode" style={{ padding: '14px 22px', color: ink, textDecoration: 'none', font: `500 14px/1 ${sans}`, borderRadius: 8, border: `1px solid ${border}`, background: surface }}>{t(C.hero.sec)}</a>
           </div>
 
