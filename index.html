@@ -554,22 +554,25 @@ function HeroAutomationPanel({ lang, tokens, fonts, density, compact = false }) 
     { label: lang === 'fr' ? 'Presse' : 'News', sub: lang === 'fr' ? 'Actu. sect.' : 'Sector news' },
   ];
   const rightApps = [
-    { label: 'Mail', sub: lang === 'fr' ? 'Bulletins clients' : 'Client briefings' },
-    { label: 'HubSpot', sub: lang === 'fr' ? 'Opportunités' : 'Opportunities' },
-    { label: lang === 'fr' ? 'Alertes' : 'Alerts', sub: lang === 'fr' ? 'Crise / réputation' : 'Crisis / reputation' },
+    { label: 'Mail', sub: lang === 'fr' ? 'Bulletins clients' : 'Client briefings', color: '#38bdf8' },
+    { label: 'HubSpot', sub: lang === 'fr' ? 'Opportunités' : 'Opportunities', color: '#f59e0b' },
+    { label: lang === 'fr' ? 'Alertes' : 'Alerts', sub: lang === 'fr' ? 'Crise / réputation' : 'Crisis / reputation', color: '#f43f5e' },
   ];
-  const AppChip = ({ side, top, item, index }) => (
-    <div style={{
-      position: 'absolute', [side]: 30, top, width: 118, height: 54, borderRadius: 14,
-      background: 'rgba(255,255,255,.9)', color: '#111827', border: '1px solid rgba(255,255,255,.68)',
-      display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
-      boxShadow: `0 12px 36px rgba(0,0,0,.28), 0 0 22px ${index === 1 ? accent : accent2}44`,
-      zIndex: 2,
-    }}>
-      <div style={{ font: `700 13px/1 ${sans}`, letterSpacing: '-0.02em', maxWidth: 98, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item.label}</div>
-      <div style={{ marginTop: 4, font: `600 8px/1.2 ${mono}`, color: '#64748b', textTransform: 'uppercase', letterSpacing: '.06em', maxWidth: 100, textAlign: 'center' }}>{item.sub}</div>
-    </div>
-  );
+  const AppChip = ({ side, top, item, index }) => {
+    const chipColor = item.color || (index === 1 ? accent : accent2);
+    return (
+      <div style={{
+        position: 'absolute', [side]: 30, top, width: 118, height: 54, borderRadius: 14,
+        background: 'rgba(255,255,255,.92)', color: '#111827', border: `1px solid ${chipColor}88`,
+        display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
+        boxShadow: `0 12px 36px rgba(0,0,0,.28), 0 0 24px ${chipColor}55`,
+        zIndex: 2,
+      }}>
+        <div style={{ font: `700 13px/1 ${sans}`, letterSpacing: '-0.02em', color: item.color ? chipColor : '#111827', maxWidth: 98, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item.label}</div>
+        <div style={{ marginTop: 4, font: `600 8px/1.2 ${mono}`, color: '#64748b', textTransform: 'uppercase', letterSpacing: '.06em', maxWidth: 100, textAlign: 'center' }}>{item.sub}</div>
+      </div>
+    );
+  };
   return (
     <div style={{
       position: 'relative', height: compact ? 500 : (density === 'dense' ? 500 : 530), margin: '0 auto', maxWidth: compact ? 300 : 1040,
@@ -614,16 +617,27 @@ function HeroAutomationPanel({ lang, tokens, fonts, density, compact = false }) 
           <marker id={`hero-arr-${uid}`} viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
             <path d="M0,0 L10,5 L0,10 z" fill="rgba(255,255,255,.65)" />
           </marker>
+          <marker id={`hero-arr-mail-${uid}`} viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+            <path d="M0,0 L10,5 L0,10 z" fill="#38bdf8" />
+          </marker>
+          <marker id={`hero-arr-hubspot-${uid}`} viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+            <path d="M0,0 L10,5 L0,10 z" fill="#f59e0b" />
+          </marker>
+          <marker id={`hero-arr-alerts-${uid}`} viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+            <path d="M0,0 L10,5 L0,10 z" fill="#f43f5e" />
+          </marker>
         </defs>
         <g fill="none" stroke="rgba(255,255,255,.45)" strokeWidth="1.4" strokeDasharray="2 8" strokeLinecap="round" markerEnd={`url(#hero-arr-${uid})`}
           style={{ animation: `hero-line-${uid} 5s linear infinite` }}>
-          <path d="M 148 92 H 214 Q 248 92 248 182 H 330" />
-          <path d="M 148 168 H 214 Q 248 168 248 202 H 330" />
-          <path d="M 148 244 H 214 Q 248 244 248 224 H 330" />
-          <path d="M 148 320 H 214 Q 248 320 248 246 H 330" />
-          <path d="M 710 186 H 808 Q 808 126 892 126" />
-          <path d="M 710 222 H 808 Q 808 222 892 222" />
-          <path d="M 710 258 H 808 Q 808 318 892 318" />
+          <path d="M 148 91 H 188 Q 226 91 238 184" />
+          <path d="M 148 167 H 210 Q 232 167 238 206" />
+          <path d="M 148 243 H 210 Q 232 243 238 228" />
+          <path d="M 148 319 H 188 Q 226 319 238 250" />
+        </g>
+        <g fill="none" strokeWidth="2.1" strokeDasharray="3 9" strokeLinecap="round" style={{ animation: `hero-line-${uid} 5s linear infinite` }}>
+          <path d="M 802 190 H 828 Q 856 190 864 127 H 890" stroke="#38bdf8" markerEnd={`url(#hero-arr-mail-${uid})`} />
+          <path d="M 802 222 H 890" stroke="#f59e0b" markerEnd={`url(#hero-arr-hubspot-${uid})`} />
+          <path d="M 802 254 H 828 Q 856 254 864 319 H 890" stroke="#f43f5e" markerEnd={`url(#hero-arr-alerts-${uid})`} />
         </g>
       </svg>
 
@@ -711,95 +725,179 @@ function HeroAutomationPanel({ lang, tokens, fonts, density, compact = false }) 
 }
 
 function MethodConstellation({ steps, active, setActive, lang, t, tokens, fonts, compact }) {
-  const { surface, surface2, border, ink, ink2, muted, accent, accent2, bg, chipFg } = tokens;
-  const { sans, mono } = fonts;
+  const { surface, surface2, border, ink, muted, accent, accent2, bg, chipFg } = tokens;
+  const { mono } = fonts;
   const uid = React.useId().replace(/:/g, '');
-  const points = compact
+  const dark = bg === '#0a0a0c';
+  const viewBox = compact ? '0 0 520 640' : '0 0 960 430';
+  const center = compact ? { x: 260, y: 316 } : { x: 480, y: 214 };
+  const sourceCards = compact
     ? [
-        { x: 480, y: 92,  left: '50%', top: '18%' },
-        { x: 480, y: 235, left: '50%', top: '50%' },
-        { x: 480, y: 378, left: '50%', top: '82%' },
+        { x: 74, y: 46, c: '#22c55e' },
+        { x: 296, y: 46, c: '#38bdf8' },
+        { x: 74, y: 178, c: '#f59e0b' },
+        { x: 296, y: 178, c: '#a855f7' },
       ]
     : [
-        { x: 190, y: 255, left: '20%', top: '66%' },
-        { x: 480, y: 104, left: '50%', top: '28%' },
-        { x: 770, y: 255, left: '80%', top: '66%' },
+        { x: 88, y: 72, c: '#22c55e' },
+        { x: 210, y: 60, c: '#38bdf8' },
+        { x: 112, y: 238, c: '#f59e0b' },
+        { x: 236, y: 250, c: '#a855f7' },
       ];
-  const route = compact
-    ? 'M 480 92 C 560 135, 560 192, 480 235 C 400 278, 400 335, 480 378'
-    : 'M 190 255 C 265 110, 385 82, 480 104 C 590 76, 700 116, 770 255 C 610 346, 350 346, 190 255';
-  const center = compact ? { x: 480, y: 235 } : { x: 480, y: 228 };
-  const labels = [
-    lang === 'fr' ? 'sources' : 'sources',
-    lang === 'fr' ? 'moteur' : 'engine',
-    lang === 'fr' ? 'production' : 'production',
-  ];
+  const outputCards = compact
+    ? [
+        { x: 66, y: 466, c: '#38bdf8', type: 'mail' },
+        { x: 296, y: 466, c: '#f59e0b', type: 'deal' },
+        { x: 180, y: 550, c: '#f43f5e', type: 'alert' },
+      ]
+    : [
+        { x: 732, y: 72, c: '#38bdf8', type: 'mail' },
+        { x: 788, y: 186, c: '#f59e0b', type: 'deal' },
+        { x: 704, y: 302, c: '#f43f5e', type: 'alert' },
+      ];
+  const ribbons = compact
+    ? [
+        { d: 'M 136 104 C 164 202 210 260 260 316 C 310 374 336 420 348 498', c: '#38bdf8', w: 17, step: 0 },
+        { d: 'M 356 104 C 312 186 296 252 260 316 C 226 386 202 456 126 504', c: '#22c55e', w: 14, step: 1 },
+        { d: 'M 136 236 C 188 246 220 276 260 316 C 312 370 350 438 396 504', c: '#f59e0b', w: 16, step: 2 },
+        { d: 'M 356 236 C 330 282 302 300 260 316 C 226 332 210 466 246 588', c: '#f43f5e', w: 13, step: 2 },
+      ]
+    : [
+        { d: 'M 172 122 C 314 86 356 172 462 190 C 596 214 638 116 788 112', c: '#38bdf8', w: 18, step: 0 },
+        { d: 'M 294 108 C 378 130 396 242 480 242 C 588 242 664 252 828 224', c: '#22c55e', w: 15, step: 1 },
+        { d: 'M 198 290 C 320 248 382 312 484 268 C 594 222 670 304 764 334', c: '#f59e0b', w: 17, step: 2 },
+        { d: 'M 320 300 C 382 330 420 184 482 184 C 580 184 640 340 738 342', c: '#f43f5e', w: 14, step: 2 },
+        { d: 'M 186 144 C 286 210 348 218 464 214 C 590 210 642 182 840 350', c: '#a855f7', w: 11, step: 1 },
+      ];
+  const nodes = compact
+    ? [
+        { left: '22%', top: '42%', color: '#38bdf8', type: 'sources' },
+        { left: '50%', top: '50%', color: accent, type: 'engine' },
+        { left: '78%', top: '58%', color: '#f43f5e', type: 'outputs' },
+      ]
+    : [
+        { left: '18%', top: '61%', color: '#38bdf8', type: 'sources' },
+        { left: '50%', top: '50%', color: accent, type: 'engine' },
+        { left: '82%', top: '61%', color: '#f43f5e', type: 'outputs' },
+      ];
+
+  const StepIcon = ({ type, color }) => (
+    <span aria-hidden="true" style={{ position: 'relative', width: 48, height: 48, display: 'block' }}>
+      {type === 'sources' && (
+        <>
+          <span style={{ position: 'absolute', left: 3, top: 7, width: 24, height: 30, borderRadius: 7, background: '#fff', border: `1px solid ${color}55`, boxShadow: '0 8px 18px rgba(0,0,0,.16)' }}></span>
+          <span style={{ position: 'absolute', left: 16, top: 12, width: 27, height: 29, borderRadius: 7, background: color, opacity: .86 }}></span>
+          <span style={{ position: 'absolute', left: 9, top: 14, width: 13, height: 5, borderRadius: 4, background: color }}></span>
+          <span style={{ position: 'absolute', left: 9, top: 23, width: 17, height: 3, borderRadius: 3, background: '#d1d5db' }}></span>
+        </>
+      )}
+      {type === 'engine' && (
+        <>
+          <span style={{ position: 'absolute', inset: 3, borderRadius: 999, border: `1px solid ${color}66` }}></span>
+          <span style={{ position: 'absolute', inset: 11, borderRadius: 999, background: color, boxShadow: `0 0 24px ${color}88` }}></span>
+          <span style={{ position: 'absolute', left: 22, top: 4, width: 4, height: 40, borderRadius: 999, background: `${color}99`, transform: 'rotate(42deg)' }}></span>
+          <span style={{ position: 'absolute', left: 22, top: 4, width: 4, height: 40, borderRadius: 999, background: `${color}66`, transform: 'rotate(-42deg)' }}></span>
+        </>
+      )}
+      {type === 'outputs' && (
+        <>
+          {[0, 1, 2].map((i) => (
+            <span key={i} style={{ position: 'absolute', left: 7 + i * 13, top: 8 + i * 5, width: 9, height: 31 - i * 5, borderRadius: 999, background: ['#38bdf8', '#f59e0b', '#f43f5e'][i], boxShadow: `0 8px 18px ${['#38bdf8', '#f59e0b', '#f43f5e'][i]}55` }}></span>
+          ))}
+        </>
+      )}
+    </span>
+  );
 
   return (
     <div style={{
       position: 'relative', height: compact ? 520 : 390, overflow: 'hidden',
-      border: `1px solid ${border}`, borderRadius: 14, background: bg === '#0a0a0c'
-        ? 'radial-gradient(circle at 50% 35%, #18233b 0%, #070708 68%)'
-        : `radial-gradient(circle at 50% 35%, ${accent}22 0%, ${surface2} 62%)`,
+      border: `1px solid ${border}`, borderRadius: 14, background: dark
+        ? 'radial-gradient(circle at 50% 45%, #18233b 0%, #070708 72%)'
+        : `radial-gradient(circle at 50% 45%, ${accent}18 0%, ${surface2} 66%)`,
       boxShadow: `inset 0 0 0 1px ${accent}16`,
     }}>
       <style>{`
-        @keyframes method-dash-${uid} { to { stroke-dashoffset: -64; } }
-        @keyframes method-ring-${uid} { 0%, 100% { transform: scale(.92); opacity: .22; } 50% { transform: scale(1.08); opacity: .52; } }
-        @keyframes method-scan-${uid} { 0%, 100% { opacity: .18; transform: translateY(-16px); } 50% { opacity: .42; transform: translateY(18px); } }
+        @keyframes method-flow-${uid} { to { stroke-dashoffset: -110; } }
+        @keyframes method-core-${uid} { 0%, 100% { opacity: .32; transform: scale(.92); } 50% { opacity: .56; transform: scale(1.08); } }
+        @keyframes method-card-${uid} { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
       `}</style>
-      <svg viewBox="0 0 960 430" preserveAspectRatio={compact ? 'xMidYMid slice' : 'xMidYMid meet'} style={{ position: 'absolute', inset: 0, width: '100%', height: '100%' }} aria-hidden="true">
+      <svg viewBox={viewBox} preserveAspectRatio="xMidYMid meet" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%' }} aria-hidden="true">
         <defs>
-          <path id={`method-route-${uid}`} d={route} />
-          <radialGradient id={`method-core-${uid}`} cx="50%" cy="50%" r="50%">
+          <filter id={`method-glow-${uid}`} x="-80%" y="-80%" width="260%" height="260%">
+            <feGaussianBlur stdDeviation="7" result="blur" />
+            <feColorMatrix in="blur" type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 .55 0" />
+            <feBlend in="SourceGraphic" mode="screen" />
+          </filter>
+          <radialGradient id={`method-core-fill-${uid}`} cx="50%" cy="50%" r="50%">
             <stop offset="0%" stopColor={accent} stopOpacity=".95" />
-            <stop offset="72%" stopColor={accent2} stopOpacity=".18" />
+            <stop offset="62%" stopColor={accent2} stopOpacity=".24" />
             <stop offset="100%" stopColor={accent2} stopOpacity="0" />
           </radialGradient>
         </defs>
-        <g opacity=".32">
-          {Array.from({ length: 14 }).map((_, i) => <line key={`v-${i}`} x1={70 + i * 64} y1="24" x2={70 + i * 64} y2="406" stroke={border} strokeWidth="1" />)}
-          {Array.from({ length: 7 }).map((_, i) => <line key={`h-${i}`} x1="40" y1={42 + i * 58} x2="920" y2={42 + i * 58} stroke={border} strokeWidth="1" />)}
+        <rect x={compact ? 28 : 48} y={compact ? 28 : 34} width={compact ? 464 : 864} height={compact ? 584 : 360} rx="28" fill={dark ? '#05070d' : surface} opacity=".5" stroke={border} />
+        <g opacity={dark ? '.3' : '.46'}>
+          {[70, 120, 170, 220].map((r) => <circle key={r} cx={center.x} cy={center.y} r={compact ? r * .88 : r} fill="none" stroke={border} strokeWidth="1" />)}
         </g>
-        <rect x="64" y="44" width="832" height="342" rx="24" fill="none" stroke={accent} strokeOpacity=".2" strokeWidth="1" />
-        <path d={route} fill="none" stroke={muted} strokeWidth="1.2" strokeDasharray="4 9" opacity=".58" style={{ animation: `method-dash-${uid} 5s linear infinite` }} />
-        <path d={`M ${points[active].x} ${points[active].y} C ${center.x} ${points[active].y}, ${center.x} ${center.y}, ${center.x} ${center.y}`}
-          fill="none" stroke={accent} strokeWidth="1.5" strokeDasharray="7 7" opacity=".86" />
-        <circle r="6" fill={accent2}>
-          <animateMotion dur="7s" repeatCount="indefinite">
-            <mpath href={`#method-route-${uid}`} />
-          </animateMotion>
-        </circle>
+        <g>
+          {ribbons.map((r, i) => (
+            <g key={i}>
+              <path d={r.d} fill="none" stroke={r.c} strokeWidth={r.w} strokeLinecap="round" opacity={active === r.step ? '.82' : '.34'} filter={active === r.step ? `url(#method-glow-${uid})` : undefined} />
+              <path d={r.d} fill="none" stroke="#fff" strokeWidth="1.2" strokeDasharray="8 20" strokeLinecap="round" opacity={active === r.step ? '.72' : '.22'} style={{ animation: `method-flow-${uid} 5.5s linear infinite` }} />
+            </g>
+          ))}
+        </g>
+        <g style={{ animation: `method-card-${uid} 6s ease-in-out infinite` }}>
+          {sourceCards.map((card, i) => (
+            <g key={i} transform={`translate(${card.x} ${card.y})`} opacity={active === 0 ? '1' : '.72'}>
+              <rect width="94" height="94" rx="14" fill="#fff" stroke={card.c} strokeOpacity=".28" filter={`url(#method-glow-${uid})`} />
+              <rect x="12" y="13" width="70" height="32" rx="6" fill={card.c} opacity=".92" />
+              <circle cx="30" cy="29" r="7" fill="#fff" opacity=".28" />
+              <rect x="14" y="57" width="17" height="13" rx="3" fill="#e5e7eb" />
+              <rect x="38" y="58" width="38" height="4" rx="2" fill="#d1d5db" />
+              <rect x="38" y="67" width="28" height="4" rx="2" fill="#e5e7eb" />
+              <path d="M 78 78 L 102 32" stroke="#facc15" strokeWidth="8" strokeLinecap="round" />
+              <path d="M 83 81 L 104 39" stroke="#fb7185" strokeWidth="2" strokeLinecap="round" />
+            </g>
+          ))}
+        </g>
         <g transform={`translate(${center.x} ${center.y})`}>
-          <circle r="98" fill={`url(#method-core-${uid})`} />
-          <circle r="86" fill="none" stroke={accent} strokeOpacity=".2" strokeWidth="1" style={{ transformOrigin: 'center', animation: `method-ring-${uid} 4s ease-in-out infinite` }} />
-          <circle r="58" fill="none" stroke={accent} strokeOpacity=".42" strokeWidth="1.2" />
-          <circle r="32" fill={surface} stroke={accent} strokeWidth="1.4" />
-          <text x="0" y="-3" textAnchor="middle" fill={accent} style={{ font: `800 12px ${mono}`, letterSpacing: '.12em' }}>OPS</text>
-          <text x="0" y="13" textAnchor="middle" fill={muted} style={{ font: `600 8px ${mono}`, letterSpacing: '.14em' }}>VEILLE</text>
+          <circle r={compact ? 88 : 104} fill={`url(#method-core-fill-${uid})`} style={{ transformOrigin: 'center', animation: `method-core-${uid} 4.2s ease-in-out infinite` }} />
+          <circle r={compact ? 64 : 76} fill="none" stroke={accent} strokeOpacity=".32" strokeWidth="1.2" />
+          <circle r={compact ? 40 : 46} fill={dark ? '#070708' : surface} stroke={accent} strokeWidth="1.4" />
+          {[0, 1, 2, 3, 4, 5].map((i) => {
+            const angle = (Math.PI * 2 * i) / 6;
+            const x = Math.cos(angle) * (compact ? 24 : 28);
+            const y = Math.sin(angle) * (compact ? 24 : 28);
+            return <circle key={i} cx={x} cy={y} r="4.5" fill={[accent, accent2, '#38bdf8', '#f59e0b', '#f43f5e', '#22c55e'][i]} />;
+          })}
+          <circle r="7" fill={chipFg} stroke={accent} strokeWidth="1.5" />
         </g>
-        <rect x="210" y="54" width="540" height="28" rx="14" fill={surface} stroke={border} opacity=".82" />
-        <text x="480" y="72" textAnchor="middle" fill={muted} style={{ font: `700 9px ${mono}`, letterSpacing: '.18em' }}>
-          {lang === 'fr' ? 'CARTE DE SYNCHRONISATION · CLIQUEZ UNE ÉTAPE' : 'SYNCHRONISATION MAP · CLICK A STAGE'}
-        </text>
-        <line x1="124" y1="360" x2="836" y2="360" stroke={accent} strokeOpacity=".18" strokeDasharray="2 10" style={{ animation: `method-scan-${uid} 5.5s ease-in-out infinite` }} />
+        <g>
+          {outputCards.map((card, i) => (
+            <g key={i} transform={`translate(${card.x} ${card.y})`} opacity={active === 2 ? '1' : '.78'}>
+              <rect width="104" height="76" rx="14" fill={dark ? '#0b1020' : '#fff'} stroke={card.c} strokeOpacity=".5" filter={`url(#method-glow-${uid})`} />
+              <rect x="12" y="13" width="64" height="24" rx="6" fill={card.c} opacity=".9" />
+              <rect x="82" y="12" width="10" height="52" rx="5" fill={card.c} opacity=".78" />
+              {card.type === 'mail' && <path d="M 22 50 L 47 62 L 72 50" fill="none" stroke={card.c} strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" />}
+              {card.type === 'deal' && <g><circle cx="39" cy="53" r="12" fill={card.c} opacity=".35" /><circle cx="57" cy="53" r="12" fill={card.c} opacity=".55" /></g>}
+              {card.type === 'alert' && <path d="M 52 47 L 68 64 H 36 Z" fill={card.c} opacity=".82" />}
+            </g>
+          ))}
+        </g>
       </svg>
-      {points.map((p, i) => {
+      {nodes.map((node, i) => {
         const isActive = i === active;
         return (
-          <button key={i} onClick={() => setActive(i)} style={{
-            position: 'absolute', left: p.left, top: p.top, transform: 'translate(-50%, -50%)', width: compact ? 218 : 230,
-            border: `1px solid ${isActive ? accent : border}`, borderRadius: 12, padding: '13px 14px',
-            background: isActive ? `linear-gradient(165deg, ${surface}, ${surface2})` : `${surface}e8`, color: ink,
-            boxShadow: isActive ? `0 0 0 1px ${accent}55, 0 0 34px ${accent}44` : '0 16px 40px rgba(0,0,0,.12)',
-            cursor: 'pointer', textAlign: 'left', font: 'inherit', transition: 'transform .16s ease, box-shadow .16s ease, border-color .16s ease',
+          <button key={i} aria-label={t(steps[i].name)} aria-pressed={isActive} title={t(steps[i].name)} onClick={() => setActive(i)} style={{
+            position: 'absolute', left: node.left, top: node.top, transform: 'translate(-50%, -50%)', width: compact ? 78 : 86, height: compact ? 78 : 86,
+            border: `1px solid ${isActive ? node.color : `${node.color}66`}`, borderRadius: 22, padding: 0,
+            background: isActive ? `linear-gradient(165deg, ${surface}, ${surface2})` : `${surface}dd`, color: ink,
+            boxShadow: isActive ? `0 0 0 3px ${node.color}33, 0 0 34px ${node.color}66` : '0 16px 40px rgba(0,0,0,.14)',
+            cursor: 'pointer', display: 'grid', placeItems: 'center', transition: 'transform .16s ease, box-shadow .16s ease, border-color .16s ease',
+            outline: 'none',
           }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 8 }}>
-              <span style={{ width: 28, height: 28, borderRadius: 999, background: isActive ? accent : surface2, color: isActive ? chipFg : accent, display: 'flex', alignItems: 'center', justifyContent: 'center', font: `800 12px/1 ${mono}` }}>{i + 1}</span>
-              <span style={{ font: `700 9px/1 ${mono}`, color: muted, letterSpacing: '.14em', textTransform: 'uppercase' }}>{labels[i]}</span>
-            </div>
-            <div style={{ font: `700 18px/1.15 ${sans}`, letterSpacing: '-0.02em', color: isActive ? accent : ink }}>{t(steps[i].name)}</div>
-            <div style={{ marginTop: 8, font: `500 11px/1.35 ${mono}`, color: muted }}>{t(steps[i].del).replace(/^Livrable : |^Deliverable: /, '')}</div>
+            <StepIcon type={node.type} color={node.color} />
           </button>
         );
       })}
