@@ -2,13 +2,13 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8" />
-<title>LexFlow.ai — Veille réglementaire & affaires publiques</title>
+<title>BriefLayer — Veille réglementaire & affaires publiques</title>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta name="description" content="Industrialisez votre veille réglementaire au lieu de la subir. Systèmes de veille sur-mesure pour les affaires publiques." />
+<meta name="description" content="BriefLayer automatise vos services de veille et transforme vos sources en bulletins clients personnalisés." />
 
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,300..800;1,300..800&family=Inter:wght@300..800&family=JetBrains+Mono:wght@400..700&family=Source+Serif+Pro:wght@300..900&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500..900&family=Newsreader:ital,wght@0,300..800;1,300..800&family=Inter:wght@300..800&family=JetBrains+Mono:wght@400..700&family=Source+Serif+Pro:wght@300..900&display=swap" rel="stylesheet" />
 
 <style>
   html, body, #root { height: 100%; }
@@ -33,58 +33,79 @@
 const CALENDLY_URL = 'https://calendly.com/kolbejimmy/30min';
 const C = {
   hero: {
-    eyebrow:  { fr: 'VEILLE RÉGLEMENTAIRE & AFFAIRES PUBLIQUES', en: 'REGULATORY MONITORING & PUBLIC AFFAIRS' },
-    title:    { fr: 'Un bulletin sur-mesure pour chaque client. Envoyé automatiquement.',
-                en: 'A tailored briefing for every client. Sent automatically.' },
-    sub:      { fr: 'Vous vendez déjà de la veille à vos clients. L’IA réunit vos sources, trie ce qui compte pour chacun et envoie à chacun son bulletin — automatiquement, chaque matin.',
-                en: 'You already sell monitoring to your clients. The AI gathers your sources, keeps what matters for each one and sends every client their own briefing — automatically, every morning.' },
-    cta:      { fr: 'Réserver un appel de cadrage (30 min)', en: 'Book a scoping call (30 min)' },
+    eyebrow:  { fr: '', en: '' },
+    title:    { fr: 'BriefLayer transforme votre veille en bulletins clients personnalisés. Envoyés automatiquement.',
+                en: 'BriefLayer turns your monitoring into personalised client briefings.' },
+    sub:      { fr: 'Vous vendez de la veille mais cela vous prend beaucoup de temps ? Je déploie pour vous un système d’IA qui agrège vos sources, filtre les informations et envoie à chacun de vos clients son bulletin de veille personnalisé, automatiquement.',
+                en: 'Selling monitoring services should not mean spending your day assembling reports. I build an AI-powered system that collects your sources, filters the signal and sends each client a tailored briefing automatically.' },
+    cta:      { fr: 'Réserver un appel', en: 'Book a call' },
     sec:      { fr: 'Voir la méthode →', en: 'See the method →' },
     trust:    [
-      { fr: 'Doctorat — Paris-Panthéon-Assas', en: 'PhD — Université Paris-Panthéon-Assas' },
+      { fr: 'Droit public — Paris-Panthéon-Assas', en: 'Université Paris-Panthéon-Assas' },
       { fr: 'Formation IA — Paris-Panthéon-Assas (2026)', en: 'AI training — Université Paris-Panthéon-Assas (2026)' },
-      { fr: 'Ex-CPO — Pappers (3M utilisateurs/mois)', en: 'Former CPO — Pappers (3M users/month)' },
+      { fr: 'Pappers — plateformes de veille', en: 'Pappers — monitoring platforms' },
     ],
   },
   whoFor: {
-    line:    { fr: "Vous dirigez un cabinet d'affaires publiques, une fédération professionnelle, une direction affaires publiques. Vos équipes passent un temps déraisonnable à compiler ce qui sort des institutions, sans certitude de ne rien manquer.",
-               en: 'You run a public affairs consultancy, a trade association, or an in-house public affairs team. Your people spend an unreasonable amount of time compiling what comes out of institutions, with no certainty of catching everything that matters.' },
+    line:    { fr: "Vous êtes un professionnel des affaires publiques, un cabinet d’avocats ou une institution publique ? Automatisez vos services de veille pour vous concentrer sur des tâches à plus forte valeur ajoutée.",
+               en: 'Are you a public affairs professional, a law firm or a public institution? Automate your monitoring services so your team can focus on higher-value work.' },
   },
   pain: {
-    title:   { fr: "Aujourd'hui, votre veille tient avec du scotch.",
-               en: 'Right now, your monitoring is held together with tape.' },
-    intro:   { fr: "Vous savez qu'il faut suivre l'AN, le Sénat, le JO, l'AMF, les autorités sectorielles, la presse spécialisée et les newsletters institutionnelles. Vous savez aussi que ce n'est jamais vraiment fait. Le problème n'est pas le talent de vos équipes. C'est l'absence d'un système qui tienne sans intervention humaine quotidienne.",
-               en: "You know you should track the European Parliament, the Commission, the Council, the OJEU, ESMA and the sectoral authorities relevant to your dossier, the specialised press, the institutional newsletters. You also know it's never quite done. The problem isn't your team's talent. It's the absence of a system that holds without daily human intervention." },
+    title:   { fr: "Votre service de veille est encore artisanal",
+               en: 'Your monitoring service is still too manual' },
+    intro:   { fr: "Vous perdez entre 3 et 4 heures par jour à rédiger des bulletins de veille pour vos clients. Vous rencontrez ce type de problème :",
+               en: "You spend three to four hours a day preparing client monitoring briefings. The same problems keep showing up:" },
     symptoms: [
-      { fr: 'Google Alerts qui remontent du bruit, pas du signal.', en: 'Google Alerts surface noise, not signal.' },
-      { fr: 'Newsletters lues à moitié, archivées sans tri.', en: 'Newsletters half-read, archived without sorting.' },
-      { fr: 'Copier-coller du JO vers Word, chaque matin.', en: 'Daily copy-paste from the OJEU into Word.' },
-      { fr: "Tableaux Notion ou Excel partagés que personne n'ouvre vraiment.", en: 'Shared Notion or Excel boards no one really opens.' },
-      { fr: 'Stagiaire en charge du bulletin du lundi, qui repart en septembre.', en: 'Intern in charge of the Monday briefing, gone by September.' },
-      { fr: 'Veilleur senior mobilisé sur du travail à faible valeur.', en: 'Senior analyst stuck on low-value work.' },
-      { fr: 'SaaS de veille trop rigide pour vos sources spécifiques.', en: 'Off-the-shelf SaaS too rigid for your specific sources.' },
-      { fr: 'IA testée ponctuellement, sans workflow fiable derrière.', en: 'AI tested ad hoc, with no reliable workflow behind it.' },
+      { title: { fr: 'Alertes peu pertinentes', en: 'Low-signal alerts' },
+        body:  { fr: 'Trop de bruit, pas assez de signal exploitable.', en: 'Too much noise, not enough usable signal.' } },
+      { title: { fr: 'Solutions de veille hors de prix', en: 'Overpriced monitoring tools' },
+        body:  { fr: 'Des abonnements coûteux, souvent mal exploités.', en: 'Expensive subscriptions, rarely used to their full potential.' } },
+      { title: { fr: 'Tableurs difficiles à gérer', en: 'Spreadsheets that are hard to manage' },
+        body:  { fr: 'Des versions multiples, rarement à jour au même moment.', en: 'Several versions, never quite up to date at the same time.' } },
+      { title: { fr: 'Dépendance aux stagiaires', en: 'Reliance on interns' },
+        body:  { fr: 'La continuité repose sur des personnes de passage.', en: 'Continuity depends on people who will soon move on.' } },
+      { title: { fr: 'Flux de veille trop complexes', en: 'Overly complex monitoring flows' },
+        body:  { fr: 'Des étapes dispersées que personne ne pilote vraiment.', en: 'Scattered steps that no one really owns.' } },
+      { title: { fr: 'Bulletins non personnalisés', en: 'Generic client briefings' },
+        body:  { fr: 'Le même contenu part à tous les clients, sans nuance.', en: 'The same content goes to every client, with little nuance.' } },
     ],
-    flip:    { fr: 'Le résultat est toujours le même : vous ne savez pas exactement ce que vous ratez.',
-               en: "The result is always the same: you don't know exactly what you're missing." },
+    flip:    { fr: '',
+               en: '' },
+  },
+  doing: {
+    title: { fr: "Ajoutez une couche d'automatisation à votre système",
+             en: 'Add an automation layer to your system' },
+    body:  { fr: 'Nous organisons et automatisons les flux et traitements que vous utilisez déjà.',
+             en: 'We organise and automate the feeds and processing steps you already rely on.' },
+    cards: [
+      { icon: 'key', title: { fr: 'Simplicité', en: 'Simplicity' },
+        body: { fr: 'Nous concevons des processus que votre équipe voit, comprend et utilise',
+                en: 'We design processes your team can see, understand and actually use' } },
+      { icon: 'eye', title: { fr: 'Vérification humaine', en: 'Human review' },
+        body: { fr: 'Le processus reste soumis à des étapes de validation humaine',
+                en: 'The process remains subject to human validation at the right steps' } },
+      { icon: 'braces', title: { fr: 'Sur-mesure', en: 'Tailored' },
+        body: { fr: 'Le système est 100% personnalisable en fonction des besoins de vos clients',
+                en: "The system is fully customisable around each client's needs" } },
+    ],
   },
   method: {
-    title:   { fr: "Un système, pas un outil de plus.", en: 'A system, not yet another tool.' },
-    intro:   { fr: 'Trois étapes, deux à trois semaines, un livrable que vous gardez.',
-               en: 'Three steps, two to three weeks, a deliverable you keep.' },
+    title:   { fr: "", en: '' },
+    intro:   { fr: '',
+               en: '' },
     steps: [
-      { name: { fr: 'Collecte', en: 'Collection' },
-        body: { fr: "On dresse l'inventaire complet de vos sources actuelles — flux RSS, abonnements presse, newsletters institutionnelles, SaaS de veille type Inoreader ou Lovable. On chiffre ce que ça coûte vraiment, on identifie les doublons et les angles morts. Le constat est souvent le même : plusieurs centaines voire milliers d'euros par mois pour un signal incomplet et un traitement manuel chronophage.",
-                en: 'We build the full inventory of your current sources — RSS feeds, press subscriptions, institutional newsletters, monitoring SaaS like Inoreader or Lovable. We put a real number on what it costs, identify duplicates and blind spots. The finding is usually the same: hundreds or thousands of euros per month for incomplete signal and time-consuming manual processing.' },
-        del:  { fr: "Livrable : cartographie des sources, audit chiffré des coûts, recommandations d'optimisation.", en: 'Deliverable: source map, itemised cost audit, optimisation recommendations.' } },
-      { name: { fr: 'Traitement', en: 'Processing' },
-        body: { fr: "On améliore le traitement de l'information avec l'IA et on la canalise pour chaque client : ce qui le concerne, rien d'autre. Une relecture humaine valide avant l'envoi.",
-                en: "We sharpen how information is processed with AI and channel it for each client — what concerns them, nothing else. A human review validates before sending." },
-        del:  { fr: "Livrable : architecture validée, chiffrage d'exploitation, interface de validation configurée.", en: 'Deliverable: validated architecture, running-cost estimate, validation interface configured.' } },
-      { name: { fr: 'Automatisation', en: 'Automation' },
-        body: { fr: "Mise en production sur votre infrastructure ou la mienne, branchement de vos sources et réglage des bulletins par client. Ensuite : supervision et maintenance continues — un système qui reste à jour aussi longtemps que vous le voulez.",
-                en: 'Roll-out on your infrastructure or mine, your sources connected and per-client briefings tuned. Then: ongoing supervision and maintenance — a system that stays current for as long as you want it to.' },
-        del:  { fr: 'Livrable : infrastructure en production, monitoring actif, contrat de maintenance.', en: 'Deliverable: infrastructure live, active monitoring, maintenance contract.' } },
+      { name: { fr: 'Audit', en: 'Audit' },
+        body: { fr: "Nous examinons vos sources, vos abonnements, vos outils et vos usages réels. Nous chiffrons les coûts, repérons les doublons et identifions les angles morts, pour partir d’un état des lieux clair avant toute automatisation.",
+                en: 'We review your sources, subscriptions, tools and actual usage. We quantify costs, identify duplicates and map blind spots, so automation starts from a clear baseline.' },
+        del:  { fr: "Cartographie des sources, audit des coûts, recommandations d’optimisation.", en: 'Source map, cost audit, optimisation recommendations.' } },
+      { name: { fr: 'Conception', en: 'Design' },
+        body: { fr: "Nous définissons les règles de tri, de qualification et de priorisation pour ne retenir, pour chaque client, que l’information utile. Nous fixons également les étapes où la validation humaine reste indispensable.",
+                en: 'We define sorting, qualification and prioritisation rules so each client only receives useful information. We also identify the points where human validation remains essential.' },
+        del:  { fr: "Architecture de traitement validée, chiffrage d’exploitation, interface de validation configurée.", en: 'Validated processing architecture, operating-cost estimate, configured validation interface.' } },
+      { name: { fr: 'Mise en place', en: 'Implementation' },
+        body: { fr: "Nous mettons en œuvre le dispositif défini à l’étape précédente, sur votre infrastructure ou sur la nôtre. Nous branchons les sources, paramétrons les règles et les points de validation humaine, et nous connectons les bons canaux de sortie pour vos équipes.",
+                en: 'We implement the system designed in the previous step, on your infrastructure or ours. We connect the sources, configure the rules and human review points, and plug in the right output channels for your team.' },
+        del:  { fr: 'Un dispositif opérationnel, des flux branchés, un suivi dans le temps défini avec vous.', en: 'An operational system, connected feeds and an ongoing follow-up plan defined with you.' } },
     ],
   },
   cases: {
@@ -92,8 +113,8 @@ const C = {
     items: [
       { tag:  { fr: 'Fédération professionnelle', en: 'Trade association' },
         head: { fr: 'Sept heures par semaine récupérées.', en: 'Seven hours a week, back on the desk.' },
-        body: { fr: "Fédération sectorielle de 200 adhérents. Veille hebdomadaire bricolée par une chargée de mission, deux jours par semaine. Mise en place d'un système n8n qui couvre quatorze sources institutionnelles. Bulletin du lundi automatique. La chargée de mission redéploie ces heures sur le suivi parlementaire.",
-                en: 'A sectoral trade association (200 members). Weekly monitoring patched together by a policy officer, two days a week. We set up an n8n system covering fourteen institutional sources. The Monday briefing is now automatic. The policy officer redeploys those hours into parliamentary tracking.' } },
+        body: { fr: "Fédération sectorielle de 200 adhérents. Veille hebdomadaire bricolée par une chargée de mission, deux jours par semaine. Mise en place d'un système automatisé qui couvre quatorze sources institutionnelles. Bulletin du lundi automatique. La chargée de mission redéploie ces heures sur le suivi parlementaire.",
+                en: 'A sectoral trade association (200 members). Weekly monitoring patched together by a policy officer, two days a week. We set up an automated system covering fourteen institutional sources. The Monday briefing is now automatic. The policy officer redeploys those hours into parliamentary tracking.' } },
       { tag:  { fr: "Cabinet d'affaires publiques", en: 'Public affairs consultancy' },
         head: { fr: 'Huit revues clients, chaque matin.', en: 'Eight client briefings, every morning.' },
         body: { fr: "Cabinet de conseil en affaires publiques (8 consultants). Setup d'un système qui produit huit revues thématiques différentes chaque matin, à partir d'un même flux de captation. Diffusion par e-mail nominatif. Chaque consultant arrive avec un brief client déjà à jour.",
@@ -112,12 +133,12 @@ const C = {
         dur:   { fr: 'une semaine.', en: 'one week.' },
         price: { fr: 'à partir de 1 800 € HT', en: 'from €1,800 (excl. VAT)' },
         flag:  null },
-      { name:  { fr: 'SETUP LEXFLOW', en: 'LEXFLOW SETUP' },
+      { name:  { fr: 'SETUP BRIEFLAYER', en: 'BRIEFLAYER SETUP' },
         hook:  { fr: 'Le système clé en main.', en: 'The turnkey system.' },
         who:   { fr: "vous voulez un système qui tourne, sans dépendre d'un stagiaire ni d'un SaaS rigide.",
                  en: 'you want a system that runs, without depending on an intern or a rigid SaaS.' },
-        del:   { fr: "workflow n8n complet, sources branchées, bulletin automatique, documentation, formation de l'équipe, un mois d'ajustement inclus.",
-                 en: 'full n8n workflow, sources plugged in, automated briefing, documentation, in-team training, one month of adjustment included.' },
+        del:   { fr: "processus complet, sources branchées, bulletin automatique, documentation, formation de l'équipe, un mois d'ajustement inclus.",
+                 en: 'complete process, sources connected, automated briefing, documentation, team training and one month of adjustments included.' },
         dur:   { fr: 'deux à trois semaines.', en: 'two to three weeks.' },
         price: { fr: 'à partir de 6 500 € HT', en: 'from €6,500 (excl. VAT)' },
         flag:  { fr: 'Le plus demandé', en: 'Most popular' } },
@@ -134,52 +155,65 @@ const C = {
     ],
   },
   whyMe: {
-    title: { fr: 'Un profil rare, fait pour ce sujet précis.', en: 'A rare profile, built for this exact topic.' },
-    p1:    { fr: "Je termine en mai 2026 un doctorat de droit public à Paris-Panthéon-Assas sur l'encadrement du lobbying en France. J'ai passé un an et demi comme Chief Product Officer chez Pappers, où j'ai conçu et lancé deux plateformes de veille servant trois millions d'utilisateurs par mois — l'une jurisprudentielle, l'autre institutionnelle. J'ai suivi en mars et avril 2026 la formation doctorale à l'intelligence artificielle de Paris-Panthéon-Assas.",
-             en: "I'm completing in May 2026 a PhD in public law at Université Paris-Panthéon-Assas on the regulation of lobbying in France. I spent eighteen months as Chief Product Officer at Pappers, where I designed and launched two monitoring platforms serving three million users per month — one focused on case law, the other on institutional monitoring. In March and April 2026 I completed the doctoral training in artificial intelligence at Université Paris-Panthéon-Assas." },
-    p2:    { fr: "J'enseigne en master à l'Institut Catholique de Paris (« Droit et éthique du lobbying », « Lobbying-Expert »). J'ai été observateur qualifié à l'Assemblée nationale entre 2018 et 2020. Je connais vos interlocuteurs et vos sources, parce que je travaille sur les mêmes depuis dix ans.",
-             en: 'I teach in graduate programmes at Institut Catholique de Paris ("Law and Ethics of Lobbying", "Lobbying-Expert"). I served as accredited observer at the French National Assembly between 2018 and 2020. I know your interlocutors and your sources because I have been working with the same ones for ten years.' },
+    title: { fr: "Enseignant-chercheur en droit du lobbying et spécialiste de l'IA", en: 'Lecturer and researcher in lobbying law, specialising in AI' },
+    p1:    { fr: "Je termine en 2026 un doctorat de droit public à l’université Paris Panthéon Assas sur l’encadrement du lobbying en France. J’enseigne également dans le master affaires publiques de l’Institut catholique de Paris.",
+             en: "I am completing a doctorate in public law at Université Paris-Panthéon-Assas on the regulation of lobbying in France. I also teach in the public affairs master's programme at the Institut Catholique de Paris." },
+    p2:    { fr: "J’ai passé un an et demi comme Chief Product Officer chez Pappers, où j’ai conçu des plateformes de veille utilisées par des professionnels des affaires publiques et des avocats. Au printemps 2026, j’ai assuré une formation doctorale à l’intelligence artificielle à Paris Panthéon Assas, en y partageant mes méthodes et mes outils d’automatisation appliqués à la recherche juridique.",
+             en: 'I spent a year and a half as Chief Product Officer at Pappers, where I designed monitoring platforms used by public affairs professionals and lawyers. In spring 2026, I taught a doctoral seminar on artificial intelligence at Paris-Panthéon-Assas, sharing my methods and automation tools applied to legal research.' },
+    p3:    { fr: "",
+             en: '' },
+    p4:    { fr: "",
+             en: '' },
     mentions: { fr: 'Paris-Panthéon-Assas · CERSA · Pappers · ICP · International Budget Partnership · University of Oxford',
                 en: 'Paris-Panthéon-Assas · CERSA · Pappers · ICP · International Budget Partnership · University of Oxford' },
-    cvLink:   { fr: 'CV complet disponible sur demande', en: 'Full CV available on request' },
-    name:     'Jimmy Kolbe',
+    cvLink:   { fr: '', en: '' },
+    name:     'Jimmy Kolbe-André',
   },
   faq: {
     items: [
+      { q: { fr: "En quoi est-ce différent d'une solution de veille classique ?", en: 'How is this different from a standard monitoring solution?' },
+        a: { fr: "Les solutions classiques vous permettent de faire des veilles que vous allez ensuite devoir traiter en vue de les personnaliser pour chaque client. Nous organisons et automatisons les flux que vous utilisez déjà pour limiter l'intervention humaine aux seules étapes de validation.",
+             en: 'Standard tools help you monitor information, but you still have to process it and tailor it for each client. We organise and automate the flows you already use so human intervention is limited to validation steps.' } },
+      { q: { fr: 'Est-ce que je vais devoir payer un abonnement ?', en: 'Will I have to pay a subscription?' },
+        a: { fr: "Vous payez un système sur-mesure en une fois. Vous devrez en revanche payer le service d'automatisation si vous choisissez de l'externaliser.",
+             en: 'You pay for the custom system upfront. If you choose to outsource operation, you will also pay for the automation service.' } },
+      { q: { fr: "Je n'aurai plus besoin d'être abonné à des services de veille ?", en: 'Will I still need subscriptions to monitoring services?' },
+        a: { fr: "Nous ne faisons pas de data providing, nous auditons toutefois vos flux pour nous assurer que votre veille existante est bien optimisée, à la fois du point de vue de ses sources, de son contenu et de son coût.",
+             en: 'We are not a data provider. We do audit your feeds to make sure your existing monitoring is optimised in terms of sources, content and cost.' } },
       { q: { fr: 'Mes données et celles de mes clients restent-elles confidentielles ?', en: "Will my data and my clients' data remain confidential?" },
-        a: { fr: "Oui. Le workflow tourne soit sur votre infrastructure, soit sur la mienne avec un hébergement français et un engagement de confidentialité. Aucune donnée ne transite par un service tiers non maîtrisé. Je suis formé au RGPD et à l'AI Act, et j'ai porté la compliance by design de deux plateformes SaaS.",
-             en: "Yes. The workflow runs either on your infrastructure, or on mine with French hosting and a confidentiality undertaking. No data flows through unmanaged third-party services. I'm trained in GDPR and the AI Act, and I drove compliance-by-design on two SaaS platforms." } },
-      { q: { fr: "En quoi est-ce différent d'un veilleur freelance ?", en: 'How is this different from a freelance monitoring analyst?' },
-        a: { fr: "Un veilleur freelance produit. Je construis un système qui produit. Une fois en place, le système ne dépend plus de ma disponibilité, ni de celle de votre stagiaire. C'est un actif que vous gardez.",
-             en: "A freelance analyst produces. I build a system that produces. Once in place, the system no longer depends on my availability, nor on your intern's. It's an asset you keep." } },
-      { q: { fr: "Et un SaaS de veille comme ceux qui existent déjà ?", en: 'What about the existing monitoring SaaS solutions?' },
-        a: { fr: "Les SaaS sont conçus pour un marché de masse et imposent leur logique de filtrage. Je construis pour vos sujets exacts, vos sources spécifiques, votre format de bulletin. Vous payez une fois un système sur-mesure plutôt qu'un abonnement perpétuel à un outil moyen.",
-             en: 'Off-the-shelf SaaS are designed for a mass market and impose their own filtering logic. I build for your exact topics, your specific sources, your briefing format. You pay once for a tailored system instead of perpetually for an average tool.' } },
-      { q: { fr: 'À qui appartient le workflow une fois la prestation terminée ?', en: 'Who owns the workflow once the engagement ends?' },
-        a: { fr: "À vous. La documentation, les configurations, les prompts : tout est livré. Si vous voulez reprendre la main, vous le pouvez. Si vous voulez que je continue à l'opérer, c'est l'offre Bulletin sur-mesure.",
-             en: 'You do. Documentation, configurations, prompts: everything is handed over. If you want to take it in-house, you can. If you want me to keep running it, that\'s the Managed Briefing offer.' } },
-      { q: { fr: 'Quels secteurs traitez-vous ?', en: 'Which sectors do you cover?' },
-        a: { fr: "Tous les secteurs exposés à la décision publique : santé, énergie, transports, tech, finance, agriculture, économie sociale et solidaire. La méthode reste la même, seules les sources changent.",
-             en: 'All sectors exposed to public decision-making: health, energy, transport, tech, finance, agriculture, social economy. The method stays the same — only the sources change.' } },
-      { q: { fr: 'Combien de temps avant que le bulletin tourne ?', en: 'How long until the briefing is up and running?' },
-        a: { fr: "Deux à trois semaines pour un setup standard. Le premier bulletin de production est produit à la fin de la deuxième semaine, suivi d'un mois d'ajustement.",
-             en: 'Two to three weeks for a standard setup. The first production briefing is delivered at the end of week two, followed by a month of adjustment.' } },
-      { q: { fr: 'Travaillez-vous à Paris, Bruxelles, ailleurs ?', en: 'Do you work in Paris, Brussels, elsewhere?' },
+        a: { fr: "Oui. Le processus tourne soit sur votre infrastructure, soit sur la mienne avec un hébergement français et un engagement de confidentialité. Aucune donnée ne transite par un service tiers non maîtrisé.",
+             en: "Yes. The system runs either on your infrastructure or on ours, with French hosting and a confidentiality undertaking. No data flows through unmanaged third-party services." } },
+      { q: { fr: 'À quel point les bulletins de veille envoyés aux clients pourront-ils être personnalisés ?', en: 'How personalised can the client briefings be?' },
+        a: { fr: "Les bulletins sont entièrement paramétrables. Leur contenu, leur niveau de détail et leur fréquence dépendent de la manière dont nous avons formalisé les besoins de chaque client en amont.",
+             en: "The briefings are fully configurable. Their content, level of detail and frequency depend on how we formalise each client's needs up front." } },
+      { q: { fr: 'En combien de temps mon processus pourra-t-il être automatisé ?', en: 'How quickly can my process be automated?' },
+        a: { fr: "Nous nous adapterons à votre rythme. La phase d'audit prend généralement une semaine. La phase de conception de deux à trois semaines selon le nombre de flux et de clients à traiter. La phase de mise en place finale dure quelques jours.",
+             en: 'We work at your pace. The audit phase usually takes one week. The design phase takes two to three weeks depending on the number of feeds and clients. Final implementation takes a few days.' } },
+      { q: { fr: 'À qui appartient le processus une fois la prestation terminée ?', en: 'Who owns the process once the engagement is over?' },
+        a: { fr: "À vous. La documentation, les configurations, les prompts : tout est livré. Si vous voulez reprendre la main, vous le pouvez. Je peux néanmoins continuer à l'opérer si vous le souhaitez.",
+             en: 'You do. Documentation, configurations and prompts are all handed over. If you want to take it in-house, you can. I can also continue operating it for you if you prefer.' } },
+      { q: { fr: 'Quelles informations devrais-je vous communiquer pour un audit ?', en: 'What information do you need for an audit?' },
+        a: { fr: "Afin d'assurer un audit exhaustif, il vous sera demandé de nous communiquer l'ensemble de votre procédé de veille, ainsi que le coût total de vos abonnements. De là nous pourrons réfléchir ensemble à une optimisation.",
+             en: 'To make the audit thorough, we need to see your full monitoring process and total subscription spend. From there, we can identify optimisation options together.' } },
+      { q: { fr: 'Quels types de veille traitez-vous ?', en: 'What kinds of monitoring can you handle?' },
+        a: { fr: "Le système peut traiter tous les types de veille, qu'elle soit réglementaire, institutionnelle, médiatique, réputationnelle, etc. La méthode reste la même peu importe les sources.",
+             en: 'The system can process all types of monitoring: regulatory, institutional, media, reputational, and more. The method stays the same regardless of sources.' } },
+      { q: { fr: 'Travaillez-vous à Paris, Bruxelles, ailleurs ?', en: 'Do you work in Paris, Brussels or elsewhere?' },
         a: { fr: "À distance pour l'essentiel, avec deux à trois rendez-vous en présentiel à Paris ou Bruxelles si nécessaire. Pour les clients en région, tout peut se faire en visio.",
              en: 'Remote for most of the engagement, with two or three on-site meetings in Paris or Brussels if needed. For clients further afield, everything can be done by video call.' } },
     ],
   },
   finalCta: {
-    title: { fr: "Trente minutes pour voir si on est faits pour travailler ensemble.",
-             en: 'Thirty minutes to see whether we should be working together.' },
-    sub:   { fr: "Pas de pitch, pas de pression. Vous me décrivez votre dispositif actuel, je vous dis ce qui peut être industrialisé et à quel ordre de grandeur.",
-             en: 'No pitch, no pressure. You describe your current setup, I tell you what can be industrialised and what order of magnitude.' },
-    btn:   { fr: 'Réserver un appel (Calendly)', en: 'Book a call (Calendly)' },
-    alt:   { fr: 'ou contactez-moi sur LinkedIn',
-             en: 'or reach out on LinkedIn' },
+    title: { fr: "Faites le point sur votre service de veille en 30 minutes",
+             en: 'Review your monitoring service in 30 minutes' },
+    sub:   { fr: "Vous présentez votre système de veille actuel. Vous repartez avec un premier plan d'action pour l'automatiser. C'est gratuit.",
+             en: "Walk me through your current monitoring setup. You leave with a first action plan for automating it. It's free." },
+    btn:   { fr: 'Réserver un appel', en: 'Book a call' },
+    alt:   { fr: '',
+             en: '' },
   },
   footer: {
-    tag:   { fr: 'Veille et automatisation pour les affaires publiques',
+    tag:   { fr: '',
              en: 'Regulatory monitoring and automation for public affairs' },
     legal: { fr: 'Mentions légales · Politique de confidentialité',
              en: 'Legal notice · Privacy policy' },
@@ -362,7 +396,7 @@ function AnimBuild({ tokens, fonts, lang }) {
   return (
     <div style={{ position: 'relative' }}>
       <Caption tokens={tokens} fonts={fonts}>
-        {lang === 'fr' ? '⚙ Construction du workflow n8n, nœud par nœud' : '⚙ Building the n8n workflow, node by node'}
+        {lang === 'fr' ? '⚙ Construction du processus, étape par étape' : '⚙ Building the process, step by step'}
       </Caption>
       <svg viewBox="0 0 600 200" width="100%" height="200" style={{ display: 'block' }} aria-hidden="true">
         <style>{`
@@ -400,7 +434,7 @@ function AnimBuild({ tokens, fonts, lang }) {
             <circle cx={n.x + 8} cy={84} r="3" fill={accent2} />
           </g>
         ))}
-        <text x="300" y="160" textAnchor="middle" fill={muted} style={{ font: `500 9px ${mono}`, letterSpacing: '.18em' }}>PIPELINE&nbsp;·&nbsp;n8n</text>
+        <text x="300" y="160" textAnchor="middle" fill={muted} style={{ font: `500 9px ${mono}`, letterSpacing: '.18em' }}>PIPELINE</text>
         <line x1="40" y1="170" x2="560" y2="170" stroke={border} strokeWidth="1" strokeDasharray="2 4" />
       </svg>
     </div>
@@ -425,8 +459,8 @@ function AnimScale({ tokens, fonts, lang }) {
   return (
     <div style={{ position: 'relative' }}>
       <Caption tokens={tokens} fonts={fonts}>
-        {lang === 'fr' ? '⤧ Le système s\'étend : un workflow, plusieurs bulletins, toute l\'organisation'
-                       : '⤧ The system expands: one workflow, many briefings, the whole organisation'}
+        {lang === 'fr' ? '⤧ Le système s\'étend : un processus, plusieurs bulletins, toute l\'organisation'
+                       : '⤧ The system expands: one process, many briefings, the whole organisation'}
       </Caption>
       <svg viewBox="0 0 600 200" width="100%" height="200" style={{ display: 'block' }} aria-hidden="true">
         <style>{`
@@ -455,7 +489,7 @@ function AnimScale({ tokens, fonts, lang }) {
         })}
         <g>
           <rect x={cx - 56} y={cy - 22} width={112} height={44} rx={8} fill={surface2} stroke={accent} strokeWidth="1.5" />
-          <text x={cx} y={cy - 4} textAnchor="middle" fill={accent} style={{ font: `700 10px ${mono}`, letterSpacing: '.16em' }}>LEXFLOW</text>
+          <text x={cx} y={cy - 4} textAnchor="middle" fill={accent} style={{ font: `700 10px ${mono}`, letterSpacing: '.16em' }}>BRIEFLAYER</text>
           <text x={cx} y={cy + 12} textAnchor="middle" fill={muted} style={{ font: `400 9px ${mono}` }}>{lang === 'fr' ? '1 moteur · n flux' : '1 engine · n flows'}</text>
         </g>
         {consumers.map((c, i) => {
@@ -569,7 +603,7 @@ function HeroAutomationPanel({ lang, tokens, fonts, density, compact = false }) 
         boxShadow: `0 12px 36px rgba(0,0,0,.28), 0 0 24px ${chipColor}55`,
         zIndex: 2,
       }}>
-        <div style={{ font: `700 13px/1 ${sans}`, letterSpacing: '-0.02em', color: item.color ? chipColor : '#111827', maxWidth: 98, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item.label}</div>
+        <div style={{ font: `700 13px/1 ${sans}`, letterSpacing: 0, color: item.color ? chipColor : '#111827', maxWidth: 98, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item.label}</div>
         <div style={{ marginTop: 4, font: `600 8px/1.2 ${mono}`, color: '#64748b', textTransform: 'uppercase', letterSpacing: '.06em', maxWidth: 100, textAlign: 'center' }}>{item.sub}</div>
       </div>
     );
@@ -669,7 +703,7 @@ function HeroAutomationPanel({ lang, tokens, fonts, density, compact = false }) 
           <span style={{ width: 7, height: 7, borderRadius: 999, background: '#047857' }}></span>
           {lang === 'fr' ? 'Signal qualifié' : 'Qualified signal'}
         </div>
-        <h3 style={{ margin: '16px 0 10px', font: `650 24px/1.2 ${sans}`, letterSpacing: '-0.02em' }}>
+        <h3 style={{ margin: '16px 0 10px', font: `650 24px/1.2 ${sans}`, letterSpacing: 0 }}>
           {lang === 'fr' ? 'Veille européenne filtrée, routée, livrée' : 'European monitoring filtered, routed, delivered'}
         </h3>
         <p style={{ margin: 0, maxWidth: 430, font: `400 14px/1.6 ${body}`, color: 'rgba(255,255,255,.78)' }}>
@@ -695,7 +729,7 @@ function HeroAutomationPanel({ lang, tokens, fonts, density, compact = false }) 
               <div style={{ display: 'flex', alignItems: 'center', gap: 11 }}>
                 <div style={{ width: 38, height: 38, borderRadius: 999, background: `linear-gradient(135deg, ${accent}, ${accent2})`, color: ink, display: 'flex', alignItems: 'center', justifyContent: 'center', font: `800 13px/1 ${mono}` }}>JK</div>
                 <div>
-                  <div style={{ font: `650 13px/1.2 ${sans}` }}>LexFlow.ai</div>
+                  <div style={{ font: `650 13px/1.2 ${sans}` }}>BriefLayer</div>
                   <div style={{ marginTop: 3, font: `500 11px/1 ${mono}`, color: 'rgba(255,255,255,.55)' }}>{lang === 'fr' ? 'il y a 8 min' : '8 min ago'}</div>
                 </div>
               </div>
@@ -728,7 +762,7 @@ function HeroSetup({ lang, tokens, fonts, compact = false }) {
   const fr = lang === 'fr';
   const reduce = typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const fields = [
-    { label: fr ? 'Vos sources' : 'Your sources', items: fr ? ['Légifrance', 'AMF', 'Sénat · JO'] : ['EUR-Lex', 'European Commission', 'ESMA'], cli: false, add: fr ? '+ coller un flux RSS' : '+ paste an RSS feed' },
+    { label: fr ? 'Vos sources' : 'Your sources', items: fr ? ['Légifrance', 'AMF', 'Sénat · JO'] : ['Légifrance', 'AMF', 'Senate · Official Journal'], cli: false, add: fr ? '+ coller un flux RSS' : '+ paste an RSS feed' },
     { label: fr ? 'Vos clients' : 'Your clients', items: ['Client A', 'Client B', 'Client C'], cli: true, add: fr ? '+ ajouter un client' : '+ add a client' },
   ];
   const mailIcon = <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="5" width="18" height="14" rx="2" /><path d="m3 7 9 6 9-6" /></svg>;
@@ -781,8 +815,8 @@ function HeroSetup({ lang, tokens, fonts, compact = false }) {
 
       <div style={{ display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap', marginTop: 20, paddingTop: 18, borderTop: `1px solid ${border}` }}>
         <a href={CALENDLY_URL} target="_blank" rel="noreferrer" style={{
-          background: ink, color: bg, borderRadius: 10, padding: '14px 22px', font: `700 14px/1 ${sans}`,
-          textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 8, whiteSpace: 'nowrap',
+          background: '#16a34a', color: '#fff', borderRadius: 10, padding: '14px 22px', font: `700 14px/1 ${sans}`,
+          textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 8, whiteSpace: 'nowrap', boxShadow: '0 12px 28px rgba(22, 163, 74, .28)',
         }}>{fr ? 'Envoyer le bulletin' : 'Send the briefing'}
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 6l6 6-6 6" /></svg></a>
         <span style={{ flex: 1, minWidth: 210, font: `600 13px/1.4 ${sans}`, color: ink }}>
@@ -803,7 +837,7 @@ function MethodReview({ lang, tokens, fonts, compact = false }) {
     <div style={{ maxWidth: 480, background: surface, border: `1px solid ${border}`, borderRadius: 14, overflow: 'hidden', boxShadow: `0 16px 50px ${accent}14` }}>
       <style>{`@keyframes mr-pulse-${uid}{0%{box-shadow:0 0 0 0 ${accent2}73}70%{box-shadow:0 0 0 7px ${accent2}00}100%{box-shadow:0 0 0 0 ${accent2}00}}`}</style>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12, padding: '15px 18px', background: bg, borderBottom: `1px solid ${border}` }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 9, font: `800 14px/1.2 ${sans}`, letterSpacing: '-0.02em', color: ink }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 9, font: `800 14px/1.2 ${sans}`, letterSpacing: 0, color: ink }}>
           <span style={{ width: 8, height: 8, borderRadius: 999, background: accent2, animation: `mr-pulse-${uid} 2s ease-out infinite` }}></span>
           {fr ? 'Bulletin du Client A' : 'Client A briefing'}
         </div>
@@ -859,7 +893,7 @@ function HeroFlowBackground({ lang, tokens, fonts, density, compact = false }) {
           <div style={{ font: `700 10px/1 ${mono}`, color: accent, letterSpacing: '.14em', textTransform: 'uppercase', marginBottom: 7 }}>
             {lang === 'fr' ? 'signal utile' : 'useful signal'}
           </div>
-          <div style={{ font: `650 ${compact ? '18px' : '21px'}/1.18 ${sans}`, color: ink, letterSpacing: '-0.02em', maxWidth: compact ? 250 : 330 }}>
+          <div style={{ font: `650 ${compact ? '18px' : '21px'}/1.18 ${sans}`, color: ink, letterSpacing: 0, maxWidth: compact ? 250 : 330 }}>
             {lang === 'fr' ? 'Vos flux deviennent une veille exploitable.' : 'Your feeds become usable intelligence.'}
           </div>
         </div>
@@ -1114,9 +1148,24 @@ function Glyph({ name, size = 22 }) {
         <circle cx="12" cy="12" r="5" fill="none" stroke="currentColor" strokeWidth={sw} />
         <circle cx="12" cy="12" r="1.8" fill="currentColor" /></svg>
     );
+    case 'strategy': return (
+      <svg {...s}>
+        <circle cx="6" cy="6" r="2.5" fill="none" stroke="currentColor" strokeWidth={sw} />
+        <circle cx="18" cy="6" r="2.5" fill="none" stroke="currentColor" strokeWidth={sw} />
+        <circle cx="12" cy="18" r="2.5" fill="none" stroke="currentColor" strokeWidth={sw} />
+        <path d="M8.2 7.6 L10.4 15.4 M15.8 7.6 L13.6 15.4 M8.7 6 H15.3" fill="none" stroke="currentColor" strokeWidth={sw} strokeLinecap="round" />
+      </svg>
+    );
     case 'eye': return (
       <svg {...s}><path d="M2 12 Q12 4 22 12 Q12 20 2 12 Z" fill="none" stroke="currentColor" strokeWidth={sw} />
         <circle cx="12" cy="12" r="3" fill="currentColor" /></svg>
+    );
+    case 'key': return (
+      <svg {...s}>
+        <circle cx="8" cy="12" r="4" fill="none" stroke="currentColor" strokeWidth={sw} />
+        <path d="M12 12 H21 M17 12 V15 M20 12 V14" fill="none" stroke="currentColor" strokeWidth={sw} strokeLinecap="round" strokeLinejoin="round" />
+        <circle cx="8" cy="12" r="1.2" fill="currentColor" />
+      </svg>
     );
     default: return null;
   }
@@ -1125,6 +1174,7 @@ function Glyph({ name, size = 22 }) {
 function MethodPipeline({ steps, lang, t, tokens, fonts, density, compact = false, medium = false }) {
   const { surface, surface2, border, ink, ink2, muted, accent, accent2, bg, chipFg } = tokens;
   const { sans, mono, body } = fonts;
+  const headingWide = { letterSpacing: 0, fontVariationSettings: '"wdth" 112' };
   const [active, setActive] = React.useState(0);
   const cur = steps[active];
   const uid = React.useId().replace(/:/g, '');
@@ -1137,9 +1187,9 @@ function MethodPipeline({ steps, lang, t, tokens, fonts, density, compact = fals
 
   const sources = [
     { fr: 'RSS · API', en: 'RSS · API', g: 'rss' },
-    { fr: 'JO · LEGI', en: 'OJEU · LEGI', g: 'paper' },
+    { fr: 'JO · LEGI', en: 'Official Journal · LEGI', g: 'paper' },
     { fr: 'Parlement', en: 'Parliament', g: 'column' },
-    { fr: 'Autorités · AMF', en: 'Regulators', g: 'shield' },
+    { fr: 'Autorités', en: 'Regulators', g: 'shield' },
     { fr: 'Newsletters', en: 'Newsletters', g: 'mail' },
     { fr: 'Presse spéc.', en: 'Trade press', g: 'newspaper' },
   ];
@@ -1159,6 +1209,7 @@ function MethodPipeline({ steps, lang, t, tokens, fonts, density, compact = fals
   const op = (zone) => active === zone ? 1 : 0.32;
   const arrowId = `arr-mp-a-${uid}`;
   const srcColors = ['#0ea5e9', '#10b981', '#6366f1', '#14b8a6', '#f59e0b', '#ec4899'];
+  const responsiveFlow = compact || medium;
 
   return (
     <div>
@@ -1172,7 +1223,7 @@ function MethodPipeline({ steps, lang, t, tokens, fonts, density, compact = fals
               border: `1px solid ${isActive ? accent : border}`, borderRadius: 8,
               boxShadow: isActive ? `0 0 24px ${accent}22` : 'none', color: ink, transition: 'all .25s ease',
             }}>
-              <div style={{ font: `600 14px/1.3 ${sans}`, letterSpacing: '-0.01em' }}>
+              <div style={{ font: `850 14px/1.25 ${sans}`, ...headingWide }}>
                 <span style={{ color: isActive ? accent : muted, marginRight: 5 }}>{i + 1}.</span>
                 {t(s.name)}
               </div>
@@ -1181,6 +1232,140 @@ function MethodPipeline({ steps, lang, t, tokens, fonts, density, compact = fals
         })}
       </div>
 
+      {responsiveFlow ? (
+        <div style={{
+          position: 'relative',
+          background: `linear-gradient(135deg, ${surface} 0%, ${surface2} 58%, ${accent}0d 100%)`,
+          border: `1px solid ${border}`, borderRadius: 14,
+          padding: compact ? '18px 16px' : '22px 24px',
+          overflow: 'hidden',
+        }}>
+          <div style={{
+            position: 'absolute', top: 28, bottom: 28, left: compact ? 31 : 39, width: 2,
+            background: `linear-gradient(180deg, ${accent}66, ${accent2}aa, ${accent}55)`,
+            borderRadius: 999,
+          }}></div>
+
+          <button type="button" aria-label={lang === 'fr' ? 'Voir les sources' : 'View sources'} onClick={() => setActive(0)} style={{
+            position: 'relative', display: 'grid', gridTemplateColumns: '34px minmax(0, 1fr)', gap: compact ? 12 : 16,
+            width: '100%', padding: '0 0 22px', border: 0, background: 'transparent',
+            color: ink, font: 'inherit', textAlign: 'left', cursor: 'pointer',
+          }}>
+            <span style={{
+              width: 34, height: 34, borderRadius: 999, zIndex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center',
+              background: active === 0 ? accent : surface, border: `1px solid ${active === 0 ? accent : border}`,
+              color: active === 0 ? chipFg : accent, boxShadow: active === 0 ? `0 0 22px ${accent}55` : 'none',
+              font: `900 11px/1 ${mono}`,
+            }}>01</span>
+            <div style={{ minWidth: 0, paddingTop: 2 }}>
+              <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: 12, marginBottom: 10 }}>
+                <span style={{ font: `900 12px/1 ${sans}`, ...headingWide, color: active === 0 ? accent : ink, textTransform: 'uppercase' }}>
+                  {lang === 'fr' ? 'Sources connectées' : 'Connected sources'}
+                </span>
+                <span style={{ font: `750 10px/1 ${mono}`, color: muted }}>{sources.length}</span>
+              </div>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+                {sources.map((s, i) => (
+                  <span key={i} style={{
+                    display: 'inline-flex', alignItems: 'center', gap: 7, minWidth: 0,
+                    padding: '7px 9px', borderRadius: 999,
+                    background: active === 0 ? `${srcColors[i % srcColors.length]}18` : `${surface2}cc`,
+                    border: `1px solid ${srcColors[i % srcColors.length]}40`, color: ink,
+                  }}>
+                    <span style={{ color: srcColors[i % srcColors.length], flex: 'none', display: 'flex' }}>
+                      <Glyph name={s.g} size={15} />
+                    </span>
+                    <span style={{ font: `750 11.5px/1.1 ${sans}`, overflow: 'hidden', textOverflow: 'ellipsis' }}>{s[lang]}</span>
+                  </span>
+                ))}
+              </div>
+            </div>
+          </button>
+
+          <button type="button" aria-label={lang === 'fr' ? "Voir la stratégie d'automatisation" : 'View automation strategy'} onClick={() => setActive(1)} style={{
+            position: 'relative', display: 'grid', gridTemplateColumns: '34px minmax(0, 1fr)', gap: compact ? 12 : 16,
+            width: '100%', padding: '0 0 22px', border: 0, background: 'transparent',
+            color: ink, font: 'inherit', textAlign: 'left', cursor: 'pointer',
+          }}>
+            <span style={{
+              width: 34, height: 34, borderRadius: 999, zIndex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center',
+              background: active === 1 ? accent : surface, border: `1px solid ${active === 1 ? accent : border}`,
+              color: active === 1 ? chipFg : accent, boxShadow: active === 1 ? `0 0 22px ${accent}55` : 'none',
+              font: `900 11px/1 ${mono}`,
+            }}>02</span>
+            <div style={{
+              minWidth: 0,
+              padding: compact ? '13px 0 0' : '15px 0 0',
+              borderTop: `1px solid ${active === 1 ? accent + '77' : border}`,
+              borderBottom: `1px solid ${active === 1 ? accent + '44' : border}`,
+            }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                <span style={{ width: 42, height: 42, borderRadius: 12, flex: 'none', background: `${accent}1a`, border: `1px solid ${accent}55`, display: 'flex', alignItems: 'center', justifyContent: 'center', color: accent }}>
+                  <Glyph name="strategy" size={24} />
+                </span>
+                <div style={{ minWidth: 0 }}>
+                  <div style={{ font: `900 ${compact ? '18px' : '20px'}/1.1 ${sans}`, ...headingWide, color: ink }}>
+                    {lang === 'fr' ? "Stratégie d'automatisation" : 'Automation strategy'}
+                  </div>
+                  <div style={{ marginTop: 4, font: `700 10px/1 ${mono}`, color: muted, textTransform: 'uppercase' }}>
+                    {lang === 'fr' ? 'Règles · seuils · validations' : 'Rules · thresholds · validation'}
+                  </div>
+                </div>
+              </div>
+              <p style={{ font: `400 13px/1.55 ${body}`, color: ink2, margin: '12px 0 14px', maxWidth: 560 }}>
+                {lang === 'fr'
+                  ? 'Nous formalisons les règles, les seuils et les validations avant toute mise en production.'
+                  : 'We formalise the rules, thresholds and validation points before anything goes live.'}
+              </p>
+              <div style={{
+                display: 'grid', gridTemplateColumns: '24px minmax(0, 1fr)', alignItems: 'center', gap: 9,
+                padding: '10px 0', borderTop: `1px dashed ${accent2}88`, color: ink,
+              }}>
+                <span style={{ color: accent2, display: 'flex' }}><Glyph name="eye" size={20} /></span>
+                <span style={{ font: `900 11px/1.2 ${sans}`, ...headingWide, color: accent2 }}>
+                  {lang === 'fr' ? 'POINTS DE CONTRÔLE HUMAIN' : 'HUMAN CHECKPOINTS'}
+                </span>
+              </div>
+            </div>
+          </button>
+
+          <button type="button" aria-label={lang === 'fr' ? 'Voir les sorties' : 'View outputs'} onClick={() => setActive(2)} style={{
+            position: 'relative', display: 'grid', gridTemplateColumns: '34px minmax(0, 1fr)', gap: compact ? 12 : 16,
+            width: '100%', padding: 0, border: 0, background: 'transparent',
+            color: ink, font: 'inherit', textAlign: 'left', cursor: 'pointer',
+          }}>
+            <span style={{
+              width: 34, height: 34, borderRadius: 999, zIndex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center',
+              background: active === 2 ? accent : surface, border: `1px solid ${active === 2 ? accent : border}`,
+              color: active === 2 ? chipFg : accent, boxShadow: active === 2 ? `0 0 22px ${accent}55` : 'none',
+              font: `900 11px/1 ${mono}`,
+            }}>03</span>
+            <div style={{ minWidth: 0, paddingTop: 2 }}>
+              <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: 12, marginBottom: 10 }}>
+                <span style={{ font: `900 12px/1 ${sans}`, ...headingWide, color: active === 2 ? accent : ink, textTransform: 'uppercase' }}>
+                  {lang === 'fr' ? 'Canaux de sortie' : 'Output channels'}
+                </span>
+                <span style={{ font: `750 10px/1 ${mono}`, color: muted }}>{outputs.length}</span>
+              </div>
+              <div style={{ display: 'grid', gap: 0 }}>
+              {outputs.map((o, i) => (
+                <div key={i} style={{
+                  display: 'grid', gridTemplateColumns: '22px minmax(0,1fr) auto', alignItems: 'center', gap: 9,
+                  padding: '9px 0',
+                  borderTop: i === 0 ? `1px solid ${border}` : 'none',
+                  borderBottom: `1px solid ${border}`,
+                  color: ink,
+                }}>
+                  <span style={{ color: o.c, display: 'flex' }}><Glyph name={o.g} size={18} /></span>
+                  <span style={{ font: `800 12px/1.15 ${sans}`, overflow: 'hidden', textOverflow: 'ellipsis' }}>{o[lang]}</span>
+                  <span style={{ font: `800 9px/1 ${mono}`, color: active === 2 ? o.c : muted, textTransform: 'uppercase' }}>{o.sub[lang]}</span>
+                </div>
+              ))}
+              </div>
+            </div>
+          </button>
+        </div>
+      ) : (
       <div style={{
         background: `linear-gradient(180deg, ${surface}, ${surface2})`,
         border: `1px solid ${border}`, borderRadius: 14,
@@ -1218,7 +1403,7 @@ function MethodPipeline({ steps, lang, t, tokens, fonts, density, compact = fals
             {outputs.map((o, i) => {
               const y0 = midY + 50 + i * ((midH - 100) / (outputs.length - 1));
               const y1 = outY(i) + 19;
-              const visible = active === 1 || active === 2;
+              const visible = active === 2;
               return (
                 <path key={i}
                   d={`M ${midX + midW} ${y0} C ${midX + midW + 80} ${y0}, ${outX - 80} ${y1}, ${outX} ${y1}`}
@@ -1245,20 +1430,17 @@ function MethodPipeline({ steps, lang, t, tokens, fonts, density, compact = fals
                 </g>
               );
             })}
-            <text x={srcX + 6} y={srcY(sources.length) + 4} fill={muted} style={{ font: `500 9.5px ${sans}`, letterSpacing: '.04em' }}>
-              + {lang === 'fr' ? '12 SOURCES AU TOTAL · COÛT AUDITÉ' : '12 SOURCES TOTAL · COST AUDITED'}
-            </text>
           </g>
 
           <g style={{ cursor: 'pointer' }} onClick={() => setActive(1)}>
             <rect x={midX} y={midY} width={midW} height={midH} rx="12" fill={surface2} stroke={active === 1 ? accent : border} strokeWidth={active === 1 ? 1.5 : 1} opacity={active === 1 ? 1 : 0.6} />
-            <foreignObject x={midX + 22} y={midY + 22} width={midW - 44} height={midH - 78}>
+            <foreignObject x={midX + 18} y={midY + 18} width={midW - 36} height={midH - 70}>
               <div xmlns="http://www.w3.org/1999/xhtml" style={{ height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center', gap: 14 }}>
                 <div style={{ width: 56, height: 56, borderRadius: 16, background: `${accent}1a`, border: `1px solid ${accent}55`, display: 'flex', alignItems: 'center', justifyContent: 'center', color: accent }}>
-                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 4h18l-7 8v6l-4 2v-8z" /></svg>
+                  <Glyph name="strategy" size={28} />
                 </div>
-                <div style={{ font: `800 18px/1.2 ${sans}`, letterSpacing: '-0.02em', color: ink }}>{lang === 'fr' ? 'Traitement par l’IA' : 'AI processing'}</div>
-                <div style={{ font: `400 13px/1.5 ${body}`, color: ink2, maxWidth: 250 }}>{lang === 'fr' ? 'On garde, pour chaque client, l’information qui répond à ses besoins.' : 'For each client, we keep the information that meets their needs.'}</div>
+                <div style={{ font: `900 19px/1.15 ${sans}`, ...headingWide, color: ink }}>{lang === 'fr' ? "Stratégie d'automatisation" : 'Automation strategy'}</div>
+                <div style={{ font: `400 13px/1.5 ${body}`, color: ink2, maxWidth: 250 }}>{lang === 'fr' ? 'Nous formalisons les règles, les seuils et les validations avant toute mise en production.' : 'We formalise the rules, thresholds and validation points before anything goes live.'}</div>
               </div>
             </foreignObject>
 
@@ -1269,8 +1451,8 @@ function MethodPipeline({ steps, lang, t, tokens, fonts, density, compact = fals
                   <Glyph name="eye" size={18} />
                 </div>
               </foreignObject>
-              <text x="38" y="19.5" fill={chipFg} style={{ font: `700 10px ${sans}`, letterSpacing: '.06em' }}>
-                {lang === 'fr' ? 'VÉRIFICATION HUMAINE' : 'HUMAN REVIEW'}
+              <text x="38" y="19.5" fill={chipFg} style={{ font: `700 9px ${sans}`, letterSpacing: '.04em' }}>
+                {lang === 'fr' ? 'POINTS DE CONTRÔLE HUMAIN' : 'HUMAN CHECKPOINTS'}
               </text>
             </g>
           </g>
@@ -1295,6 +1477,7 @@ function MethodPipeline({ steps, lang, t, tokens, fonts, density, compact = fals
           </g>
         </svg>
       </div>
+      )}
 
       <div style={{
         marginTop: 18, padding: compact ? '18px 20px' : '18px 22px',
@@ -1303,7 +1486,7 @@ function MethodPipeline({ steps, lang, t, tokens, fonts, density, compact = fals
       }}>
         <div>
           <div style={{ font: `600 10px/1 ${sans}`, color: muted, letterSpacing: '.08em', textTransform: 'uppercase', marginBottom: 10 }}>
-            {lang === 'fr' ? `étape ${active + 1}` : `stage ${active + 1}`} · <span style={{ color: accent }}>{t(cur.name)}</span>
+            {lang === 'fr' ? `étape ${active + 1}` : `step ${active + 1}`} · <span style={{ color: accent }}>{t(cur.name)}</span>
           </div>
           <p style={{ font: `400 13.5px/1.6 ${body}`, color: ink2, margin: 0 }}>
             {t(cur.body)}
@@ -1311,7 +1494,7 @@ function MethodPipeline({ steps, lang, t, tokens, fonts, density, compact = fals
         </div>
         <div style={{ padding: '12px 14px', background: bg === '#0a0a0c' ? '#000' : surface2, border: `1px dashed ${accent}88`, borderRadius: 8 }}>
           <div style={{ font: `600 10px/1 ${sans}`, color: accent, letterSpacing: '.08em', textTransform: 'uppercase', marginBottom: 8 }}>
-            ↳ {lang === 'fr' ? 'vous repartez avec' : 'you walk away with'}
+            ↳ {lang === 'fr' ? 'vous repartez avec' : 'you leave with'}
           </div>
           <div style={{ font: `500 13px/1.5 ${body}`, color: ink }}>
             {t(cur.del).replace(/^Livrable : |^Deliverable: /, '')}
@@ -1323,7 +1506,7 @@ function MethodPipeline({ steps, lang, t, tokens, fonts, density, compact = fals
 }
 
 function WfOperator({ lang, density, font, theme = 'paper' }) {
-  const t = (k) => typeof k === 'object' ? k[lang] : k;
+  const t = (k) => typeof k === 'object' ? k[L] : k;
   const pad = density === 'dense' ? 48 : 72;
   const T = OPERATOR_THEMES[theme] || OPERATOR_THEMES.paper;
   const { bg, surface, surface2, border, ink, ink2, muted, accent, accent2, chipFg, portraitDark, glowAlpha, cardShadow, ctaShadow, diagramHeader } = T;
@@ -1331,12 +1514,29 @@ function WfOperator({ lang, density, font, theme = 'paper' }) {
   const tokens = { bg, surface, surface2, border, ink, ink2, muted, accent, accent2, chipFg };
 
   const serif = '"Newsreader", "Source Serif Pro", Georgia, serif';
-  const sans  = '"Inter", -apple-system, "Segoe UI", system-ui, sans-serif';
+  const bodySans = '"Inter", -apple-system, "Segoe UI", system-ui, sans-serif';
+  const sans  = '"Archivo", "Inter", -apple-system, "Segoe UI", system-ui, sans-serif';
   const mono  = '"JetBrains Mono", ui-monospace, Menlo, monospace';
-  const body  = font === 'serif' ? serif : font === 'mono' ? mono : sans;
+  const body  = font === 'serif' ? serif : font === 'mono' ? mono : bodySans;
+  const headingWide = { letterSpacing: 0, fontVariationSettings: '"wdth" 112' };
 
   const [L, setL] = React.useState(lang);
   React.useEffect(() => setL(lang), [lang]);
+  React.useEffect(() => {
+    document.documentElement.lang = L;
+    document.title = L === 'fr'
+      ? 'BriefLayer — Veille réglementaire & affaires publiques'
+      : 'BriefLayer — Automated monitoring for public affairs';
+    const description = document.querySelector('meta[name="description"]');
+    if (description) {
+      description.setAttribute(
+        'content',
+        L === 'fr'
+          ? 'BriefLayer automatise vos services de veille et transforme vos sources en bulletins clients personnalisés.'
+          : 'BriefLayer automates your monitoring services and turns your sources into personalised client briefings.'
+      );
+    }
+  }, [L]);
   const [vw, setVw] = React.useState(() => window.innerWidth);
   React.useEffect(() => {
     const onResize = () => setVw(window.innerWidth);
@@ -1363,51 +1563,58 @@ function WfOperator({ lang, density, font, theme = 'paper' }) {
   );
 
   return (
-    <div style={{ background: bg, color: ink, fontFamily: body, position: 'relative', minHeight: '100%', width: '100%', overflow: 'hidden' }}>
+    <div style={{
+      background: isDark ? bg : `linear-gradient(180deg, ${bg} 0%, ${surface2} 46%, ${bg} 100%)`,
+      color: ink, fontFamily: body, position: 'relative', minHeight: '100%', width: '100%', overflow: 'hidden',
+    }}>
       <div style={{
         position: 'absolute', inset: 0, pointerEvents: 'none',
-        backgroundImage: `linear-gradient(${border}55 1px, transparent 1px), linear-gradient(90deg, ${border}55 1px, transparent 1px)`,
-        backgroundSize: '40px 40px',
-        maskImage: 'radial-gradient(ellipse at top, black 30%, transparent 70%)',
-        WebkitMaskImage: 'radial-gradient(ellipse at top, black 30%, transparent 70%)',
-        opacity: isDark ? 1 : 0.7,
+        backgroundImage: isDark
+          ? `linear-gradient(180deg, ${border}44 1px, transparent 1px)`
+          : `linear-gradient(180deg, transparent 0, transparent 37px, ${border}52 38px), linear-gradient(90deg, transparent 0, transparent 72px, ${accent}10 73px, transparent 74px)`,
+        backgroundSize: isDark ? '100% 42px' : '100% 38px, 100% 100%',
+        opacity: isDark ? 0.45 : 0.5,
       }}></div>
-      <div style={{ position: 'absolute', top: -300, left: '50%', transform: 'translateX(-50%)', width: 900, height: 600, pointerEvents: 'none', background: `radial-gradient(ellipse, ${accent}${glowAlpha} 0%, transparent 60%)` }}></div>
 
       <div style={{ position: 'relative', maxWidth: 1180, margin: '0 auto', padding: `${pagePad}px ${pagePad}px ${pad}px` }}>
         <header style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: compact ? 48 : pad, flexWrap: compact ? 'wrap' : 'nowrap', gap: compact ? 16 : 0 }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-            <div style={{ display: 'flex', alignItems: 'baseline', gap: 1, font: `800 18px/1 ${sans}`, letterSpacing: '-0.03em' }}>
-              <span>LexFlow</span><span style={{ color: muted, fontWeight: 600 }}>.ai</span>
-            </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 12, flex: 'none' }}>
+            <img
+              src="assets/brieflayer-logo-header-v3.png"
+              alt="BriefLayer"
+              style={{ height: compact ? 46 : 56, width: 'auto', maxWidth: compact ? 190 : 230, objectFit: 'contain', display: 'block' }}
+            />
           </div>
-          <nav style={{ display: 'flex', alignItems: 'center', gap: compact ? 12 : 22, font: `500 ${compact ? '12px' : '13px'}/1 ${sans}`, flexWrap: 'wrap', justifyContent: compact ? 'center' : 'flex-end', width: compact ? '100%' : 'auto' }}>
+          <nav style={{ display: 'flex', alignItems: 'center', gap: compact ? 12 : 22, font: `600 ${compact ? '12px' : '13px'}/1 ${sans}`, flexWrap: 'wrap', justifyContent: compact ? 'center' : 'flex-end', width: compact ? '100%' : 'auto' }}>
+            <a style={{ color: muted, textDecoration: 'none' }} href="#service">{L === 'fr' ? 'Service' : 'Service'}</a>
             <a style={{ color: muted, textDecoration: 'none' }} href="#methode">{L === 'fr' ? 'Méthode' : 'Method'}</a>
-            <a style={{ color: muted, textDecoration: 'none' }} href="#offres">{L === 'fr' ? 'Offres' : 'Pricing'}</a>
-            <a style={{ color: muted, textDecoration: 'none' }} href="#cv">{L === 'fr' ? 'Profil' : 'About'}</a>
+            <a style={{ color: muted, textDecoration: 'none' }} href="#faq">FAQ</a>
+            <a style={{ color: muted, textDecoration: 'none' }} href="#cv">{L === 'fr' ? 'Qui suis-je ?' : 'Founder'}</a>
             <WfLangToggle lang={L} setLang={setL} dark={isDark} accent={accent + '33'} />
-            <a href={CALENDLY_URL} target="_blank" rel="noreferrer" style={{ display: compact ? 'none' : 'inline-block', padding: '8px 14px', background: ink, color: bg, textDecoration: 'none', font: `600 12px/1 ${sans}`, borderRadius: 6 }}>{L === 'fr' ? 'Réserver →' : 'Book →'}</a>
+            <a href={CALENDLY_URL} target="_blank" rel="noreferrer" style={{ display: compact ? 'none' : 'inline-block', padding: '8px 14px', background: accent, color: chipFg, textDecoration: 'none', font: `800 12px/1 ${sans}`, borderRadius: 6, boxShadow: `0 10px 28px ${accent}33` }}>{L === 'fr' ? 'Réserver un appel' : 'Book a call'}</a>
           </nav>
         </header>
 
         {/* HERO — éditorial 2 colonnes (texte + bloc setup) */}
         <section style={{ marginBottom: compact ? 60 : pad + 48, paddingTop: compact ? 12 : 36, position: 'relative' }}>
-          <div style={{ display: 'grid', gridTemplateColumns: compact ? '1fr' : 'minmax(0, 1.02fr) minmax(0, 0.98fr)', gap: compact ? 34 : 56, alignItems: 'center' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: compact ? '1fr' : 'minmax(0, 1.08fr) minmax(0, 0.92fr)', gap: compact ? 34 : 50, alignItems: 'center' }}>
             <div style={{ textAlign: 'left', minWidth: 0 }}>
-              <div style={{ display: 'inline-flex', alignItems: 'center', gap: 10, font: `600 12px/1 ${mono}`, color: muted, letterSpacing: '.2em', textTransform: 'uppercase', marginBottom: compact ? 20 : 26 }}>
-                <span style={{ width: 6, height: 6, borderRadius: 999, background: accent2, boxShadow: `0 0 8px ${accent2}` }}></span>
-                {t(C.hero.eyebrow)}
-              </div>
+              {t(C.hero.eyebrow) && (
+                <div style={{ display: 'inline-flex', alignItems: 'center', gap: 10, font: `600 12px/1 ${mono}`, color: muted, letterSpacing: '.2em', textTransform: 'uppercase', marginBottom: compact ? 20 : 26 }}>
+                  <span style={{ width: 6, height: 6, borderRadius: 999, background: accent2, boxShadow: `0 0 8px ${accent2}` }}></span>
+                  {t(C.hero.eyebrow)}
+                </div>
+              )}
 
-              <h1 style={{ font: `800 clamp(2.2rem, 4.6vw, 3.5rem)/1.02 ${sans}`, letterSpacing: '-0.04em', margin: '0 0 26px', textWrap: 'balance', overflowWrap: 'break-word' }}>
+              <h1 style={{ font: `900 clamp(2.45rem, 5.1vw, 4.05rem)/0.98 ${sans}`, ...headingWide, margin: '0 0 26px', textWrap: 'balance', overflowWrap: 'break-word' }}>
                 {L === 'fr'
-                  ? <>Un bulletin sur-mesure pour chaque client. <span style={{ color: accent }}>Envoyé automatiquement.</span></>
-                  : <>A tailored briefing for every client. <span style={{ color: accent }}>Sent automatically.</span></>}
+                  ? <>BriefLayer transforme votre veille en <span style={{ color: accent }}>bulletins clients <span style={{ whiteSpace: 'nowrap' }}>personnalisés.</span></span></>
+                  : <>BriefLayer turns your monitoring into <span style={{ color: accent }}>personalised client <span style={{ whiteSpace: 'nowrap' }}>briefings.</span></span></>}
               </h1>
 
               <p style={{ font: `400 ${compact ? '16px' : '18px'}/1.6 ${body}`, color: ink2, margin: '0 0 32px', maxWidth: 520 }}>{t(C.hero.sub)}</p>
 
-              <a href={CALENDLY_URL} target="_blank" rel="noreferrer" style={{ display: 'inline-block', boxSizing: 'border-box', padding: '15px 26px', background: ink, color: bg, textDecoration: 'none', font: `700 15px/1 ${sans}`, borderRadius: 8, boxShadow: `${ctaShadow} ${accent}55`, width: compact ? '100%' : 'auto', textAlign: 'center' }}>{compact ? (L === 'fr' ? 'Réserver (30 min)' : 'Book (30 min)') : t(C.hero.cta)}</a>
+              <a href={CALENDLY_URL} target="_blank" rel="noreferrer" style={{ display: 'inline-block', boxSizing: 'border-box', padding: '15px 26px', background: accent, color: chipFg, textDecoration: 'none', font: `800 15px/1 ${sans}`, borderRadius: 8, boxShadow: `${ctaShadow} ${accent}55`, width: compact ? '100%' : 'auto', textAlign: 'center' }}>{compact ? (L === 'fr' ? 'Réserver un appel' : 'Book a call') : t(C.hero.cta)}</a>
             </div>
 
             <div style={{ minWidth: 0 }}>
@@ -1426,151 +1633,128 @@ function WfOperator({ lang, density, font, theme = 'paper' }) {
         {/* douleur */}
         <section style={{ marginBottom: sectionGap }}>
           <WfSectionLabel num="01" label="diagnostic" color={muted} style={{ marginBottom: 28 }} />
-          <h2 style={{ font: `600 ${compact ? '30px' : density === 'dense' ? '40px' : '48px'}/1.08 ${sans}`, letterSpacing: '-0.03em', margin: '0 0 18px', maxWidth: 720 }}>{t(C.pain.title)}</h2>
+          <h2 style={{ font: `900 ${compact ? '32px' : density === 'dense' ? '42px' : '52px'}/1.02 ${sans}`, ...headingWide, margin: '0 0 18px', maxWidth: 760 }}>{t(C.pain.title)}</h2>
           <p style={{ font: `400 16px/1.6 ${body}`, color: muted, margin: '0 0 36px', maxWidth: 760 }}>{t(C.pain.intro)}</p>
-          <div style={{ display: 'grid', gridTemplateColumns: compact ? '1fr' : medium ? 'repeat(2, 1fr)' : 'repeat(4, 1fr)', gap: 14, marginBottom: 28 }}>
-            {C.pain.symptoms.map((s, i) => (
-              <Card key={i} style={{ padding: 16 }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 10 }}>
-                  <span style={{ width: 10, height: 10, borderRadius: 999, background: accent2, boxShadow: `0 0 8px ${accent2}` }}></span>
-                  <span style={{ font: `500 10px/1 ${mono}`, color: muted, letterSpacing: '.08em' }}>WARN_{String(i + 1).padStart(2, '0')}</span>
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: compact ? '1fr' : medium ? '0.8fr 1.2fr' : '0.72fr 1.28fr',
+            gap: compact ? 20 : 30,
+            alignItems: 'stretch',
+            marginBottom: 28,
+          }}>
+            <div style={{
+              borderTop: `2px solid ${accent}`,
+              borderBottom: `1px solid ${border}`,
+              padding: compact ? '20px 0' : '24px 0',
+              minHeight: compact ? 'auto' : 330,
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'space-between',
+              gap: 24,
+            }}>
+              <div>
+                <div style={{ font: `800 11px/1 ${mono}`, color: accent, letterSpacing: '.08em', textTransform: 'uppercase', marginBottom: 18 }}>
+                  {L === 'fr' ? 'temps mobilisé' : 'time spent'}
                 </div>
-                <div style={{ font: `500 13px/1.4 ${body}`, color: ink }}>{t(s)}</div>
+                <div style={{ font: `900 ${compact ? '58px' : density === 'dense' ? '74px' : '92px'}/0.85 ${sans}`, ...headingWide, color: ink, letterSpacing: '-.01em' }}>
+                  {L === 'fr' ? '3 à 4h' : '3-4h'}
+                </div>
+                <div style={{ font: `800 ${compact ? '18px' : '22px'}/1.15 ${sans}`, ...headingWide, color: ink, marginTop: 14, maxWidth: 320 }}>
+                  {L === 'fr' ? 'par jour sur des tâches de collecte et de mise en forme.' : 'a day spent collecting and formatting information.'}
+                </div>
+              </div>
+              <div style={{
+                borderTop: `1px solid ${border}`,
+                paddingTop: 16,
+                font: `400 13.5px/1.55 ${body}`,
+                color: muted,
+                maxWidth: 340,
+              }}>
+                {L === 'fr'
+                  ? "Le problème n'est pas le manque d'expertise. C'est un service de veille qui repose encore sur trop d'opérations manuelles."
+                  : 'The issue is not a lack of expertise. It is a monitoring service still relying on too many manual operations.'}
+              </div>
+            </div>
+
+            <div style={{
+              display: 'grid',
+              gridTemplateColumns: compact ? '1fr' : 'repeat(2, minmax(0, 1fr))',
+              borderTop: `1px solid ${border}`,
+              alignSelf: 'stretch',
+            }}>
+              {C.pain.symptoms.map((s, i) => (
+                <div key={i} style={{
+                  display: 'grid',
+                  gridTemplateColumns: compact ? '38px minmax(0, 1fr)' : '46px minmax(0, 1fr)',
+                  gap: compact ? 12 : 14,
+                  padding: compact ? '16px 0' : '18px 18px 18px 0',
+                  borderBottom: `1px solid ${border}`,
+                  borderLeft: !compact && i % 2 === 1 ? `1px solid ${border}` : 'none',
+                  paddingLeft: !compact && i % 2 === 1 ? 18 : 0,
+                  minWidth: 0,
+                }}>
+                  <div style={{
+                    font: `850 11px/1 ${mono}`,
+                    color: i < 2 ? accent2 : muted,
+                    letterSpacing: '.08em',
+                    paddingTop: 3,
+                  }}>
+                    {String(i + 1).padStart(2, '0')}
+                  </div>
+                  <div style={{ minWidth: 0 }}>
+                    <h3 style={{ font: `900 ${compact ? '16px' : '17px'}/1.12 ${sans}`, ...headingWide, color: ink, margin: '0 0 7px' }}>{t(s.title)}</h3>
+                    <p style={{ font: `400 13px/1.5 ${body}`, color: muted, margin: 0 }}>{t(s.body)}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+          {t(C.pain.flip) && (
+            <div style={{ padding: compact ? '16px 18px' : '20px 28px', background: `${accent2}11`, border: `1px solid ${accent2}55`, borderRadius: 10, font: `500 ${compact ? '17px' : density === 'dense' ? '18px' : '22px'}/1.35 ${serif}`, color: ink }}>
+              <span style={{ color: accent2, marginRight: 12, font: `700 14px/1 ${mono}`, letterSpacing: '.1em' }}>✖ ERROR</span>{t(C.pain.flip)}
+            </div>
+          )}
+        </section>
+
+        {/* ce que nous faisons */}
+        <section id="service" style={{ marginBottom: sectionGap }}>
+          <WfSectionLabel num="02" label={L === 'fr' ? 'ce que nous faisons' : 'Service'} color={muted} style={{ marginBottom: 28 }} />
+          <div style={{ maxWidth: 760 }}>
+            <h2 style={{ font: `900 ${compact ? '32px' : density === 'dense' ? '42px' : '54px'}/1.02 ${sans}`, ...headingWide, margin: '0 0 18px' }}>{t(C.doing.title)}</h2>
+            <p style={{ font: `400 ${compact ? '17px' : '20px'}/1.55 ${body}`, color: ink2, margin: 0 }}>{t(C.doing.body)}</p>
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: compact ? '1fr' : 'repeat(3, 1fr)', gap: 14, marginTop: 26 }}>
+            {C.doing.cards.map((card, i) => (
+              <Card key={i} style={{ padding: 20 }}>
+                <div style={{ width: 40, height: 40, borderRadius: 8, background: `${accent}14`, border: `1px solid ${accent}44`, color: accent, display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 16 }}>
+                  <Glyph name={card.icon} size={22} />
+                </div>
+                <h3 style={{ font: `900 17px/1.15 ${sans}`, ...headingWide, margin: '0 0 8px', color: ink }}>{t(card.title)}</h3>
+                <p style={{ font: `400 13.5px/1.55 ${body}`, color: ink2, margin: 0 }}>{t(card.body)}</p>
               </Card>
             ))}
-          </div>
-          <div style={{ padding: compact ? '16px 18px' : '20px 28px', background: `${accent2}11`, border: `1px solid ${accent2}55`, borderRadius: 10, font: `500 ${compact ? '17px' : density === 'dense' ? '18px' : '22px'}/1.35 ${serif}`, color: ink }}>
-            <span style={{ color: accent2, marginRight: 12, font: `700 14px/1 ${mono}`, letterSpacing: '.1em' }}>✖ ERROR</span>{t(C.pain.flip)}
           </div>
         </section>
 
         {/* méthode */}
         <section id="methode" style={{ marginBottom: sectionGap }}>
-          <WfSectionLabel num="02" label={L === 'fr' ? 'la méthode' : 'the method'} color={muted} style={{ marginBottom: 28 }} />
+          <WfSectionLabel num="03" label={L === 'fr' ? 'Comment nous procédons' : 'How we work'} color={muted} style={{ marginBottom: 28 }} />
           <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', marginBottom: compact ? 20 : 12, gap: 24, flexWrap: 'wrap' }}>
-            <h2 style={{ font: `600 ${compact ? '30px' : density === 'dense' ? '40px' : '48px'}/1.08 ${sans}`, letterSpacing: '-0.03em', margin: 0, maxWidth: 600 }}>{L === 'fr' ? 'La méthode.' : 'The method.'}</h2>
-            <div style={{ font: `400 14px/1.5 ${body}`, color: muted, maxWidth: compact ? '100%' : 320, textAlign: compact ? 'left' : 'right' }}>
-              <span style={{ color: ink, fontWeight: 600 }}>{t(C.method.title)}</span><br/>{t(C.method.intro)}
-            </div>
+            <h2 style={{ font: `900 ${compact ? '32px' : density === 'dense' ? '42px' : '52px'}/1.02 ${sans}`, ...headingWide, margin: 0, maxWidth: 640 }}>{L === 'fr' ? 'La méthode' : 'The method'}</h2>
+            {(t(C.method.title) || t(C.method.intro)) && <div style={{ font: `400 14px/1.5 ${body}`, color: muted, maxWidth: compact ? '100%' : 320, textAlign: compact ? 'left' : 'right' }}>
+              <span style={{ color: ink, fontWeight: 600 }}>{t(C.method.title)}</span>{t(C.method.intro) ? <><br/>{t(C.method.intro)}</> : null}
+            </div>}
           </div>
           <MethodPipeline steps={C.method.steps} lang={L} t={t} tokens={{ surface, surface2, border, ink, ink2, muted, accent, accent2, bg, chipFg }} fonts={{ sans, mono, body }} density={density} compact={compact} medium={medium} />
-
-          <div style={{ marginTop: compact ? 32 : 48, display: 'flex', flexDirection: compact ? 'column' : 'row', alignItems: compact ? 'flex-start' : 'center', gap: compact ? 20 : 40 }}>
-            <div style={{ flex: 1, maxWidth: 420 }}>
-              <div style={{ font: `600 11px/1 ${mono}`, color: muted, letterSpacing: '.18em', textTransform: 'uppercase', marginBottom: 14 }}>{L === 'fr' ? 'Le traitement' : 'Processing'}</div>
-              <h3 style={{ font: `600 ${compact ? '24px' : '30px'}/1.12 ${sans}`, letterSpacing: '-0.02em', margin: '0 0 14px' }}>{L === 'fr' ? 'L’IA traite, vous validez.' : 'The AI processes, you approve.'}</h3>
-              <p style={{ font: `400 ${compact ? '15px' : '16px'}/1.6 ${body}`, color: ink2, margin: 0 }}>{L === 'fr' ? 'On améliore le traitement de l’information avec l’IA et on la canalise pour chaque client. Vous validez avant l’envoi.' : 'We sharpen how information is processed with AI and channel it per client. You approve before it goes out.'}</p>
-            </div>
-            <div style={{ flex: 'none', width: compact ? '100%' : 'auto' }}>
-              <MethodReview lang={L} tokens={{ ink, ink2, muted, border, accent, accent2, surface, bg }} fonts={{ sans, mono, body }} compact={compact} />
-            </div>
-          </div>
-        </section>
-
-        {/* cas */}
-        <section style={{ marginBottom: sectionGap }}>
-          <WfSectionLabel num="03" label={L === 'fr' ? 'cas client' : 'case studies'} color={muted} style={{ marginBottom: 28 }} />
-          <h2 style={{ font: `600 ${compact ? '30px' : density === 'dense' ? '36px' : '42px'}/1.08 ${sans}`, letterSpacing: '-0.03em', margin: '0 0 32px' }}>{t(C.cases.title)}</h2>
-          <div style={{ display: 'grid', gridTemplateColumns: compact ? '1fr' : '1fr 1fr', gap: 18 }}>
-            {C.cases.items.map((c, i) => (
-              <Card key={i} style={{ padding: 0, overflow: 'hidden' }}>
-                <div style={{ padding: 22, borderBottom: `1px solid ${border}` }}>
-                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 14 }}>
-                    <span style={{ font: `500 10px/1 ${mono}`, padding: '5px 9px', background: surface2, color: accent, border: `1px solid ${border}`, borderRadius: 4, letterSpacing: '.08em', textTransform: 'uppercase' }}>{t(c.tag)}</span>
-                    <span style={{ font: `400 11px/1 ${mono}`, color: muted }}>0{i + 1}</span>
-                  </div>
-                  <h3 style={{ font: `600 26px/1.15 ${sans}`, letterSpacing: '-0.02em', margin: '0 0 12px' }}>{t(c.head)}</h3>
-                  <p style={{ font: `400 14px/1.6 ${body}`, color: muted, margin: 0 }}>{t(c.body)}</p>
-                </div>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr' }}>
-                  {[
-                    { l: i === 0 ? '7h' : '8', s: i === 0 ? (L === 'fr' ? 'h/sem rendues' : 'h/wk recovered') : (L === 'fr' ? 'revues/jour' : 'briefs/day') },
-                    { l: i === 0 ? '14' : '8', s: i === 0 ? 'sources' : (L === 'fr' ? 'consultants' : 'consultants') },
-                    { l: i === 0 ? (L === 'fr' ? '1x/sem' : '1x/wk') : (L === 'fr' ? 'quotidien' : 'daily'), s: L === 'fr' ? 'cadence' : 'cadence' },
-                  ].map((m, j) => (
-                    <div key={j} style={{ padding: '14px 18px', borderLeft: j > 0 ? `1px solid ${border}` : 'none' }}>
-                      <div style={{ font: `600 22px/1 ${sans}`, color: accent }}>{m.l}</div>
-                      <div style={{ font: `400 10px/1.3 ${mono}`, color: muted, marginTop: 4, textTransform: 'uppercase', letterSpacing: '.06em' }}>{m.s}</div>
-                    </div>
-                  ))}
-                </div>
-              </Card>
-            ))}
-          </div>
-        </section>
-
-        {/* offres */}
-        <section id="offres" style={{ marginBottom: sectionGap }}>
-          <WfSectionLabel num="04" label={L === 'fr' ? 'tarification' : 'pricing'} color={muted} style={{ marginBottom: 28 }} />
-          <h2 style={{ font: `600 ${compact ? '30px' : density === 'dense' ? '36px' : '42px'}/1.08 ${sans}`, letterSpacing: '-0.03em', margin: '0 0 32px' }}>{t(C.offers.title)}</h2>
-          <div style={{ display: 'grid', gridTemplateColumns: compact ? '1fr' : medium ? 'repeat(2, 1fr)' : 'repeat(3, 1fr)', gap: 16, alignItems: 'stretch' }}>
-            {C.offers.items.map((o, i) => {
-              const featured = !!o.flag;
-              return (
-                <div key={i} style={{
-                  background: featured ? `linear-gradient(165deg, ${surface}, ${surface2})` : surface,
-                  border: `1px solid ${featured ? accent + '99' : border}`, borderRadius: 12, padding: 24, position: 'relative',
-                  boxShadow: featured ? `0 0 40px ${accent}33` : 'none', display: 'flex', flexDirection: 'column',
-                }}>
-                  {featured && (<span style={{ position: 'absolute', top: -10, left: 24, padding: '3px 10px', background: accent, color: chipFg, font: `700 10px/1.4 ${mono}`, letterSpacing: '.08em', textTransform: 'uppercase', borderRadius: 999 }}>{t(o.flag)}</span>)}
-                  <div style={{ font: `600 11px/1 ${mono}`, color: muted, letterSpacing: '.12em', marginBottom: 10 }}>{t(o.name)}</div>
-                  <div style={{ font: `600 22px/1.2 ${sans}`, color: featured ? accent : ink, marginBottom: 18 }}>{t(o.hook)}</div>
-                  <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 20px', display: 'flex', flexDirection: 'column', gap: 10, font: `400 13px/1.5 ${body}`, color: ink, flex: 1 }}>
-                    <li><span style={{ color: muted, fontWeight: 600 }}>→</span> {t(o.who)}</li>
-                    <li><span style={{ color: muted, fontWeight: 600 }}>→</span> {t(o.del)}</li>
-                    <li><span style={{ color: muted, fontWeight: 600 }}>→</span> {t(o.dur)}</li>
-                  </ul>
-                  <div style={{ paddingTop: 16, borderTop: `1px solid ${border}` }}>
-                    <div style={{ font: `700 24px/1.2 ${sans}`, color: ink, marginBottom: 12 }}>{t(o.price)}</div>
-                    <a href={CALENDLY_URL} target="_blank" rel="noreferrer" style={{ display: 'block', textAlign: 'center', padding: '12px', background: featured ? accent : 'transparent', color: featured ? chipFg : ink, border: `1px solid ${featured ? accent : border}`, borderRadius: 8, textDecoration: 'none', font: `600 13px/1 ${sans}` }}>{L === 'fr' ? 'Réserver →' : 'Book →'}</a>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </section>
-
-        {/* pourquoi moi */}
-        <section id="cv" style={{ marginBottom: sectionGap, position: 'relative' }}>
-          <WfSectionLabel num="05" label={L === 'fr' ? 'profil' : 'about'} color={muted} style={{ marginBottom: 28 }} />
-          <Card style={{ overflow: 'hidden', padding: 0 }}>
-            <div style={{ display: 'grid', gridTemplateColumns: compact ? '1fr' : medium ? '280px 1fr' : '320px 1fr' }}>
-              <div style={{ background: `linear-gradient(165deg, ${surface2}, ${surface})`, padding: compact ? 22 : 28, borderRight: compact ? 'none' : `1px solid ${border}`, borderBottom: compact ? `1px solid ${border}` : 'none', display: 'flex', flexDirection: 'column', alignItems: compact ? 'center' : 'flex-start' }}>
-                <div style={{ position: 'relative' }}>
-                  <img src="assets/jimmy-kolbe-portrait.jpg" alt="Portrait de Jimmy Kolbe" style={{ width: compact ? 210 : 220, height: compact ? 250 : 270, objectFit: 'cover', objectPosition: '50% 22%', borderRadius: 10, border: `1px solid ${border}`, boxShadow: `0 18px 48px ${accent}22`, display: 'block' }} />
-                  <div style={{ position: 'absolute', bottom: -8, right: -8, width: 28, height: 28, borderRadius: 999, background: accent, boxShadow: `0 0 16px ${accent}99`, display: 'flex', alignItems: 'center', justifyContent: 'center', font: `700 12px/1 ${mono}`, color: chipFg }}>●</div>
-                </div>
-                <div style={{ font: `700 22px/1.2 ${sans}`, letterSpacing: '-0.02em', marginTop: 18 }}>{C.whyMe.name}</div>
-                <div style={{ font: `400 12px/1.4 ${mono}`, color: muted, marginTop: 4 }}>{L === 'fr' ? 'Paris · Bruxelles' : 'Paris · Brussels'}</div>
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginTop: 18 }}>
-                  {['n8n', 'RGPD', 'AI Act', 'PhD', 'CPO'].map(s => (
-                    <span key={s} style={{ font: `500 10px/1 ${mono}`, padding: '5px 9px', background: surface2, color: accent, border: `1px solid ${border}`, borderRadius: 4, letterSpacing: '.04em' }}>{s}</span>
-                  ))}
-                </div>
-              </div>
-              <div style={{ padding: compact ? 24 : 36 }}>
-                <h2 style={{ font: `600 ${compact ? '28px' : density === 'dense' ? '30px' : '36px'}/1.1 ${sans}`, letterSpacing: '-0.03em', margin: '0 0 24px' }}>{t(C.whyMe.title)}</h2>
-                <p style={{ font: `400 15px/1.65 ${body}`, color: ink2, margin: '0 0 18px' }}>{t(C.whyMe.p1)}</p>
-                <p style={{ font: `400 15px/1.65 ${body}`, color: ink2, margin: '0 0 24px' }}>{t(C.whyMe.p2)}</p>
-                <div style={{ paddingTop: 20, borderTop: `1px solid ${border}` }}>
-                  <div style={{ font: `500 10px/1 ${mono}`, color: muted, letterSpacing: '.12em', textTransform: 'uppercase', marginBottom: 12 }}>institutions</div>
-                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
-                    {t(C.whyMe.mentions).split(' · ').map((m, i) => (<WfLogo key={i} dark={isDark} label={m} />))}
-                  </div>
-                </div>
-                <span style={{ display: 'inline-block', marginTop: 22, color: accent, font: `500 13px/1 ${sans}` }}>{t(C.whyMe.cvLink)}</span>
-              </div>
-            </div>
-          </Card>
         </section>
 
         {/* faq */}
-        <section style={{ marginBottom: sectionGap }}>
-          <WfSectionLabel num="06" label="faq" color={muted} style={{ marginBottom: 28 }} />
+        <section id="faq" style={{ marginBottom: sectionGap }}>
+          <WfSectionLabel num="04" label={L === 'fr' ? 'Foire aux questions' : 'Frequently asked questions'} color={muted} style={{ marginBottom: 28 }} />
           <div style={{ display: 'grid', gridTemplateColumns: compact ? '1fr' : '1fr 1fr', gap: 12 }}>
             {C.faq.items.map((it, i) => (
               <details key={i} open={i === 0} style={{ background: surface, border: `1px solid ${border}`, borderRadius: 8, padding: 18 }}>
-                <summary style={{ font: `600 14px/1.4 ${sans}`, cursor: 'pointer', listStyle: 'none', display: 'flex', justifyContent: 'space-between', gap: 12 }}>
+                <summary style={{ font: `800 14px/1.35 ${sans}`, cursor: 'pointer', listStyle: 'none', display: 'flex', justifyContent: 'space-between', gap: 12 }}>
                   <span>{t(it.q)}</span><span style={{ color: accent }}>+</span>
                 </summary>
                 <p style={{ font: `400 13px/1.6 ${body}`, color: muted, margin: '12px 0 0' }}>{t(it.a)}</p>
@@ -1579,17 +1763,47 @@ function WfOperator({ lang, density, font, theme = 'paper' }) {
           </div>
         </section>
 
+        {/* pourquoi moi */}
+        <section id="cv" style={{ marginBottom: sectionGap, position: 'relative' }}>
+          <WfSectionLabel num="05" label={L === 'fr' ? 'Le fondateur' : 'Founder'} color={muted} style={{ marginBottom: 28 }} />
+          <Card style={{ overflow: 'hidden', padding: 0 }}>
+            <div style={{ display: 'grid', gridTemplateColumns: compact ? '1fr' : medium ? '280px 1fr' : '320px 1fr' }}>
+              <div style={{ background: `linear-gradient(165deg, ${surface2}, ${surface})`, padding: compact ? 22 : 28, borderRight: compact ? 'none' : `1px solid ${border}`, borderBottom: compact ? `1px solid ${border}` : 'none', display: 'flex', flexDirection: 'column', alignItems: compact ? 'center' : 'flex-start' }}>
+                <div style={{ position: 'relative' }}>
+                  <img src="assets/jimmy-kolbe-portrait.jpg" alt="Portrait de Jimmy Kolbe-André" style={{ width: compact ? 210 : 220, height: compact ? 250 : 270, objectFit: 'cover', objectPosition: '50% 22%', borderRadius: 10, border: `1px solid ${border}`, boxShadow: `0 18px 48px ${accent}22`, display: 'block' }} />
+                  <div style={{ position: 'absolute', bottom: -8, right: -8, width: 28, height: 28, borderRadius: 999, background: accent, boxShadow: `0 0 16px ${accent}99`, display: 'flex', alignItems: 'center', justifyContent: 'center', font: `700 12px/1 ${mono}`, color: chipFg }}>●</div>
+                </div>
+                <div style={{ font: `900 22px/1.15 ${sans}`, ...headingWide, marginTop: 18 }}>{C.whyMe.name}</div>
+                <div style={{ font: `400 12px/1.4 ${mono}`, color: muted, marginTop: 4 }}>{L === 'fr' ? 'Paris · Bruxelles' : 'Paris · Brussels'}</div>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginTop: 16, justifyContent: compact ? 'center' : 'flex-start' }}>
+                  {t(C.whyMe.mentions).split(' · ').map((m, i) => (<WfLogo key={i} dark={isDark} label={m} />))}
+                </div>
+              </div>
+              <div style={{ padding: compact ? 24 : 36 }}>
+                <h2 style={{ font: `900 ${compact ? '30px' : density === 'dense' ? '34px' : '40px'}/1.05 ${sans}`, ...headingWide, margin: '0 0 24px' }}>{t(C.whyMe.title)}</h2>
+                {[C.whyMe.p1, C.whyMe.p2, C.whyMe.p3, C.whyMe.p4].map((p, i, arr) => {
+                  const text = t(p);
+                  if (!text) return null;
+                  const remaining = arr.slice(i + 1).some(next => t(next));
+                  return <p key={i} style={{ font: `400 15px/1.65 ${body}`, color: ink2, margin: remaining ? '0 0 18px' : '0 0 24px' }}>{text}</p>;
+                })}
+                {t(C.whyMe.cvLink) && <span style={{ display: 'inline-block', marginTop: 22, color: accent, font: `500 13px/1 ${sans}` }}>{t(C.whyMe.cvLink)}</span>}
+              </div>
+            </div>
+          </Card>
+        </section>
+
         {/* cta */}
         <section id="cta" style={{ marginBottom: sectionGap, padding: compact ? '42px 22px' : '60px 40px', textAlign: 'center', borderRadius: 14, background: `radial-gradient(ellipse at center, ${accent}22 0%, ${surface} 60%)`, border: `1px solid ${border}` }}>
-          <h2 style={{ font: `600 ${compact ? '30px' : density === 'dense' ? '40px' : '52px'}/1.08 ${sans}`, letterSpacing: '-0.03em', margin: '0 auto 18px', maxWidth: 700, textWrap: 'balance' }}>{t(C.finalCta.title)}</h2>
+          <h2 style={{ font: `900 ${compact ? '32px' : density === 'dense' ? '42px' : '56px'}/1.02 ${sans}`, ...headingWide, margin: '0 auto 18px', maxWidth: 760, textWrap: 'balance' }}>{t(C.finalCta.title)}</h2>
           <p style={{ font: `400 16px/1.55 ${body}`, color: muted, margin: '0 auto 30px', maxWidth: 560 }}>{t(C.finalCta.sub)}</p>
-          <a href={CALENDLY_URL} target="_blank" rel="noreferrer" style={{ display: 'inline-block', padding: '15px 26px', background: ink, color: bg, textDecoration: 'none', font: `700 14px/1 ${sans}`, borderRadius: 8, boxShadow: `0 0 40px ${accent}66` }}>{t(C.finalCta.btn)} →</a>
-          <div style={{ marginTop: 18, font: `400 13px/1.4 ${body}`, color: muted }}>{t(C.finalCta.alt)}</div>
+          <a href={CALENDLY_URL} target="_blank" rel="noreferrer" style={{ display: 'inline-block', padding: '15px 26px', background: accent, color: chipFg, textDecoration: 'none', font: `800 14px/1 ${sans}`, borderRadius: 8, boxShadow: `0 0 40px ${accent}66` }}>{t(C.finalCta.btn)}</a>
+          {t(C.finalCta.alt) && <div style={{ marginTop: 18, font: `400 13px/1.4 ${body}`, color: muted }}>{t(C.finalCta.alt)}</div>}
         </section>
 
         {/* footer */}
         <footer style={{ paddingTop: 28, borderTop: `1px solid ${border}`, display: 'flex', justifyContent: compact ? 'center' : 'space-between', alignItems: 'baseline', textAlign: compact ? 'center' : 'left', font: `400 12px/1.5 ${mono}`, color: muted, flexWrap: 'wrap', gap: 16 }}>
-          <div>© 2026 {C.whyMe.name} · {t(C.footer.tag)}</div>
+          <div>© 2026 BriefLayer · {C.whyMe.name}</div>
           <div>{t(C.footer.legal)}</div>
         </footer>
       </div>
