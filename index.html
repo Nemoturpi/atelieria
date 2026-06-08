@@ -29,6 +29,10 @@
     from { opacity: 0; transform: translateY(-12px); }
     to   { opacity: 1; transform: translateY(0); }
   }
+  @keyframes sectionReveal {
+    from { opacity: 0; transform: translateY(24px) scale(0.985); filter: blur(8px); }
+    to   { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+  }
   .ai-star {
     display: inline-block;
     margin-left: 4px;
@@ -54,6 +58,22 @@
     gap: 6px;
     padding: 8px 14px;
     white-space: nowrap;
+  }
+  .section-reveal {
+    opacity: 0;
+    transform-origin: center top;
+    animation: sectionReveal 0.74s cubic-bezier(.16, 1, .3, 1) forwards;
+    will-change: opacity, transform, filter;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .ai-star,
+    .floating-nav,
+    .section-reveal {
+      animation: none !important;
+      opacity: 1 !important;
+      transform: none !important;
+      filter: none !important;
+    }
   }
 </style>
 </head>
@@ -814,7 +834,7 @@ function HeroSetup({ lang, tokens, fonts, compact = false }) {
       maxWidth: compact ? '100%' : 600, background: surface, border: `1px solid ${border}`,
       borderRadius: 16, padding: compact ? 20 : 26, boxShadow: `0 24px 70px ${accent}24`,
     }}>
-      <style>{`@keyframes lf-pulse-${uid}{0%{box-shadow:0 0 0 0 rgba(22,163,74,.5)}70%{box-shadow:0 0 0 7px rgba(22,163,74,0)}100%{box-shadow:0 0 0 0 rgba(22,163,74,0)}}`}</style>
+      <style>{`@keyframes lf-pulse-${uid}{0%{box-shadow:0 0 0 0 rgba(24,185,209,.5)}70%{box-shadow:0 0 0 7px rgba(24,185,209,0)}100%{box-shadow:0 0 0 0 rgba(24,185,209,0)}}`}</style>
 
       {fields.map((f, fi) => (
         <div key={fi} style={{ marginTop: fi === 0 ? 0 : 18 }}>
@@ -853,12 +873,12 @@ function HeroSetup({ lang, tokens, fonts, compact = false }) {
 
       <div style={{ display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap', marginTop: 20, paddingTop: 18, borderTop: `1px solid ${border}` }}>
         <a href={CALENDLY_URL} target="_blank" rel="noreferrer" style={{
-          background: '#16a34a', color: '#fff', borderRadius: 10, padding: '14px 22px', font: `700 14px/1 ${sans}`,
-          textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 8, whiteSpace: 'nowrap', boxShadow: '0 12px 28px rgba(22, 163, 74, .28)',
+          background: '#18b9d1', color: '#071b54', borderRadius: 10, padding: '14px 22px', font: `800 14px/1 ${sans}`,
+          textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 8, whiteSpace: 'nowrap', boxShadow: '0 12px 28px rgba(24, 185, 209, .32)',
         }}>{fr ? 'Envoyer le bulletin' : 'Send the briefing'}
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 6l6 6-6 6" /></svg></a>
         <span style={{ flex: 1, minWidth: 210, font: `600 13px/1.4 ${sans}`, color: ink }}>
-          <span style={{ display: 'inline-block', width: 8, height: 8, borderRadius: 999, background: '#16a34a', marginRight: 8, animation: reduce ? 'none' : `lf-pulse-${uid} 2s ease-out infinite` }}></span>
+          <span style={{ display: 'inline-block', width: 8, height: 8, borderRadius: 999, background: '#18b9d1', marginRight: 8, animation: reduce ? 'none' : `lf-pulse-${uid} 2s ease-out infinite` }}></span>
           {fr ? <>Chaque matin, chacun reçoit son bulletin — <span style={{ color: accent }}>automatiquement</span>.</> : <>Every morning, each client gets their briefing — <span style={{ color: accent }}>automatically</span>.</>}
         </span>
       </div>
@@ -1684,7 +1704,7 @@ function WfOperator({ lang, density, font, theme = 'paper' }) {
         </header>
 
         {/* HERO — éditorial 2 colonnes (texte + bloc setup) */}
-        <section style={{ marginBottom: compact ? 60 : pad + 48, paddingTop: compact ? 12 : 36, position: 'relative' }}>
+        <section className="section-reveal" style={{ marginBottom: compact ? 60 : pad + 48, paddingTop: compact ? 12 : 36, position: 'relative', animationDelay: '0.03s' }}>
           <div style={{ display: 'grid', gridTemplateColumns: compact ? '1fr' : 'minmax(0, 1.08fr) minmax(0, 0.92fr)', gap: compact ? 34 : 50, alignItems: 'center' }}>
             <div style={{ textAlign: 'left', minWidth: 0 }}>
               {t(C.hero.eyebrow) && (
@@ -1696,8 +1716,8 @@ function WfOperator({ lang, density, font, theme = 'paper' }) {
 
               <h1 style={{ font: `900 clamp(2.45rem, 5.1vw, 4.05rem)/0.98 ${sans}`, ...headingWide, margin: '0 0 26px', textWrap: 'balance', overflowWrap: 'break-word' }}>
                 {L === 'fr'
-                  ? <>BriefLayer <span style={{ position: 'relative', display: 'inline' }}>automatise<span className="ai-star" style={{ color: accent }}>✦</span></span> <span style={{ color: accent }}>votre service de veille réglementaire.</span></>
-                  : <>BriefLayer <span style={{ position: 'relative', display: 'inline' }}>automates<span className="ai-star" style={{ color: accent }}>✦</span></span> <span style={{ color: accent }}>your regulatory monitoring service.</span></>}
+                  ? <>BriefLayer <span style={{ position: 'relative', display: 'inline' }}>automatise<span className="ai-star" style={{ color: '#ffd326' }}>✦</span></span> <span style={{ color: accent }}>votre service de veille réglementaire.</span></>
+                  : <>BriefLayer <span style={{ position: 'relative', display: 'inline' }}>automates<span className="ai-star" style={{ color: '#ffd326' }}>✦</span></span> <span style={{ color: accent }}>your regulatory monitoring service.</span></>}
               </h1>
 
               <p style={{ font: `400 ${compact ? '16px' : '18px'}/1.6 ${body}`, color: ink2, margin: '0 0 32px', maxWidth: 520 }}>{t(C.hero.sub)}</p>
@@ -1712,12 +1732,12 @@ function WfOperator({ lang, density, font, theme = 'paper' }) {
         </section>
 
         {/* pour qui */}
-        <section style={{ ...sectionFrame, textAlign: 'center' }}>
+        <section className="section-reveal" style={{ ...sectionFrame, textAlign: 'center', animationDelay: '0.12s' }}>
           <p style={{ font: `400 ${compact ? '18px' : density === 'dense' ? '20px' : '24px'}/1.4 ${body}`, color: ink, margin: '0 auto', maxWidth: 800 }}>{t(C.whoFor.line)}</p>
         </section>
 
         {/* douleur */}
-        <section style={sectionFrame}>
+        <section className="section-reveal" style={{ ...sectionFrame, animationDelay: '0.2s' }}>
           <WfSectionLabel num="01" label="diagnostic" color={muted} style={{ marginBottom: 28 }} />
           <h2 style={{ font: `900 ${compact ? '32px' : density === 'dense' ? '42px' : '52px'}/1.02 ${sans}`, ...headingWide, margin: '0 0 18px', maxWidth: 760 }}>{t(C.pain.title)}</h2>
           <p style={{ font: `400 16px/1.6 ${body}`, color: muted, margin: '0 0 36px', maxWidth: 760 }}>{t(C.pain.intro)}</p>
@@ -1812,7 +1832,7 @@ function WfOperator({ lang, density, font, theme = 'paper' }) {
         </section>
 
         {/* ce que nous faisons */}
-        <section id="service" style={sectionFrame}>
+        <section id="service" className="section-reveal" style={{ ...sectionFrame, animationDelay: '0.28s' }}>
           <WfSectionLabel num="02" label={L === 'fr' ? 'ce que nous faisons' : 'Service'} color={muted} style={{ marginBottom: 28 }} />
           <div style={{ maxWidth: 760 }}>
             <h2 style={{ font: `900 ${compact ? '32px' : density === 'dense' ? '42px' : '54px'}/1.02 ${sans}`, ...headingWide, margin: '0 0 18px' }}>{t(C.doing.title)}</h2>
@@ -1832,7 +1852,7 @@ function WfOperator({ lang, density, font, theme = 'paper' }) {
         </section>
 
         {/* méthode */}
-        <section id="methode" style={sectionFrame}>
+        <section id="methode" className="section-reveal" style={{ ...sectionFrame, animationDelay: '0.36s' }}>
           <WfSectionLabel num="03" label={L === 'fr' ? 'Comment nous procédons' : 'How we work'} color={muted} style={{ marginBottom: 28 }} />
           <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', marginBottom: compact ? 20 : 12, gap: 24, flexWrap: 'wrap' }}>
             <h2 style={{ font: `900 ${compact ? '32px' : density === 'dense' ? '42px' : '52px'}/1.02 ${sans}`, ...headingWide, margin: 0, maxWidth: 640 }}>{L === 'fr' ? 'La méthode' : 'The method'}</h2>
@@ -1844,7 +1864,7 @@ function WfOperator({ lang, density, font, theme = 'paper' }) {
         </section>
 
         {/* faq */}
-        <section id="faq" style={sectionFrame}>
+        <section id="faq" className="section-reveal" style={{ ...sectionFrame, animationDelay: '0.44s' }}>
           <WfSectionLabel num="04" label={L === 'fr' ? 'Foire aux questions' : 'Frequently asked questions'} color={muted} style={{ marginBottom: 28 }} />
           <div style={{ display: 'grid', gridTemplateColumns: compact ? '1fr' : '1fr 1fr', gap: 12 }}>
             {C.faq.items.map((it, i) => (
@@ -1859,7 +1879,7 @@ function WfOperator({ lang, density, font, theme = 'paper' }) {
         </section>
 
         {/* pourquoi moi */}
-        <section id="cv" style={{ ...sectionFrame, position: 'relative' }}>
+        <section id="cv" className="section-reveal" style={{ ...sectionFrame, position: 'relative', animationDelay: '0.52s' }}>
           <WfSectionLabel num="05" label={L === 'fr' ? 'Le fondateur' : 'Founder'} color={muted} style={{ marginBottom: 28 }} />
           <Card style={{ overflow: 'hidden', padding: 0 }}>
             <div style={{ display: 'grid', gridTemplateColumns: compact ? '1fr' : medium ? '280px 1fr' : '320px 1fr' }}>
@@ -1889,7 +1909,7 @@ function WfOperator({ lang, density, font, theme = 'paper' }) {
         </section>
 
         {/* cta */}
-        <section id="cta" style={{ ...sectionFrame, padding: compact ? '42px 22px' : '60px 40px', textAlign: 'center', background: `radial-gradient(ellipse at center, ${accent}22 0%, ${surface} 60%)` }}>
+        <section id="cta" className="section-reveal" style={{ ...sectionFrame, padding: compact ? '42px 22px' : '60px 40px', textAlign: 'center', background: `radial-gradient(ellipse at center, ${accent}22 0%, ${surface} 60%)`, animationDelay: '0.6s' }}>
           <h2 style={{ font: `900 ${compact ? '32px' : density === 'dense' ? '42px' : '56px'}/1.02 ${sans}`, ...headingWide, margin: '0 auto 18px', maxWidth: 760, textWrap: 'balance' }}>{t(C.finalCta.title)}</h2>
           <p style={{ font: `400 16px/1.55 ${body}`, color: muted, margin: '0 auto 30px', maxWidth: 560 }}>{t(C.finalCta.sub)}</p>
           <a href={CALENDLY_URL} target="_blank" rel="noreferrer" style={{ display: 'inline-block', padding: '15px 26px', background: accent, color: chipFg, textDecoration: 'none', font: `800 14px/1 ${sans}`, borderRadius: 8, boxShadow: `0 0 40px ${accent}66` }}>{t(C.finalCta.btn)}</a>
