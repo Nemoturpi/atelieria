@@ -8,7 +8,7 @@
 <meta name="robots" content="index, follow" />
 <meta name="author" content="Jimmy Kolbe-André" />
 <meta name="keywords" content="veille réglementaire automatisée, bulletin de veille, veille affaires publiques, automatisation veille, IA veille réglementaire, bulletins clients personnalisés" />
-<meta name="theme-color" content="#fffdf4" />
+<meta name="theme-color" content="#fffdf8" />
 <link rel="canonical" href="https://brieflayer.eu/" />
 <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
 <meta property="og:type" content="website" />
@@ -35,7 +35,7 @@
 
 <style>
   html, body, #root { height: 100%; }
-  body { margin: 0; background: #fffdf4; font-family: 'Inter', -apple-system, system-ui, sans-serif; overflow-x: hidden; }
+  body { margin: 0; background: #fffdf8; font-family: 'Inter', -apple-system, system-ui, sans-serif; overflow-x: hidden; }
   * { box-sizing: border-box; }
   img, svg { max-width: 100%; }
   details > summary { list-style: none; }
@@ -645,7 +645,7 @@ window.MethodAnim = MethodAnim;
 <script type="text/babel">
 const OPERATOR_THEMES = {
   dark:  { bg: '#0a0a0c', surface: '#111114', surface2: '#17171c', border: '#26262d', ink: '#f1f1ef', ink2: '#d4d4d0', muted: '#7b7b85', accent: '#7dd3fc', accent2: '#f59e0b', chipFg: '#0a0a0c', portraitDark: true,  glowAlpha: '22', cardShadow: '0 20px 60px rgba(0,0,0,.6)',     ctaShadow: '0 0 28px',     diagramHeader: '#17171c', name: 'Dark / nuit' },
-  paper: { bg: '#fffdf4', surface: '#ffffff', surface2: '#f6fbff', border: '#dbe8f5', ink: '#17225c', ink2: '#2f3563', muted: '#5f6780', accent: '#1261a6', accent2: '#c2410c', chipFg: '#ffffff', portraitDark: false, glowAlpha: '14', cardShadow: '0 12px 40px rgba(18,61,106,.10)',  ctaShadow: '0 12px 40px', diagramHeader: '#f6fbff', name: 'Paper / blanc jaune halo' },
+  paper: { bg: '#fffdf8', surface: '#ffffff', surface2: '#f6fbff', border: '#dbe8f5', ink: '#17225c', ink2: '#2f3563', muted: '#5f6780', accent: '#1261a6', accent2: '#c2410c', chipFg: '#ffffff', portraitDark: false, glowAlpha: '14', cardShadow: '0 12px 40px rgba(18,61,106,.10)',  ctaShadow: '0 12px 40px', diagramHeader: '#f6fbff', name: 'Paper / ivoire halo cyan' },
   mist:  { bg: '#eef2f7', surface: '#ffffff', surface2: '#e8edf4', border: '#d1d9e3', ink: '#0f172a', ink2: '#334155', muted: '#64748b', accent: '#0284c7', accent2: '#0d9488', chipFg: '#ffffff', portraitDark: false, glowAlpha: '1f', cardShadow: '0 12px 40px rgba(15,23,42,.12)',  ctaShadow: '0 12px 40px', diagramHeader: '#e8edf4', name: 'Mist / froid technique' },
   cream: { bg: '#f1ebde', surface: '#fbf6e9', surface2: '#ece4cf', border: '#cdbf9f', ink: '#2a1f15', ink2: '#4e3a26', muted: '#8a7656', accent: '#b45309', accent2: '#0f766e', chipFg: '#fbf6e9', portraitDark: false, glowAlpha: '1c', cardShadow: '0 12px 40px rgba(70,40,15,.12)',  ctaShadow: '0 12px 40px', diagramHeader: '#ece4cf', name: 'Cream / chaleureux' },
 };
@@ -1711,7 +1711,7 @@ function WfOperator({ lang, density, font, theme = 'paper' }) {
     padding: compact ? '24px 18px' : '34px 36px',
     background: isDark
       ? `linear-gradient(180deg, ${surface}f6 0%, ${surface2}d6 100%)`
-      : 'linear-gradient(180deg, rgba(255,255,255,.98) 0%, rgba(255,250,232,.96) 100%)',
+      : 'linear-gradient(180deg, rgba(255,255,255,.99) 0%, rgba(247,252,255,.96) 100%)',
     border: isDark ? `1px solid ${border}` : '1px solid rgba(23,34,92,.14)',
     borderRadius: compact ? 18 : 26,
     boxShadow: isDark ? `0 18px 54px rgba(0, 0, 0, .22)` : `0 18px 54px rgba(94, 72, 10, .12)`,
@@ -1733,9 +1733,10 @@ function WfOperator({ lang, density, font, theme = 'paper' }) {
     <div style={{
       background: isDark
         ? bg
-        : `radial-gradient(circle at 78% 34%, rgba(255, 230, 109, .62) 0%, rgba(255, 230, 109, .28) 22%, transparent 45%),
-           radial-gradient(circle at 8% 58%, rgba(255, 230, 109, .48) 0%, rgba(255, 230, 109, .18) 24%, transparent 48%),
-           linear-gradient(180deg, #fffdf4 0%, #fffdf4 28%, #fff6c7 48%, #fffdf4 100%)`,
+        : `radial-gradient(circle at 82% 30%, rgba(24, 185, 209, .18) 0%, rgba(24, 185, 209, .09) 24%, transparent 47%),
+           radial-gradient(circle at 9% 58%, rgba(255, 211, 38, .24) 0%, rgba(255, 211, 38, .08) 22%, transparent 45%),
+           radial-gradient(circle at 55% 47%, rgba(18, 97, 166, .09) 0%, rgba(18, 97, 166, .04) 20%, transparent 48%),
+           linear-gradient(180deg, #fffdf8 0%, #fffdf8 34%, #f5fcff 58%, #fffdf8 100%)`,
       color: ink, fontFamily: body, position: 'relative', minHeight: '100%', width: '100%', overflowX: 'clip',
     }}>
       <div style={{
@@ -1759,7 +1760,7 @@ function WfOperator({ lang, density, font, theme = 'paper' }) {
           flexWrap: compact ? 'wrap' : 'nowrap',
           gap: compact ? (scrolled ? 6 : 16) : 0,
           padding: scrolled ? (compact ? '6px 8px' : '10px 14px') : 0,
-          backgroundColor: scrolled ? (isDark ? `${bg}dd` : 'rgba(255,253,244,0.88)') : 'transparent',
+          backgroundColor: scrolled ? (isDark ? `${bg}dd` : 'rgba(255,253,248,0.88)') : 'transparent',
           border: scrolled ? (isDark ? `1px solid ${border}` : '1px solid rgba(23,34,92,.14)') : '1px solid transparent',
           borderRadius: scrolled ? (compact ? 18 : 999) : 0,
           boxShadow: scrolled ? (isDark ? '0 14px 40px rgba(0,0,0,.22)' : '0 16px 46px rgba(94,72,10,.14)') : 'none',
