@@ -41,23 +41,13 @@
     animation: starPulse 2.8s ease-in-out infinite;
     animation-delay: 0.6s;
   }
-  .floating-nav {
-    position: fixed;
-    top: 14px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 1000;
-    animation: floatIn 0.3s ease;
+  .site-header {
     backdrop-filter: blur(14px);
     -webkit-backdrop-filter: blur(14px);
-    border-radius: 999px;
-    border: 1px solid rgba(255,255,255,0.18);
-    box-shadow: 0 8px 32px rgba(0,0,0,0.12);
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    padding: 8px 14px;
-    white-space: nowrap;
+    transition: padding .24s ease, background-color .24s ease, border-color .24s ease, box-shadow .24s ease, border-radius .24s ease;
+  }
+  .site-header img {
+    transition: width .24s ease, max-width .24s ease;
   }
   .section-reveal {
     opacity: 0;
@@ -67,8 +57,10 @@
   }
   @media (prefers-reduced-motion: reduce) {
     .ai-star,
-    .floating-nav,
+    .site-header,
+    .site-header img,
     .section-reveal {
+      transition: none !important;
       animation: none !important;
       opacity: 1 !important;
       transform: none !important;
@@ -321,23 +313,63 @@ function WfLogo({ label, dark = false, w, style }) {
   );
 }
 
-function WfLangToggle({ lang, setLang, dark = false, accent }) {
-  const off = dark ? 'rgba(255,255,255,.55)' : 'rgba(0,0,0,.5)';
-  const on = dark ? '#fff' : '#111';
-  const bg = dark ? 'rgba(255,255,255,.08)' : 'rgba(0,0,0,.06)';
+function WfLangToggle({ lang, setLang, dark = false, accent, compact = false }) {
+  const off = dark ? 'rgba(255,255,255,.55)' : 'rgba(23,34,92,.58)';
+  const langs = [
+    {
+      code: 'fr',
+      label: 'Français',
+      flagBg: 'linear-gradient(90deg, #1b3f8b 0%, #1b3f8b 33%, #fff 33%, #fff 66%, #e63946 66%, #e63946 100%)',
+    },
+    {
+      code: 'en',
+      label: 'English',
+      flagBg: `
+        linear-gradient(90deg, transparent 0%, transparent 40%, #fff 40%, #fff 45%, #c8102e 45%, #c8102e 55%, #fff 55%, #fff 60%, transparent 60%, transparent 100%),
+        linear-gradient(0deg, transparent 0%, transparent 36%, #fff 36%, #fff 43%, #c8102e 43%, #c8102e 57%, #fff 57%, #fff 64%, transparent 64%, transparent 100%),
+        linear-gradient(32deg, transparent 0%, transparent 43%, #fff 43%, #fff 47%, #c8102e 47%, #c8102e 53%, #fff 53%, #fff 57%, transparent 57%, transparent 100%),
+        linear-gradient(148deg, transparent 0%, transparent 43%, #fff 43%, #fff 47%, #c8102e 47%, #c8102e 53%, #fff 53%, #fff 57%, transparent 57%, transparent 100%),
+        linear-gradient(#012169, #012169)`,
+    },
+  ];
   return (
     <div style={{
       display: 'inline-flex', alignItems: 'center',
-      border: `1px solid ${off}`, borderRadius: 999, padding: 2,
-      font: '600 11px/1 ui-monospace, Menlo, monospace', letterSpacing: '.08em',
+      border: `1px solid ${dark ? 'rgba(255,255,255,.2)' : 'rgba(18,97,166,.24)'}`,
+      background: dark ? 'rgba(255,255,255,.06)' : 'rgba(255,255,255,.62)',
+      borderRadius: 999, padding: 3,
+      boxShadow: dark ? 'none' : '0 8px 24px rgba(18,97,166,.08)',
+      font: '900 11px/1 ui-monospace, Menlo, monospace', letterSpacing: '.06em',
     }}>
-      {['fr', 'en'].map(l => (
-        <button key={l} onClick={() => setLang(l)} style={{
-          padding: '5px 11px', borderRadius: 999, border: 0, cursor: 'pointer',
-          background: lang === l ? (accent || bg) : 'transparent',
-          color: lang === l ? (accent ? '#fff' : on) : off,
-          font: 'inherit', textTransform: 'uppercase',
-        }}>{l}</button>
+      {langs.map(l => (
+        <button
+          key={l.code}
+          type="button"
+          aria-label={l.label}
+          aria-pressed={lang === l.code}
+          onClick={() => setLang(l.code)}
+          style={{
+            minWidth: compact ? 42 : 50,
+            padding: compact ? '7px 9px' : '7px 11px',
+            borderRadius: 999,
+            border: lang === l.code ? `1px solid ${accent || '#1261a6'}` : '1px solid rgba(255,255,255,.7)',
+            cursor: 'pointer',
+            backgroundImage: `${lang === l.code ? 'linear-gradient(rgba(255,255,255,.08), rgba(255,255,255,.08))' : 'linear-gradient(rgba(255,255,255,.55), rgba(255,255,255,.55))'}, ${l.flagBg}`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            color: lang === l.code ? '#071b54' : off,
+            boxShadow: lang === l.code ? 'inset 0 0 0 1px rgba(255,255,255,.7), 0 7px 16px rgba(18,97,166,.18)' : 'inset 0 0 0 1px rgba(255,255,255,.45)',
+            font: 'inherit',
+            textTransform: 'uppercase',
+            display: 'inline-flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            lineHeight: 1,
+            textShadow: '0 1px 6px rgba(255,255,255,.95), 0 0 2px rgba(255,255,255,.9)',
+          }}
+        >
+          {l.code}
+        </button>
       ))}
     </div>
   );
@@ -1623,6 +1655,7 @@ function WfOperator({ lang, density, font, theme = 'paper' }) {
   const medium = vw < 1040;
   const pagePad = compact ? 24 : pad;
   const sectionGap = compact ? 52 : pad;
+  const logoWidth = compact ? (scrolled ? 170 : 206) : (scrolled ? 224 : 292);
 
   const Card = ({ children, style }) => (
     <div style={{ background: surface, border: `1px solid ${border}`, borderRadius: 10, ...style }}>{children}</div>
@@ -1651,22 +1684,13 @@ function WfOperator({ lang, density, font, theme = 'paper' }) {
 
   return (
     <>
-    {scrolled && (
-      <nav className="floating-nav" style={{ background: isDark ? `${bg}cc` : `rgba(250,247,240,0.82)` }}>
-        <a style={{ color: muted, textDecoration: 'none', font: `600 12px/1 ${sans}`, padding: '4px 10px' }} href="#service">{L === 'fr' ? 'Service' : 'Service'}</a>
-        <a style={{ color: muted, textDecoration: 'none', font: `600 12px/1 ${sans}`, padding: '4px 10px' }} href="#methode">{L === 'fr' ? 'Méthode' : 'Method'}</a>
-        <a style={{ color: muted, textDecoration: 'none', font: `600 12px/1 ${sans}`, padding: '4px 10px' }} href="#faq">FAQ</a>
-        <a style={{ color: muted, textDecoration: 'none', font: `600 12px/1 ${sans}`, padding: '4px 10px' }} href="#cv">{L === 'fr' ? 'Qui suis-je ?' : 'Founder'}</a>
-        <a href={CALENDLY_URL} target="_blank" rel="noreferrer" style={{ marginLeft: 6, padding: '7px 14px', background: accent, color: chipFg, textDecoration: 'none', font: `800 12px/1 ${sans}`, borderRadius: 999, boxShadow: `0 4px 14px ${accent}44` }}>{L === 'fr' ? 'Réserver' : 'Book a call'}</a>
-      </nav>
-    )}
     <div style={{
       background: isDark
         ? bg
         : `radial-gradient(circle at 78% 34%, rgba(255, 230, 109, .62) 0%, rgba(255, 230, 109, .28) 22%, transparent 45%),
            radial-gradient(circle at 8% 58%, rgba(255, 230, 109, .48) 0%, rgba(255, 230, 109, .18) 24%, transparent 48%),
            linear-gradient(180deg, #fffdf4 0%, #fffdf4 28%, #fff6c7 48%, #fffdf4 100%)`,
-      color: ink, fontFamily: body, position: 'relative', minHeight: '100%', width: '100%', overflow: 'hidden',
+      color: ink, fontFamily: body, position: 'relative', minHeight: '100%', width: '100%', overflowX: 'clip',
     }}>
       <div style={{
         position: 'absolute', inset: 0, pointerEvents: 'none',
@@ -1678,28 +1702,43 @@ function WfOperator({ lang, density, font, theme = 'paper' }) {
       }}></div>
 
       <div style={{ position: 'relative', maxWidth: 1180, margin: '0 auto', padding: `${pagePad}px ${pagePad}px ${pad}px` }}>
-        <header style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: compact ? 48 : pad, flexWrap: compact ? 'wrap' : 'nowrap', gap: compact ? 16 : 0 }}>
+        <header className="site-header" style={{
+          position: 'sticky',
+          top: compact ? 10 : 14,
+          zIndex: 1000,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          marginBottom: compact ? 48 : pad,
+          flexWrap: compact ? 'wrap' : 'nowrap',
+          gap: compact ? (scrolled ? 6 : 16) : 0,
+          padding: scrolled ? (compact ? '6px 8px' : '10px 14px') : 0,
+          backgroundColor: scrolled ? (isDark ? `${bg}dd` : 'rgba(255,253,244,0.88)') : 'transparent',
+          border: scrolled ? (isDark ? `1px solid ${border}` : '1px solid rgba(23,34,92,.14)') : '1px solid transparent',
+          borderRadius: scrolled ? (compact ? 18 : 999) : 0,
+          boxShadow: scrolled ? (isDark ? '0 14px 40px rgba(0,0,0,.22)' : '0 16px 46px rgba(94,72,10,.14)') : 'none',
+        }}>
           <div aria-label="BriefLayer.eu" style={{ display: 'flex', alignItems: 'center', flex: 'none' }}>
             <img
               src="assets/brieflayer-logo-eu.png"
               alt="BriefLayer.eu"
               style={{
-                width: compact ? 194 : 270,
+                width: logoWidth,
                 height: 'auto',
-                maxWidth: compact ? '64vw' : 270,
+                maxWidth: compact ? (scrolled ? '48vw' : '66vw') : logoWidth,
                 objectFit: 'contain',
                 display: 'block',
                 mixBlendMode: isDark ? 'normal' : 'multiply',
               }}
             />
           </div>
-          <nav style={{ display: 'flex', alignItems: 'center', gap: compact ? 12 : 22, font: `600 ${compact ? '12px' : '13px'}/1 ${sans}`, flexWrap: 'wrap', justifyContent: compact ? 'center' : 'flex-end', width: compact ? '100%' : 'auto' }}>
+          <nav style={{ display: 'flex', alignItems: 'center', gap: compact ? (scrolled ? 8 : 12) : (scrolled ? 16 : 22), font: `600 ${compact ? (scrolled ? '11px' : '12px') : '13px'}/1 ${sans}`, flexWrap: 'wrap', justifyContent: compact ? 'center' : 'flex-end', width: compact ? '100%' : 'auto' }}>
             <a style={{ color: muted, textDecoration: 'none' }} href="#service">{L === 'fr' ? 'Service' : 'Service'}</a>
             <a style={{ color: muted, textDecoration: 'none' }} href="#methode">{L === 'fr' ? 'Méthode' : 'Method'}</a>
             <a style={{ color: muted, textDecoration: 'none' }} href="#faq">FAQ</a>
             <a style={{ color: muted, textDecoration: 'none' }} href="#cv">{L === 'fr' ? 'Qui suis-je ?' : 'Founder'}</a>
-            <WfLangToggle lang={L} setLang={setL} dark={isDark} accent={accent + '33'} />
-            <a href={CALENDLY_URL} target="_blank" rel="noreferrer" style={{ display: compact ? 'none' : 'inline-block', padding: '8px 14px', background: accent, color: chipFg, textDecoration: 'none', font: `800 12px/1 ${sans}`, borderRadius: 6, boxShadow: `0 10px 28px ${accent}33` }}>{L === 'fr' ? 'Réserver un appel' : 'Book a call'}</a>
+            <WfLangToggle lang={L} setLang={setL} dark={isDark} accent={accent} compact={compact} />
+            <a href={CALENDLY_URL} target="_blank" rel="noreferrer" style={{ display: compact ? 'none' : 'inline-block', padding: '8px 14px', background: accent, color: chipFg, textDecoration: 'none', font: `800 12px/1 ${sans}`, borderRadius: scrolled ? 999 : 6, boxShadow: `0 10px 28px ${accent}33` }}>{L === 'fr' ? (scrolled ? 'Appeler' : 'Réserver un appel') : (scrolled ? 'Call' : 'Book a call')}</a>
           </nav>
         </header>
 
