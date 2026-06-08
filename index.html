@@ -17,6 +17,44 @@
   img, svg { max-width: 100%; }
   details > summary { list-style: none; }
   details > summary::-webkit-details-marker { display: none; }
+
+  @keyframes starPulse {
+    0%   { opacity: 0; transform: scale(0.4) rotate(0deg); }
+    30%  { opacity: 1; transform: scale(1.2) rotate(20deg); }
+    60%  { opacity: 1; transform: scale(1.0) rotate(-10deg); }
+    80%  { opacity: 0.7; transform: scale(1.1) rotate(15deg); }
+    100% { opacity: 0; transform: scale(0.4) rotate(0deg); }
+  }
+  @keyframes floatIn {
+    from { opacity: 0; transform: translateY(-12px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .ai-star {
+    display: inline-block;
+    margin-left: 4px;
+    font-size: 0.55em;
+    vertical-align: super;
+    animation: starPulse 2.8s ease-in-out infinite;
+    animation-delay: 0.6s;
+  }
+  .floating-nav {
+    position: fixed;
+    top: 14px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+    animation: floatIn 0.3s ease;
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-radius: 999px;
+    border: 1px solid rgba(255,255,255,0.18);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
+    white-space: nowrap;
+  }
 </style>
 </head>
 <body>
@@ -1543,6 +1581,13 @@ function WfOperator({ lang, density, font, theme = 'paper' }) {
     window.addEventListener('resize', onResize);
     return () => window.removeEventListener('resize', onResize);
   }, []);
+
+  const [scrolled, setScrolled] = React.useState(false);
+  React.useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 80);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
   const compact = vw < 760;
   const medium = vw < 1040;
   const pagePad = compact ? 24 : pad;
@@ -1563,6 +1608,16 @@ function WfOperator({ lang, density, font, theme = 'paper' }) {
   );
 
   return (
+    <>
+    {scrolled && (
+      <nav className="floating-nav" style={{ background: isDark ? `${bg}cc` : `rgba(250,247,240,0.82)` }}>
+        <a style={{ color: muted, textDecoration: 'none', font: `600 12px/1 ${sans}`, padding: '4px 10px' }} href="#service">{L === 'fr' ? 'Service' : 'Service'}</a>
+        <a style={{ color: muted, textDecoration: 'none', font: `600 12px/1 ${sans}`, padding: '4px 10px' }} href="#methode">{L === 'fr' ? 'Méthode' : 'Method'}</a>
+        <a style={{ color: muted, textDecoration: 'none', font: `600 12px/1 ${sans}`, padding: '4px 10px' }} href="#faq">FAQ</a>
+        <a style={{ color: muted, textDecoration: 'none', font: `600 12px/1 ${sans}`, padding: '4px 10px' }} href="#cv">{L === 'fr' ? 'Qui suis-je ?' : 'Founder'}</a>
+        <a href={CALENDLY_URL} target="_blank" rel="noreferrer" style={{ marginLeft: 6, padding: '7px 14px', background: accent, color: chipFg, textDecoration: 'none', font: `800 12px/1 ${sans}`, borderRadius: 999, boxShadow: `0 4px 14px ${accent}44` }}>{L === 'fr' ? 'Réserver' : 'Book a call'}</a>
+      </nav>
+    )}
     <div style={{
       background: isDark ? bg : `linear-gradient(180deg, ${bg} 0%, ${surface2} 46%, ${bg} 100%)`,
       color: ink, fontFamily: body, position: 'relative', minHeight: '100%', width: '100%', overflow: 'hidden',
@@ -1618,8 +1673,8 @@ function WfOperator({ lang, density, font, theme = 'paper' }) {
 
               <h1 style={{ font: `900 clamp(2.45rem, 5.1vw, 4.05rem)/0.98 ${sans}`, ...headingWide, margin: '0 0 26px', textWrap: 'balance', overflowWrap: 'break-word' }}>
                 {L === 'fr'
-                  ? <>BriefLayer automatise <span style={{ color: accent }}>votre service de veille réglementaire.</span></>
-                  : <>BriefLayer automates <span style={{ color: accent }}>your regulatory monitoring service.</span></>}
+                  ? <>BriefLayer <span style={{ position: 'relative', display: 'inline' }}>automatise<span className="ai-star" style={{ color: accent }}>✦</span></span> <span style={{ color: accent }}>votre service de veille réglementaire.</span></>
+                  : <>BriefLayer <span style={{ position: 'relative', display: 'inline' }}>automates<span className="ai-star" style={{ color: accent }}>✦</span></span> <span style={{ color: accent }}>your regulatory monitoring service.</span></>}
               </h1>
 
               <p style={{ font: `400 ${compact ? '16px' : '18px'}/1.6 ${body}`, color: ink2, margin: '0 0 32px', maxWidth: 520 }}>{t(C.hero.sub)}</p>
@@ -1825,6 +1880,7 @@ function WfOperator({ lang, density, font, theme = 'paper' }) {
         </footer>
       </div>
     </div>
+    </>
   );
 }
 Object.assign(window, { WfOperator, OPERATOR_THEMES, StreamCard, ClientChip, MethodPipeline });
