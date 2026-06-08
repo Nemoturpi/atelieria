@@ -1578,12 +1578,22 @@ function WfOperator({ lang, density, font, theme = 'paper' }) {
 
       <div style={{ position: 'relative', maxWidth: 1180, margin: '0 auto', padding: `${pagePad}px ${pagePad}px ${pad}px` }}>
         <header style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: compact ? 48 : pad, flexWrap: compact ? 'wrap' : 'nowrap', gap: compact ? 16 : 0 }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 12, flex: 'none' }}>
+          <div aria-label="BriefLayer.eu" style={{ display: 'flex', alignItems: 'center', gap: 0, flex: 'none' }}>
             <img
               src="assets/brieflayer-logo-header-v3.png"
-              alt="BriefLayer"
+              alt="BriefLayer.eu"
               style={{ height: compact ? 46 : 56, width: 'auto', maxWidth: compact ? 190 : 230, objectFit: 'contain', display: 'block' }}
             />
+            <span aria-hidden="true" style={{
+              display: 'inline-block',
+              marginLeft: compact ? -2 : -4,
+              transform: compact ? 'translateY(6px)' : 'translateY(8px)',
+              font: `900 ${compact ? '13px' : '15px'}/1 ${sans}`,
+              ...headingWide,
+              color: ink,
+              opacity: 0.9,
+              whiteSpace: 'nowrap',
+            }}>.eu</span>
           </div>
           <nav style={{ display: 'flex', alignItems: 'center', gap: compact ? 12 : 22, font: `600 ${compact ? '12px' : '13px'}/1 ${sans}`, flexWrap: 'wrap', justifyContent: compact ? 'center' : 'flex-end', width: compact ? '100%' : 'auto' }}>
             <a style={{ color: muted, textDecoration: 'none' }} href="#service">{L === 'fr' ? 'Service' : 'Service'}</a>
