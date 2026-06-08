@@ -2,9 +2,32 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8" />
-<title>BriefLayer — Veille réglementaire & affaires publiques</title>
+<title>BriefLayer | Automatisez vos services de veille réglementaire</title>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta name="description" content="BriefLayer automatise vos services de veille et transforme vos sources en bulletins clients personnalisés." />
+<meta name="description" content="BriefLayer automatise votre service de veille réglementaire : sources agrégées, tri IA, validation humaine et bulletins clients personnalisés." />
+<meta name="robots" content="index, follow" />
+<meta name="author" content="Jimmy Kolbe-André" />
+<meta name="keywords" content="veille réglementaire automatisée, bulletin de veille, veille affaires publiques, automatisation veille, IA veille réglementaire, bulletins clients personnalisés" />
+<meta name="theme-color" content="#fffdf4" />
+<link rel="canonical" href="https://brieflayer.eu/" />
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="BriefLayer" />
+<meta property="og:locale" content="fr_FR" />
+<meta property="og:locale:alternate" content="en_GB" />
+<meta property="og:url" content="https://brieflayer.eu/" />
+<meta property="og:title" content="BriefLayer | Automatisez vos services de veille réglementaire" />
+<meta property="og:description" content="Automatisez votre service de veille réglementaire : sources agrégées, tri IA, validation humaine et bulletins clients personnalisés." />
+<meta property="og:image" content="https://brieflayer.eu/assets/social-preview.png" />
+<meta property="og:image:secure_url" content="https://brieflayer.eu/assets/social-preview.png" />
+<meta property="og:image:type" content="image/png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content="BriefLayer.eu - Automatisez vos services de veille réglementaire" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="BriefLayer | Automatisez vos services de veille réglementaire" />
+<meta name="twitter:description" content="Automatisez votre service de veille réglementaire : sources agrégées, tri IA, validation humaine et bulletins clients personnalisés." />
+<meta name="twitter:image" content="https://brieflayer.eu/assets/social-preview.png" />
 
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -1624,19 +1647,42 @@ function WfOperator({ lang, density, font, theme = 'paper' }) {
   const [L, setL] = React.useState(lang);
   React.useEffect(() => setL(lang), [lang]);
   React.useEffect(() => {
+    const seo = {
+      fr: {
+        title: 'BriefLayer | Automatisez vos services de veille réglementaire',
+        description: 'BriefLayer automatise votre service de veille réglementaire : sources agrégées, tri IA, validation humaine et bulletins clients personnalisés.',
+        socialDescription: 'Automatisez votre service de veille réglementaire : sources agrégées, tri IA, validation humaine et bulletins clients personnalisés.',
+        keywords: 'veille réglementaire automatisée, bulletin de veille, veille affaires publiques, automatisation veille, IA veille réglementaire, bulletins clients personnalisés',
+        locale: 'fr_FR',
+        alternateLocale: 'en_GB',
+        imageAlt: 'BriefLayer.eu - Automatisez vos services de veille réglementaire',
+      },
+      en: {
+        title: 'BriefLayer | Automated regulatory monitoring briefings',
+        description: 'BriefLayer automates your regulatory monitoring service: source aggregation, AI-assisted triage, human validation and tailored client briefings.',
+        socialDescription: 'Automate your regulatory monitoring service: source aggregation, AI-assisted triage, human validation and tailored client briefings.',
+        keywords: 'automated regulatory monitoring, monitoring briefings, public affairs monitoring, AI monitoring workflow, personalised client briefings',
+        locale: 'en_GB',
+        alternateLocale: 'fr_FR',
+        imageAlt: 'BriefLayer.eu - Automated regulatory monitoring briefings',
+      },
+    };
+    const current = seo[L];
+    const setMeta = (selector, value) => {
+      const tag = document.querySelector(selector);
+      if (tag) tag.setAttribute('content', value);
+    };
     document.documentElement.lang = L;
-    document.title = L === 'fr'
-      ? 'BriefLayer — Veille réglementaire & affaires publiques'
-      : 'BriefLayer — Automated monitoring for public affairs';
-    const description = document.querySelector('meta[name="description"]');
-    if (description) {
-      description.setAttribute(
-        'content',
-        L === 'fr'
-          ? 'BriefLayer automatise vos services de veille et transforme vos sources en bulletins clients personnalisés.'
-          : 'BriefLayer automates your monitoring services and turns your sources into personalised client briefings.'
-      );
-    }
+    document.title = current.title;
+    setMeta('meta[name="description"]', current.description);
+    setMeta('meta[name="keywords"]', current.keywords);
+    setMeta('meta[property="og:locale"]', current.locale);
+    setMeta('meta[property="og:locale:alternate"]', current.alternateLocale);
+    setMeta('meta[property="og:title"]', current.title);
+    setMeta('meta[property="og:description"]', current.socialDescription);
+    setMeta('meta[property="og:image:alt"]', current.imageAlt);
+    setMeta('meta[name="twitter:title"]', current.title);
+    setMeta('meta[name="twitter:description"]', current.socialDescription);
   }, [L]);
   const [vw, setVw] = React.useState(() => window.innerWidth);
   React.useEffect(() => {

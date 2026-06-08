@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="BriefLayer">
+  <rect width="64" height="64" rx="16" fill="#fffdf4"/>
+  <path d="M12 22.5 32 11l20 11.5L32 34 12 22.5Z" fill="#17225c"/>
+  <path d="M12 34.5 32 23l20 11.5L32 46 12 34.5Z" fill="#2084d2" opacity=".92"/>
+  <path d="M12 46.5 32 35l20 11.5L32 58 12 46.5Z" fill="#18b9d1" opacity=".95"/>
+  <path d="M49 8.5 51.4 14l5.6 2.4-5.6 2.3L49 24l-2.4-5.3-5.6-2.3 5.6-2.4L49 8.5Z" fill="#ffd326"/>
+</svg>
