@@ -1695,7 +1695,7 @@ function WfOperator({ lang, density, font, theme = 'paper' }) {
               {C.pain.symptoms.map((s, i) => (
                 <div key={i} style={{
                   display: 'grid',
-                  gridTemplateColumns: compact ? '38px minmax(0, 1fr)' : '46px minmax(0, 1fr)',
+                  gridTemplateColumns: compact ? '24px minmax(0, 1fr)' : '28px minmax(0, 1fr)',
                   gap: compact ? 12 : 14,
                   padding: compact ? '16px 0' : '18px 18px 18px 0',
                   borderBottom: `1px solid ${border}`,
@@ -1704,12 +1704,19 @@ function WfOperator({ lang, density, font, theme = 'paper' }) {
                   minWidth: 0,
                 }}>
                   <div style={{
-                    font: `850 11px/1 ${mono}`,
-                    color: i < 2 ? accent2 : muted,
-                    letterSpacing: '.08em',
-                    paddingTop: 3,
+                    paddingTop: 4,
+                    display: 'flex',
+                    justifyContent: 'flex-start',
                   }}>
-                    {String(i + 1).padStart(2, '0')}
+                    <span aria-hidden="true" style={{
+                      width: 12,
+                      height: 12,
+                      borderRadius: 999,
+                      background: '#ef4444',
+                      border: `2px solid ${bg}`,
+                      boxShadow: `0 0 0 3px #ef444422, 0 0 18px #ef444455`,
+                      flex: 'none',
+                    }}></span>
                   </div>
                   <div style={{ minWidth: 0 }}>
                     <h3 style={{ font: `900 ${compact ? '16px' : '17px'}/1.12 ${sans}`, ...headingWide, color: ink, margin: '0 0 7px' }}>{t(s.title)}</h3>
