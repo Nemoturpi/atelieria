@@ -12,7 +12,7 @@
 
 <style>
   html, body, #root { height: 100%; }
-  body { margin: 0; background: #faf7f0; font-family: 'Inter', -apple-system, system-ui, sans-serif; overflow-x: hidden; }
+  body { margin: 0; background: #fffdf4; font-family: 'Inter', -apple-system, system-ui, sans-serif; overflow-x: hidden; }
   * { box-sizing: border-box; }
   img, svg { max-width: 100%; }
   details > summary { list-style: none; }
@@ -570,7 +570,7 @@ window.MethodAnim = MethodAnim;
 <script type="text/babel">
 const OPERATOR_THEMES = {
   dark:  { bg: '#0a0a0c', surface: '#111114', surface2: '#17171c', border: '#26262d', ink: '#f1f1ef', ink2: '#d4d4d0', muted: '#7b7b85', accent: '#7dd3fc', accent2: '#f59e0b', chipFg: '#0a0a0c', portraitDark: true,  glowAlpha: '22', cardShadow: '0 20px 60px rgba(0,0,0,.6)',     ctaShadow: '0 0 28px',     diagramHeader: '#17171c', name: 'Dark / nuit' },
-  paper: { bg: '#faf7f0', surface: '#ffffff', surface2: '#f5f1e6', border: '#e3dccb', ink: '#1a1715', ink2: '#3a3530', muted: '#7a7268', accent: '#0c5ea3', accent2: '#c2410c', chipFg: '#ffffff', portraitDark: false, glowAlpha: '14', cardShadow: '0 12px 40px rgba(20,18,12,.10)',  ctaShadow: '0 12px 40px', diagramHeader: '#f5f1e6', name: 'Paper / crème institutionnel' },
+  paper: { bg: '#fffdf4', surface: '#ffffff', surface2: '#f6fbff', border: '#dbe8f5', ink: '#17225c', ink2: '#2f3563', muted: '#5f6780', accent: '#1261a6', accent2: '#c2410c', chipFg: '#ffffff', portraitDark: false, glowAlpha: '14', cardShadow: '0 12px 40px rgba(18,61,106,.10)',  ctaShadow: '0 12px 40px', diagramHeader: '#f6fbff', name: 'Paper / blanc jaune halo' },
   mist:  { bg: '#eef2f7', surface: '#ffffff', surface2: '#e8edf4', border: '#d1d9e3', ink: '#0f172a', ink2: '#334155', muted: '#64748b', accent: '#0284c7', accent2: '#0d9488', chipFg: '#ffffff', portraitDark: false, glowAlpha: '1f', cardShadow: '0 12px 40px rgba(15,23,42,.12)',  ctaShadow: '0 12px 40px', diagramHeader: '#e8edf4', name: 'Mist / froid technique' },
   cream: { bg: '#f1ebde', surface: '#fbf6e9', surface2: '#ece4cf', border: '#cdbf9f', ink: '#2a1f15', ink2: '#4e3a26', muted: '#8a7656', accent: '#b45309', accent2: '#0f766e', chipFg: '#fbf6e9', portraitDark: false, glowAlpha: '1c', cardShadow: '0 12px 40px rgba(70,40,15,.12)',  ctaShadow: '0 12px 40px', diagramHeader: '#ece4cf', name: 'Cream / chaleureux' },
 };
@@ -794,7 +794,7 @@ function HeroAutomationPanel({ lang, tokens, fonts, density, compact = false }) 
 }
 
 function HeroSetup({ lang, tokens, fonts, compact = false }) {
-  const { ink, ink2, muted, border, accent, surface, bg } = tokens;
+  const { ink, ink2, muted, border, accent, surface, surface2 } = tokens;
   const { sans, mono } = fonts;
   const uid = React.useId().replace(/:/g, '');
   const fr = lang === 'fr';
@@ -823,7 +823,7 @@ function HeroSetup({ lang, tokens, fonts, compact = false }) {
             {f.items.map((it) => (
               <span key={it} style={{
                 display: 'inline-flex', alignItems: 'center', gap: 7, font: `600 13px/1 ${sans}`,
-                color: f.cli ? accent : ink2, background: f.cli ? `${accent}10` : bg,
+                color: f.cli ? accent : ink2, background: f.cli ? `${accent}10` : surface2,
                 border: `1px solid ${f.cli ? `${accent}47` : border}`, borderRadius: 999, padding: '9px 13px',
               }}>{!f.cli && <span style={{ color: accent }}>✓</span>}{it}</span>
             ))}
@@ -841,7 +841,7 @@ function HeroSetup({ lang, tokens, fonts, compact = false }) {
           {delivery.map((d, i) => (
             <div key={i} style={{
               display: 'flex', alignItems: 'center', gap: 11, padding: '11px 13px', borderRadius: 11,
-              background: d.hot ? `${accent}0d` : bg, border: `1px solid ${d.hot ? `${accent}3d` : border}`,
+              background: d.hot ? `${accent}0d` : surface2, border: `1px solid ${d.hot ? `${accent}3d` : border}`,
             }}>
               <span style={{ color: accent, display: 'flex', flex: 'none' }}>{d.icon}</span>
               <span style={{ font: `700 13px/1 ${sans}`, color: ink }}>{d.t}</span>
@@ -1518,9 +1518,9 @@ function MethodPipeline({ steps, lang, t, tokens, fonts, density, compact = fals
       )}
 
       <div style={{
-        marginTop: 18, padding: compact ? '18px 20px' : '18px 22px',
-        background: surface, border: `1px solid ${border}`, borderRadius: 10,
-        display: 'grid', gridTemplateColumns: compact || medium ? '1fr' : '1fr 260px', gap: compact ? 18 : 28, alignItems: 'start',
+        marginTop: 18, padding: compact ? '18px 18px' : '22px 24px',
+        background: surface, border: `1px solid ${border}`, borderRadius: 14,
+        display: 'grid', gridTemplateColumns: compact || medium ? '1fr' : 'minmax(0, 1fr) minmax(340px, .58fr)', gap: compact ? 18 : 32, alignItems: 'stretch',
       }}>
         <div>
           <div style={{ font: `600 10px/1 ${sans}`, color: muted, letterSpacing: '.08em', textTransform: 'uppercase', marginBottom: 10 }}>
@@ -1530,11 +1530,22 @@ function MethodPipeline({ steps, lang, t, tokens, fonts, density, compact = fals
             {t(cur.body)}
           </p>
         </div>
-        <div style={{ padding: '12px 14px', background: bg === '#0a0a0c' ? '#000' : surface2, border: `1px dashed ${accent}88`, borderRadius: 8 }}>
-          <div style={{ font: `600 10px/1 ${sans}`, color: accent, letterSpacing: '.08em', textTransform: 'uppercase', marginBottom: 8 }}>
+        <div style={{
+          position: 'relative',
+          padding: compact ? '18px 18px 18px 22px' : '22px 22px 22px 26px',
+          background: bg === '#0a0a0c'
+            ? `linear-gradient(165deg, ${surface2}, #000)`
+            : `linear-gradient(165deg, ${surface}, ${surface2})`,
+          border: `1px solid ${accent}55`,
+          borderRadius: 14,
+          boxShadow: `0 16px 42px ${accent}18`,
+          overflow: 'hidden',
+        }}>
+          <div style={{ position: 'absolute', inset: '0 auto 0 0', width: 5, background: accent }}></div>
+          <div style={{ font: `900 ${compact ? '12px' : '13px'}/1 ${sans}`, ...headingWide, color: accent, letterSpacing: '.04em', textTransform: 'uppercase', marginBottom: 12 }}>
             ↳ {lang === 'fr' ? 'vous repartez avec' : 'you leave with'}
           </div>
-          <div style={{ font: `500 13px/1.5 ${body}`, color: ink }}>
+          <div style={{ font: `800 ${compact ? '16px' : '18px'}/1.35 ${sans}`, ...headingWide, color: ink }}>
             {t(cur.del).replace(/^Livrable : |^Deliverable: /, '')}
           </div>
         </div>
@@ -1596,6 +1607,17 @@ function WfOperator({ lang, density, font, theme = 'paper' }) {
   const Card = ({ children, style }) => (
     <div style={{ background: surface, border: `1px solid ${border}`, borderRadius: 10, ...style }}>{children}</div>
   );
+  const sectionFrame = {
+    marginBottom: sectionGap,
+    padding: compact ? '24px 18px' : '34px 36px',
+    background: isDark
+      ? `linear-gradient(180deg, ${surface}f6 0%, ${surface2}d6 100%)`
+      : 'linear-gradient(180deg, rgba(255,255,255,.98) 0%, rgba(255,250,232,.96) 100%)',
+    border: isDark ? `1px solid ${border}` : '1px solid rgba(23,34,92,.14)',
+    borderRadius: compact ? 18 : 26,
+    boxShadow: isDark ? `0 18px 54px rgba(0, 0, 0, .22)` : `0 18px 54px rgba(94, 72, 10, .12)`,
+    overflow: 'hidden',
+  };
   const Node = ({ x, y, w = 140, h = 56, title, sub, color = accent, style, glow }) => (
     <div style={{
       position: 'absolute', left: x, top: y, width: w, height: h, background: surface2, border: `1px solid ${color}66`,
@@ -1619,7 +1641,11 @@ function WfOperator({ lang, density, font, theme = 'paper' }) {
       </nav>
     )}
     <div style={{
-      background: isDark ? bg : `linear-gradient(180deg, ${bg} 0%, ${surface2} 46%, ${bg} 100%)`,
+      background: isDark
+        ? bg
+        : `radial-gradient(circle at 78% 34%, rgba(255, 230, 109, .62) 0%, rgba(255, 230, 109, .28) 22%, transparent 45%),
+           radial-gradient(circle at 8% 58%, rgba(255, 230, 109, .48) 0%, rgba(255, 230, 109, .18) 24%, transparent 48%),
+           linear-gradient(180deg, #fffdf4 0%, #fffdf4 28%, #fff6c7 48%, #fffdf4 100%)`,
       color: ink, fontFamily: body, position: 'relative', minHeight: '100%', width: '100%', overflow: 'hidden',
     }}>
       <div style={{
@@ -1633,22 +1659,19 @@ function WfOperator({ lang, density, font, theme = 'paper' }) {
 
       <div style={{ position: 'relative', maxWidth: 1180, margin: '0 auto', padding: `${pagePad}px ${pagePad}px ${pad}px` }}>
         <header style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: compact ? 48 : pad, flexWrap: compact ? 'wrap' : 'nowrap', gap: compact ? 16 : 0 }}>
-          <div aria-label="BriefLayer.eu" style={{ display: 'flex', alignItems: 'center', gap: 0, flex: 'none' }}>
+          <div aria-label="BriefLayer.eu" style={{ display: 'flex', alignItems: 'center', flex: 'none' }}>
             <img
-              src="assets/brieflayer-logo-header-v3.png"
+              src="assets/brieflayer-logo-eu.png"
               alt="BriefLayer.eu"
-              style={{ height: compact ? 46 : 56, width: 'auto', maxWidth: compact ? 190 : 230, objectFit: 'contain', display: 'block' }}
+              style={{
+                width: compact ? 194 : 270,
+                height: 'auto',
+                maxWidth: compact ? '64vw' : 270,
+                objectFit: 'contain',
+                display: 'block',
+                mixBlendMode: isDark ? 'normal' : 'multiply',
+              }}
             />
-            <span aria-hidden="true" style={{
-              display: 'inline-block',
-              marginLeft: compact ? -2 : -4,
-              transform: compact ? 'translateY(6px)' : 'translateY(8px)',
-              font: `900 ${compact ? '13px' : '15px'}/1 ${sans}`,
-              ...headingWide,
-              color: ink,
-              opacity: 0.9,
-              whiteSpace: 'nowrap',
-            }}>.eu</span>
           </div>
           <nav style={{ display: 'flex', alignItems: 'center', gap: compact ? 12 : 22, font: `600 ${compact ? '12px' : '13px'}/1 ${sans}`, flexWrap: 'wrap', justifyContent: compact ? 'center' : 'flex-end', width: compact ? '100%' : 'auto' }}>
             <a style={{ color: muted, textDecoration: 'none' }} href="#service">{L === 'fr' ? 'Service' : 'Service'}</a>
@@ -1689,14 +1712,12 @@ function WfOperator({ lang, density, font, theme = 'paper' }) {
         </section>
 
         {/* pour qui */}
-        <section style={{ marginBottom: sectionGap }}>
-          <Card style={{ padding: compact ? 22 : 32, textAlign: 'center' }}>
-            <p style={{ font: `400 ${compact ? '18px' : density === 'dense' ? '20px' : '24px'}/1.4 ${body}`, color: ink, margin: '0 auto', maxWidth: 800 }}>{t(C.whoFor.line)}</p>
-          </Card>
+        <section style={{ ...sectionFrame, textAlign: 'center' }}>
+          <p style={{ font: `400 ${compact ? '18px' : density === 'dense' ? '20px' : '24px'}/1.4 ${body}`, color: ink, margin: '0 auto', maxWidth: 800 }}>{t(C.whoFor.line)}</p>
         </section>
 
         {/* douleur */}
-        <section style={{ marginBottom: sectionGap }}>
+        <section style={sectionFrame}>
           <WfSectionLabel num="01" label="diagnostic" color={muted} style={{ marginBottom: 28 }} />
           <h2 style={{ font: `900 ${compact ? '32px' : density === 'dense' ? '42px' : '52px'}/1.02 ${sans}`, ...headingWide, margin: '0 0 18px', maxWidth: 760 }}>{t(C.pain.title)}</h2>
           <p style={{ font: `400 16px/1.6 ${body}`, color: muted, margin: '0 0 36px', maxWidth: 760 }}>{t(C.pain.intro)}</p>
@@ -1752,10 +1773,12 @@ function WfOperator({ lang, density, font, theme = 'paper' }) {
                   display: 'grid',
                   gridTemplateColumns: compact ? '24px minmax(0, 1fr)' : '28px minmax(0, 1fr)',
                   gap: compact ? 12 : 14,
-                  padding: compact ? '16px 0' : '18px 18px 18px 0',
+                  paddingTop: compact ? 16 : 18,
+                  paddingRight: compact ? 0 : 18,
+                  paddingBottom: compact ? 16 : 18,
+                  paddingLeft: !compact && i % 2 === 1 ? 18 : 0,
                   borderBottom: `1px solid ${border}`,
                   borderLeft: !compact && i % 2 === 1 ? `1px solid ${border}` : 'none',
-                  paddingLeft: !compact && i % 2 === 1 ? 18 : 0,
                   minWidth: 0,
                 }}>
                   <div style={{
@@ -1789,7 +1812,7 @@ function WfOperator({ lang, density, font, theme = 'paper' }) {
         </section>
 
         {/* ce que nous faisons */}
-        <section id="service" style={{ marginBottom: sectionGap }}>
+        <section id="service" style={sectionFrame}>
           <WfSectionLabel num="02" label={L === 'fr' ? 'ce que nous faisons' : 'Service'} color={muted} style={{ marginBottom: 28 }} />
           <div style={{ maxWidth: 760 }}>
             <h2 style={{ font: `900 ${compact ? '32px' : density === 'dense' ? '42px' : '54px'}/1.02 ${sans}`, ...headingWide, margin: '0 0 18px' }}>{t(C.doing.title)}</h2>
@@ -1809,7 +1832,7 @@ function WfOperator({ lang, density, font, theme = 'paper' }) {
         </section>
 
         {/* méthode */}
-        <section id="methode" style={{ marginBottom: sectionGap }}>
+        <section id="methode" style={sectionFrame}>
           <WfSectionLabel num="03" label={L === 'fr' ? 'Comment nous procédons' : 'How we work'} color={muted} style={{ marginBottom: 28 }} />
           <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', marginBottom: compact ? 20 : 12, gap: 24, flexWrap: 'wrap' }}>
             <h2 style={{ font: `900 ${compact ? '32px' : density === 'dense' ? '42px' : '52px'}/1.02 ${sans}`, ...headingWide, margin: 0, maxWidth: 640 }}>{L === 'fr' ? 'La méthode' : 'The method'}</h2>
@@ -1821,7 +1844,7 @@ function WfOperator({ lang, density, font, theme = 'paper' }) {
         </section>
 
         {/* faq */}
-        <section id="faq" style={{ marginBottom: sectionGap }}>
+        <section id="faq" style={sectionFrame}>
           <WfSectionLabel num="04" label={L === 'fr' ? 'Foire aux questions' : 'Frequently asked questions'} color={muted} style={{ marginBottom: 28 }} />
           <div style={{ display: 'grid', gridTemplateColumns: compact ? '1fr' : '1fr 1fr', gap: 12 }}>
             {C.faq.items.map((it, i) => (
@@ -1836,7 +1859,7 @@ function WfOperator({ lang, density, font, theme = 'paper' }) {
         </section>
 
         {/* pourquoi moi */}
-        <section id="cv" style={{ marginBottom: sectionGap, position: 'relative' }}>
+        <section id="cv" style={{ ...sectionFrame, position: 'relative' }}>
           <WfSectionLabel num="05" label={L === 'fr' ? 'Le fondateur' : 'Founder'} color={muted} style={{ marginBottom: 28 }} />
           <Card style={{ overflow: 'hidden', padding: 0 }}>
             <div style={{ display: 'grid', gridTemplateColumns: compact ? '1fr' : medium ? '280px 1fr' : '320px 1fr' }}>
@@ -1866,7 +1889,7 @@ function WfOperator({ lang, density, font, theme = 'paper' }) {
         </section>
 
         {/* cta */}
-        <section id="cta" style={{ marginBottom: sectionGap, padding: compact ? '42px 22px' : '60px 40px', textAlign: 'center', borderRadius: 14, background: `radial-gradient(ellipse at center, ${accent}22 0%, ${surface} 60%)`, border: `1px solid ${border}` }}>
+        <section id="cta" style={{ ...sectionFrame, padding: compact ? '42px 22px' : '60px 40px', textAlign: 'center', background: `radial-gradient(ellipse at center, ${accent}22 0%, ${surface} 60%)` }}>
           <h2 style={{ font: `900 ${compact ? '32px' : density === 'dense' ? '42px' : '56px'}/1.02 ${sans}`, ...headingWide, margin: '0 auto 18px', maxWidth: 760, textWrap: 'balance' }}>{t(C.finalCta.title)}</h2>
           <p style={{ font: `400 16px/1.55 ${body}`, color: muted, margin: '0 auto 30px', maxWidth: 560 }}>{t(C.finalCta.sub)}</p>
           <a href={CALENDLY_URL} target="_blank" rel="noreferrer" style={{ display: 'inline-block', padding: '15px 26px', background: accent, color: chipFg, textDecoration: 'none', font: `800 14px/1 ${sans}`, borderRadius: 8, boxShadow: `0 0 40px ${accent}66` }}>{t(C.finalCta.btn)}</a>
