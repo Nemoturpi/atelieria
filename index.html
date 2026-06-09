@@ -2119,7 +2119,7 @@ function WfOperator({ lang, density, font, theme = 'paper' }) {
 
               <div style={{ maxWidth: 660 }}>
                 {[C.whyMe.p1, C.whyMe.p2].map((p, i) => (
-                  <p key={i} style={{ font: `400 ${compact ? '15.5px' : '17px'}/1.72 ${body}`, color: i === 0 ? ink2 : muted, margin: i === 0 ? '0 0 18px' : 0 }}>
+                  <p key={i} style={{ font: `400 ${compact ? '15.5px' : '17px'}/1.72 ${body}`, color: ink2, margin: i === 0 ? '0 0 18px' : 0 }}>
                     {t(p)}
                   </p>
                 ))}
@@ -2127,14 +2127,10 @@ function WfOperator({ lang, density, font, theme = 'paper' }) {
               {t(C.whyMe.cvLink) && <span style={{ display:'inline-block', marginTop:22, color:accent, font:`500 13px/1 ${sans}` }}>{t(C.whyMe.cvLink)}</span>}
             </div>
 
-            <figure style={{ margin: 0, position: 'relative', height: compact ? 360 : medium ? 440 : 520, borderRadius: 18, overflow: 'hidden', border: `1px solid ${border}`, background: '#101827', boxShadow: isDark ? '0 24px 70px rgba(0,0,0,.35)' : '0 24px 70px rgba(18,61,106,.18)' }}>
-              <img src="assets/jimmy-kolbe-podium.webp" alt="Jimmy Kolbe-André intervenant à Paris Panthéon Assas" style={{ position: 'absolute', left: '50%', top: '50%', width: compact ? '86%' : '82%', height: 'auto', maxHeight: '92%', transform: 'translate(-50%, -50%)', objectFit: 'contain', display: 'block', filter: 'contrast(1.04) saturate(.96)' }} />
-              <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, rgba(5,10,22,.18) 0%, rgba(5,10,22,0) 34%, rgba(5,10,22,.76) 100%)' }}></div>
-              <div style={{ position: 'absolute', inset: 0, backgroundImage: 'repeating-linear-gradient(135deg, rgba(255,255,255,.08) 0, rgba(255,255,255,.08) 1px, transparent 1px, transparent 7px)', mixBlendMode: 'soft-light', opacity: .72 }}></div>
-              <div style={{ position: 'absolute', left: compact ? 18 : 22, right: compact ? 18 : 22, bottom: compact ? 18 : 22, color: '#fff' }}>
-                <div style={{ font: `900 ${compact ? '20px' : '24px'}/1.1 ${sans}`, ...headingWide }}>{C.whyMe.name}</div>
-                <div style={{ font: `500 13px/1.4 ${body}`, color: 'rgba(255,255,255,.76)', marginTop: 5 }}>{L === 'fr' ? 'Fondateur de BriefLayer' : 'Founder of BriefLayer'}</div>
-              </div>
+            <figure style={{ margin: 0, position: 'relative', height: compact ? 340 : medium ? 420 : 500, borderRadius: 18, overflow: 'hidden', border: isDark ? `1px solid ${border}` : '1px solid rgba(18,97,166,.18)', background: isDark ? surface2 : 'linear-gradient(145deg, rgba(255,255,255,.94), rgba(234,248,255,.86))', boxShadow: isDark ? '0 24px 70px rgba(0,0,0,.26)' : '0 24px 70px rgba(18,61,106,.14), inset 0 1px 0 rgba(255,255,255,.9)' }}>
+              <div style={{ position: 'absolute', inset: 0, background: `radial-gradient(circle at 22% 16%, ${accent}20 0%, transparent 34%), radial-gradient(circle at 82% 82%, ${accent2}12 0%, transparent 38%)` }}></div>
+              <img src="assets/jimmy-kolbe-podium.webp" alt="Jimmy Kolbe-André intervenant à Paris Panthéon Assas" style={{ position: 'absolute', left: '50%', top: '50%', width: compact ? '78%' : '74%', height: 'auto', maxHeight: '86%', transform: 'translate(-50%, -50%)', objectFit: 'contain', display: 'block', filter: 'contrast(1.03) saturate(.95)', borderRadius: 12, boxShadow: '0 18px 42px rgba(5,10,22,.22)' }} />
+              <div style={{ position: 'absolute', inset: 0, backgroundImage: isDark ? 'repeating-linear-gradient(135deg, rgba(255,255,255,.07) 0, rgba(255,255,255,.07) 1px, transparent 1px, transparent 7px)' : 'repeating-linear-gradient(135deg, rgba(18,97,166,.08) 0, rgba(18,97,166,.08) 1px, transparent 1px, transparent 8px)', opacity: .55 }}></div>
             </figure>
           </div>
         </section>
