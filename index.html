@@ -74,6 +74,10 @@
     0%, 72%, 100% { opacity: .32; transform: translateY(0); }
     36%           { opacity: 1; transform: translateY(-2px); }
   }
+  @keyframes typingIndicatorOut {
+    0%, 76% { opacity: 1; transform: translateY(0); }
+    100%    { opacity: 0; transform: translateY(-4px); }
+  }
   @keyframes speechWordIn {
     0%   { opacity: 0; transform: translateY(7px); filter: blur(3px); }
     100% { opacity: 1; transform: translateY(0); filter: blur(0); }
@@ -117,15 +121,20 @@
   .speaking-dot {
     animation: speakingDot 1.2s ease-in-out infinite;
   }
+  .speech-typing {
+    animation: typingIndicatorOut 1.75s ease forwards;
+    pointer-events: none;
+  }
   .speech-word {
     opacity: 0;
     display: inline-block;
-    animation: speechWordIn 0.34s cubic-bezier(.16, 1, .3, 1) forwards;
+    margin-right: .24em;
+    animation: speechWordIn 0.48s cubic-bezier(.16, 1, .3, 1) forwards;
     will-change: opacity, transform, filter;
   }
   .speech-source-pop {
     opacity: 0;
-    animation: speechWordIn 0.34s cubic-bezier(.16, 1, .3, 1) 2.58s forwards;
+    animation: speechWordIn 0.42s cubic-bezier(.16, 1, .3, 1) 5.7s forwards;
   }
   @media (prefers-reduced-motion: reduce) {
     .ai-star,
@@ -134,6 +143,7 @@
     .section-reveal,
     .speech-bubble-pop,
     .speech-tail-pop,
+    .speech-typing,
     .speaking-pulse,
     .speaking-dot,
     .speech-word,
@@ -1790,6 +1800,11 @@ function WfOperator({ lang, density, font, theme = 'paper' }) {
   const Card = ({ children, style }) => (
     <div style={{ background: surface, border: `1px solid ${border}`, borderRadius: 10, ...style }}>{children}</div>
   );
+  const speechBg = isDark
+    ? `radial-gradient(circle at 12% 8%, ${accent}24 0%, transparent 32%), linear-gradient(135deg, ${surface2} 0%, ${surface} 58%, ${accent2}14 100%)`
+    : 'radial-gradient(circle at 13% 8%, rgba(18,97,166,.16) 0%, transparent 34%), linear-gradient(135deg, rgba(255,255,255,.99) 0%, rgba(234,248,255,.98) 52%, rgba(255,244,218,.98) 100%)';
+  const speechTailBg = isDark ? surface2 : '#eef8ff';
+  const speechBorder = isDark ? `1px solid ${border}` : '1px solid rgba(18,97,166,.24)';
   const sectionFrame = {
     marginBottom: sectionGap,
     padding: compact ? '24px 18px' : '34px 36px',
@@ -1827,11 +1842,11 @@ function WfOperator({ lang, density, font, theme = 'paper' }) {
     return parts.map((part, partIndex) => (
       <React.Fragment key={partIndex}>
         {part.text.split(' ').map((word, i) => {
-          const delay = 0.98 + wordIndex * 0.035;
+          const delay = 1.72 + wordIndex * 0.085;
           wordIndex += 1;
           return (
             <span key={`${partIndex}-${i}`} className="speech-word" style={{ animationDelay: `${delay}s`, fontWeight: part.strong ? 900 : 400 }}>
-              {word}{' '}
+              {word}
             </span>
           );
         })}
@@ -1949,12 +1964,6 @@ function WfOperator({ lang, density, font, theme = 'paper' }) {
               minWidth: 0,
               position: 'relative',
             }}>
-              <div aria-hidden="true" style={{ position: 'absolute', right: compact ? 18 : -17, top: compact ? 116 : 92, width: 34, height: 34, borderRadius: 999, background: accent, color: chipFg, display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: `0 14px 32px ${accent}33`, zIndex: 2 }}>
-                <span className="speaking-pulse" style={{ position: 'absolute', inset: -5, borderRadius: 999, border: `1px solid ${accent}` }}></span>
-                {[0, 1, 2].map(i => (
-                  <span key={i} className="speaking-dot" style={{ width: 4, height: 4, borderRadius: 999, background: chipFg, margin: '0 1.5px', animationDelay: `${i * 0.16}s` }}></span>
-                ))}
-              </div>
               <div style={{ font: `900 ${compact ? '18px' : '20px'}/1.1 ${sans}`, ...headingWide, color: ink, marginBottom: 14 }}>{L === 'fr' ? 'Jimmy Kolbe-André, fondateur de BriefLayer' : 'Jimmy Kolbe-André, founder of BriefLayer'}</div>
               <img src="assets/jimmy-kolbe-portrait.jpg" alt="Portrait de Jimmy Kolbe-André" style={{ width: compact ? 112 : 132, height: compact ? 132 : 156, objectFit: 'cover', objectPosition: '50% 22%', borderRadius: 10, border: `1px solid ${border}`, boxShadow: `0 16px 36px ${accent}18`, flex: 'none' }} />
               <div style={{ font: `500 13px/1.45 ${body}`, color: ink2, marginTop: 14, maxWidth: 210 }}>
@@ -1968,16 +1977,22 @@ function WfOperator({ lang, density, font, theme = 'paper' }) {
             <div className="speech-bubble-pop" style={{ position: 'relative' }}>
               <div style={{
                 position: compact ? 'static' : 'absolute',
-                left: -12,
-                top: 46,
-                width: 22,
-                height: 22,
+                left: -21,
+                top: compact ? 0 : 56,
+                width: 42,
+                height: 42,
                 transform: compact ? 'none' : 'rotate(45deg)',
-                background: surface2,
-                borderLeft: compact ? 'none' : `1px solid ${border}`,
-                borderBottom: compact ? 'none' : `1px solid ${border}`,
+                background: speechTailBg,
+                borderLeft: compact ? 'none' : speechBorder,
+                borderBottom: compact ? 'none' : speechBorder,
+                boxShadow: compact ? 'none' : `-12px 12px 26px ${accent}12`,
               }} className={compact ? undefined : 'speech-tail-pop'}></div>
-              <div style={{ position: 'relative', background: surface2, border: `1px solid ${border}`, borderRadius: 10, padding: compact ? '24px 20px' : '34px 38px', minHeight: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center', boxShadow: `0 18px 44px ${accent2}10` }}>
+              <div style={{ position: 'relative', background: speechBg, border: speechBorder, borderRadius: 12, padding: compact ? '28px 22px' : '38px 42px', minHeight: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center', boxShadow: isDark ? `0 18px 44px ${accent2}10` : '0 22px 58px rgba(18,97,166,.16), inset 0 1px 0 rgba(255,255,255,.72)' }}>
+                <div className="speech-typing" aria-hidden="true" style={{ position: 'absolute', top: compact ? 18 : 22, left: compact ? 18 : 24, display: 'inline-flex', alignItems: 'center', gap: 5, padding: '8px 11px', borderRadius: 999, background: isDark ? `${surface}dd` : 'rgba(255,255,255,.72)', border: speechBorder, color: accent, boxShadow: `0 12px 26px ${accent}16` }}>
+                  {[0, 1, 2].map(i => (
+                    <span key={i} className="speaking-dot" style={{ width: 5, height: 5, borderRadius: 999, background: accent, animationDelay: `${i * 0.16}s` }}></span>
+                  ))}
+                </div>
                 <p style={{ font: `400 ${compact ? '19px' : density === 'dense' ? '23px' : '27px'}/1.36 ${body}`, color: ink, margin: 0, maxWidth: 780, textWrap: 'balance' }}>
                   {renderSpeech()}
                 </p>
