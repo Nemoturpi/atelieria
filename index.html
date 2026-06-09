@@ -1846,6 +1846,46 @@ function WfOperator({ lang, density, font, theme = 'paper' }) {
           </div>
         </section>
 
+        {/* crédibilité */}
+        <section id="cv" className="section-reveal" style={{ marginBottom: compact ? 34 : 42, animationDelay: '0.1s' }}>
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: compact ? '1fr' : 'minmax(220px, 0.9fr) minmax(0, 1.6fr)',
+            gap: compact ? 18 : 26,
+            alignItems: 'stretch',
+            padding: compact ? '16px 0' : '18px 0',
+            borderTop: `1px solid ${border}`,
+            borderBottom: `1px solid ${border}`,
+          }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 14, minWidth: 0 }}>
+              <img src="assets/jimmy-kolbe-portrait.jpg" alt="Portrait de Jimmy Kolbe-André" style={{ width: 64, height: 76, objectFit: 'cover', objectPosition: '50% 22%', borderRadius: 8, border: `1px solid ${border}`, boxShadow: `0 10px 24px ${accent}18`, flex: 'none' }} />
+              <div style={{ minWidth: 0 }}>
+                <div style={{ font: `900 ${compact ? '17px' : '19px'}/1.08 ${sans}`, ...headingWide, color: ink }}>{C.whyMe.name}</div>
+                <div style={{ font: `500 12.5px/1.35 ${body}`, color: muted, marginTop: 5 }}>{L === 'fr' ? 'Droit du lobbying · produit · IA appliquée' : 'Lobbying law · product · applied AI'}</div>
+              </div>
+            </div>
+            <div style={{
+              display: 'grid',
+              gridTemplateColumns: '1fr',
+              borderLeft: compact ? 'none' : `1px solid ${border}`,
+              paddingLeft: compact ? 0 : 22,
+            }}>
+              {C.whyMe.proof.map((item, i) => (
+                <div key={i} style={{
+                  display: 'grid',
+                  gridTemplateColumns: compact ? '1fr' : '124px minmax(0, 1fr)',
+                  gap: compact ? 3 : 16,
+                  padding: i === 0 ? '0 0 8px' : i === C.whyMe.proof.length - 1 ? '8px 0 0' : '8px 0',
+                  borderBottom: i === C.whyMe.proof.length - 1 ? 'none' : `1px solid ${border}`,
+                }}>
+                  <div style={{ font: `850 11.5px/1.2 ${sans}`, ...headingWide, color: ink }}>{t(item.k)}</div>
+                  <div style={{ font: `400 13px/1.42 ${body}`, color: ink2 }}>{t(item.v)}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
         {/* pour qui */}
         <section className="section-reveal" style={{ ...sectionFrame, marginBottom: compact ? 24 : 30, textAlign: 'center', animationDelay: '0.12s' }}>
           <p style={{ font: `400 ${compact ? '18px' : density === 'dense' ? '20px' : '24px'}/1.4 ${body}`, color: ink, margin: '0 auto', maxWidth: 800 }}>
@@ -1856,39 +1896,6 @@ function WfOperator({ lang, density, font, theme = 'paper' }) {
           <a href={C.whoFor.url} target="_blank" rel="noreferrer" style={{ display: 'inline-block', marginTop: 14, font: `600 12px/1.4 ${mono}`, color: muted, textDecoration: 'underline', textUnderlineOffset: 3 }}>
             {t(C.whoFor.source)}
           </a>
-        </section>
-
-        {/* crédibilité */}
-        <section id="cv" className="section-reveal" style={{ ...sectionFrame, padding: compact ? '18px 0' : '20px 0', marginBottom: compact ? 46 : 56, animationDelay: '0.16s' }}>
-          <Card style={{ padding: compact ? 18 : 22 }}>
-            <div style={{ display: 'grid', gridTemplateColumns: compact ? '1fr' : '88px minmax(0, 1fr)', gap: compact ? 18 : 24, alignItems: 'center' }}>
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: compact ? 'flex-start' : 'center', gap: 14 }}>
-                <img src="assets/jimmy-kolbe-portrait.jpg" alt="Portrait de Jimmy Kolbe-André" style={{ width: compact ? 72 : 78, height: compact ? 82 : 92, objectFit: 'cover', objectPosition: '50% 22%', borderRadius: 8, border: `1px solid ${border}`, boxShadow: `0 12px 30px ${accent}18`, flex: 'none' }} />
-                {compact && (
-                  <div>
-                    <div style={{ font: `900 18px/1.1 ${sans}`, ...headingWide, color: ink }}>{C.whyMe.name}</div>
-                    <div style={{ font: `500 12px/1.4 ${body}`, color: muted, marginTop: 3 }}>{t(C.whyMe.title)}</div>
-                  </div>
-                )}
-              </div>
-              <div>
-                {!compact && (
-                  <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: 20, marginBottom: 14 }}>
-                    <div style={{ font: `900 22px/1.1 ${sans}`, ...headingWide, color: ink }}>{C.whyMe.name}</div>
-                    <div style={{ font: `500 13px/1.35 ${body}`, color: muted, textAlign: 'right' }}>{t(C.whyMe.title)}</div>
-                  </div>
-                )}
-                <div style={{ borderTop: `1px solid ${border}` }}>
-                  {C.whyMe.proof.map((item, i) => (
-                    <div key={i} style={{ display: 'grid', gridTemplateColumns: compact ? '1fr' : '132px minmax(0, 1fr)', gap: compact ? 4 : 18, padding: compact ? '10px 0' : '11px 0', borderBottom: `1px solid ${border}` }}>
-                      <div style={{ font: `850 12px/1.2 ${sans}`, ...headingWide, color: ink }}>{t(item.k)}</div>
-                      <div style={{ font: `400 13px/1.45 ${body}`, color: ink2 }}>{t(item.v)}</div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </Card>
         </section>
 
         {/* douleur */}
