@@ -109,8 +109,8 @@ const C = {
     eyebrow:  { fr: '', en: '' },
     title:    { fr: 'BriefLayer automatise votre service de veille : un bulletin personnalisé pour chaque client.',
                 en: 'BriefLayer automates your monitoring service: a personalised briefing for every client.' },
-    sub:      { fr: 'Vous êtes professionnel des affaires publiques ou avocat ? Vous perdez 3 à 4 h par jour à préparer vos bulletins de veille ? BriefLayer automatise leur production pour livrer à chaque client une veille personnalisée en quelques minutes.',
-                en: 'Do you produce regulatory monitoring briefings? BriefLayer automates 3 to 4 hours of daily work to deliver each client a personalized briefing in minutes.' },
+    sub:      { fr: 'Vous êtes professionnel des affaires publiques ou avocat ? Vos bulletins de veille vous prennent encore 1 à 2 h par jour ? BriefLayer automatise leur production pour livrer à chaque client une veille personnalisée en quelques minutes.',
+                en: 'Are you a public affairs professional or a lawyer? Are your monitoring briefings still taking 1 to 2 hours a day? BriefLayer automates production to deliver each client a personalized briefing in minutes.' },
     cta:      { fr: 'Réserver un appel', en: 'Book a call' },
     sec:      { fr: 'Voir la méthode →', en: 'See the method →' },
     trust:    [
@@ -120,14 +120,14 @@ const C = {
     ],
   },
   whoFor: {
-    line:    { fr: "Vous êtes un professionnel des affaires publiques, un cabinet d’avocats ou une institution publique ? Automatisez vos services de veille pour vous concentrer sur des tâches à plus forte valeur ajoutée.",
-               en: 'Are you a public affairs professional, a law firm or a public institution? Automate your monitoring services so your team can focus on higher-value work.' },
+    line:    { fr: "D'après FiscalNote, plus d'un professionnel des affaires publiques sur deux passe jusqu'à 10 h par semaine à suivre les lois et règlements. BriefLayer automatise vos services de veille pour récupérer ce temps sans sacrifier la qualité des bulletins.",
+               en: 'FiscalNote reports that government affairs professionals can still spend up to 10 hours a week finding and monitoring legislation and regulations. BriefLayer automates monitoring services so teams can recover that time without lowering briefing quality.' },
   },
   pain: {
     title:   { fr: "Votre service de veille est encore artisanal",
                en: 'Your monitoring service is still too manual' },
-    intro:   { fr: "Vous perdez entre 3 et 4 heures par jour à rédiger des bulletins de veille pour vos clients. Vous rencontrez ce type de problème :",
-               en: "You spend three to four hours a day preparing client monitoring briefings. The same problems keep showing up:" },
+    intro:   { fr: "Les rapports FiscalNote le rappellent. Dans les affaires publiques, suivre les lois et règlements reste une grosse ligne de temps. Même avec de bons outils, les heures partent vite dans la recherche d'information et la préparation des bulletins. Les mêmes irritants reviennent souvent.",
+               en: "FiscalNote puts legislative and regulatory monitoring at the center of government affairs work. Even with good tools, time gets swallowed by finding information and preparing client briefings. The same issues keep coming back." },
     symptoms: [
       { title: { fr: 'Alertes peu pertinentes', en: 'Low-signal alerts' },
         body:  { fr: 'Trop de bruit, pas assez de signal exploitable.', en: 'Too much noise, not enough usable signal.' } },
@@ -1855,13 +1855,13 @@ function WfOperator({ lang, density, font, theme = 'paper' }) {
             }}>
               <div>
                 <div style={{ font: `800 11px/1 ${mono}`, color: accent, letterSpacing: '.08em', textTransform: 'uppercase', marginBottom: 18 }}>
-                  {L === 'fr' ? 'temps mobilisé' : 'time spent'}
+                  {L === 'fr' ? 'temps récupérable' : 'recoverable time'}
                 </div>
                 <div style={{ font: `900 ${compact ? '58px' : density === 'dense' ? '74px' : '92px'}/0.85 ${sans}`, ...headingWide, color: ink, letterSpacing: '-.01em' }}>
-                  {L === 'fr' ? '3 à 4h' : '3-4h'}
+                  {L === 'fr' ? '1 à 2h' : '1-2h'}
                 </div>
                 <div style={{ font: `800 ${compact ? '18px' : '22px'}/1.15 ${sans}`, ...headingWide, color: ink, marginTop: 14, maxWidth: 320 }}>
-                  {L === 'fr' ? 'par jour sur des tâches de collecte et de mise en forme.' : 'a day spent collecting and formatting information.'}
+                  {L === 'fr' ? "par jour, soit jusqu'à une journée de travail par semaine." : 'a day, up to a full workday each week.'}
                 </div>
               </div>
               <div style={{
@@ -1872,8 +1872,8 @@ function WfOperator({ lang, density, font, theme = 'paper' }) {
                 maxWidth: 340,
               }}>
                 {L === 'fr'
-                  ? "Selon le McKinsey Global Institute, les travailleurs du savoir passent 28 % de leur semaine dans les e-mails, 19 % à chercher l'information et 14 % à collaborer en interne. Dans un service de veille, une bonne partie de ce temps finit dans la recherche d'informations et la préparation des bulletins. Pour un consultant qui en produit plusieurs par jour, BriefLayer peut libérer 3 à 4 h quotidiennes à réinvestir dans le conseil client."
-                  : 'The issue is not a lack of expertise. It is a monitoring service still relying on too many manual operations.'}
+                  ? "FiscalNote indique qu'une majorité de professionnels des affaires publiques consacre jusqu'à 10 h par semaine au suivi législatif et réglementaire. Rapporté à des bulletins clients, cela correspond à 1 à 2 h par jour que BriefLayer peut reprendre sur la recherche d'information et la mise en forme."
+                  : 'FiscalNote reports that a majority of government affairs professionals spend up to 10 hours a week finding and monitoring legislation and regulations. For client briefings, that translates into 1 to 2 hours a day BriefLayer can take off research and formatting.'}
               </div>
             </div>
 
