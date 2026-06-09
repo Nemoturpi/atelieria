@@ -305,8 +305,7 @@ const C = {
              en: '' },
     p4:    { fr: "",
              en: '' },
-    mentions: { fr: 'Paris-Panthéon-Assas · CERSA · Pappers · ICP · International Budget Partnership · University of Oxford',
-                en: 'Paris-Panthéon-Assas · CERSA · Pappers · ICP · International Budget Partnership · University of Oxford' },
+    mentions: { fr: '', en: '' },
     proof: [
       { k: { fr: 'Droit du lobbying', en: 'Lobbying law' },
         v: { fr: 'Doctorat en droit public consacré à l’encadrement du lobbying en France.', en: 'Doctorate in public law on the regulation of lobbying in France.' } },
@@ -2114,27 +2113,33 @@ function WfOperator({ lang, density, font, theme = 'paper' }) {
         <section id="cv" className="section-reveal" style={{ ...sectionFrame, position: 'relative', scrollMarginTop: compact ? 130 : 110, animationDelay: '0.52s' }}>
           <h2 style={{ font: `900 ${compact ? '32px' : density === 'dense' ? '42px' : '52px'}/1.02 ${sans}`, ...headingWide, margin: '0 0 24px', maxWidth: 760 }}>{L === 'fr' ? 'Fondateur' : 'Founder'}</h2>
           <Card style={{ overflow: 'hidden', padding: 0 }}>
-            <div style={{ display: 'grid', gridTemplateColumns: compact ? '1fr' : medium ? '280px 1fr' : '320px 1fr' }}>
-              <div style={{ background: `linear-gradient(165deg, ${surface2}, ${surface})`, padding: compact ? 22 : 28, borderRight: compact ? 'none' : `1px solid ${border}`, borderBottom: compact ? `1px solid ${border}` : 'none', display: 'flex', flexDirection: 'column', alignItems: compact ? 'center' : 'flex-start' }}>
-                <div style={{ position: 'relative' }}>
-                  <img src="assets/jimmy-kolbe-portrait.jpg" alt="Portrait de Jimmy Kolbe-André" style={{ width: compact ? 210 : 220, height: compact ? 250 : 270, objectFit: 'cover', objectPosition: '50% 22%', borderRadius: 10, border: `1px solid ${border}`, boxShadow: `0 18px 48px ${accent}22`, display: 'block' }} />
-                  <div style={{ position:'absolute', bottom:-8, right:-8, width:28, height:28, borderRadius:999, background:accent, boxShadow:`0 0 16px ${accent}99`, display:'flex', alignItems:'center', justifyContent:'center', font:`700 12px/1 ${mono}`, color:chipFg }}>●</div>
-                </div>
-                <div style={{ font: `900 22px/1.15 ${sans}`, ...headingWide, marginTop: 18 }}>{C.whyMe.name}</div>
-                <div style={{ font: `400 12px/1.4 ${mono}`, color: muted, marginTop: 4 }}>{L === 'fr' ? 'Paris · Bruxelles' : 'Paris · Brussels'}</div>
-                <div style={{ display:'flex', flexWrap:'wrap', gap:8, marginTop:16, justifyContent: compact ? 'center':'flex-start' }}>
-                  {t(C.whyMe.mentions).split(' · ').map((m, i) => (<WfLogo key={i} dark={isDark} label={m} />))}
-                </div>
-              </div>
-              <div style={{ padding: compact ? 24 : 36 }}>
+            <div style={{ display: 'grid', gridTemplateColumns: compact ? '1fr' : medium ? 'minmax(0, 1fr) 300px' : 'minmax(0, 1fr) 380px' }}>
+              <div style={{ padding: compact ? 24 : 38 }}>
                 <h2 style={{ font: `900 ${compact ? '30px' : density === 'dense' ? '34px' : '40px'}/1.05 ${sans}`, ...headingWide, margin: '0 0 24px' }}>{t(C.whyMe.title)}</h2>
-                {[C.whyMe.p1, C.whyMe.p2, C.whyMe.p3, C.whyMe.p4].map((p, i, arr) => {
-                  const text = t(p);
-                  if (!text) return null;
-                  const remaining = arr.slice(i + 1).some(next => t(next));
-                  return <p key={i} style={{ font: `400 15px/1.65 ${body}`, color: ink2, margin: remaining ? '0 0 18px' : '0 0 24px' }}>{text}</p>;
-                })}
+                <div style={{ display: 'grid', gap: 12 }}>
+                  {(L === 'fr' ? [
+                    { k: 'Doctorat', v: 'Doctorat de droit public à Paris Panthéon Assas, consacré à l’encadrement du lobbying en France, soutenance prévue en 2026.' },
+                    { k: 'Enseignement', v: 'Enseigne dans le master affaires publiques de l’Institut catholique de Paris.' },
+                    { k: 'Pappers', v: 'Ancien Chief Product Officer chez Pappers, où il a conçu des plateformes de veille utilisées par des professionnels des affaires publiques et des avocats.' },
+                    { k: 'IA juridique', v: 'Formation doctorale à l’intelligence artificielle assurée à Paris Panthéon Assas au printemps 2026, autour de ses méthodes d’automatisation appliquées à la recherche juridique.' },
+                  ] : [
+                    { k: 'Doctorate', v: 'Doctorate in public law at Paris-Panthéon-Assas on the regulation of lobbying in France, due to be completed in 2026.' },
+                    { k: 'Teaching', v: 'Teaches in the public affairs master’s programme at the Institut Catholique de Paris.' },
+                    { k: 'Product', v: 'Former Chief Product Officer at Pappers, where he designed monitoring platforms used by public affairs professionals and lawyers.' },
+                    { k: 'Legal AI', v: 'Delivered doctoral training on artificial intelligence at Paris-Panthéon-Assas in spring 2026, focused on automation methods for legal research.' },
+                  ]).map((item, i) => (
+                    <div key={i} style={{ display: 'grid', gridTemplateColumns: compact ? '1fr' : '116px minmax(0, 1fr)', gap: compact ? 5 : 18, padding: compact ? '13px 0' : '15px 0', borderTop: i === 0 ? `1px solid ${border}` : 'none', borderBottom: `1px solid ${border}` }}>
+                      <div style={{ font: `850 12px/1.2 ${sans}`, ...headingWide, color: accent, textTransform: 'uppercase' }}>{item.k}</div>
+                      <div style={{ font: `400 ${compact ? '14px' : '15px'}/1.55 ${body}`, color: ink2 }}>{item.v}</div>
+                    </div>
+                  ))}
+                </div>
                 {t(C.whyMe.cvLink) && <span style={{ display:'inline-block', marginTop:22, color:accent, font:`500 13px/1 ${sans}` }}>{t(C.whyMe.cvLink)}</span>}
+              </div>
+              <div style={{ background: `linear-gradient(165deg, ${surface2}, ${surface})`, padding: compact ? 20 : 24, borderLeft: compact ? 'none' : `1px solid ${border}`, borderTop: compact ? `1px solid ${border}` : 'none', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+                <img src="assets/jimmy-kolbe-podium.webp" alt="Jimmy Kolbe-André intervenant à Paris Panthéon Assas" style={{ width: '100%', height: compact ? 360 : medium ? 420 : 500, objectFit: 'cover', objectPosition: '50% 50%', borderRadius: 12, border: `1px solid ${border}`, boxShadow: `0 18px 48px ${accent}22`, display: 'block' }} />
+                <div style={{ font: `900 22px/1.15 ${sans}`, ...headingWide, marginTop: 16 }}>{C.whyMe.name}</div>
+                <div style={{ font: `500 13px/1.4 ${body}`, color: muted, marginTop: 5 }}>{L === 'fr' ? 'Fondateur de BriefLayer' : 'Founder of BriefLayer'}</div>
               </div>
             </div>
           </Card>
