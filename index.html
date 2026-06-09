@@ -244,11 +244,11 @@ const C = {
                 en: 'Paris-Panthéon-Assas · CERSA · Pappers · ICP · International Budget Partnership · University of Oxford' },
     proof: [
       { k: { fr: 'Droit du lobbying', en: 'Lobbying law' },
-        v: { fr: 'Doctorat en droit public sur l’encadrement du lobbying en France.', en: 'Doctorate in public law on the regulation of lobbying in France.' } },
+        v: { fr: 'Doctorat en droit public consacré à l’encadrement du lobbying en France.', en: 'Doctorate in public law on the regulation of lobbying in France.' } },
       { k: { fr: 'Affaires publiques', en: 'Public affairs' },
-        v: { fr: 'Enseignement dans le master affaires publiques de l’Institut catholique de Paris.', en: 'Teaching in the public affairs master’s programme at the Institut Catholique de Paris.' } },
-      { k: { fr: 'Produit & veille', en: 'Product & monitoring' },
-        v: { fr: 'Ex-CPO de Pappers, où j’ai conçu des plateformes de veille pour professionnels du droit et des affaires publiques.', en: 'Former CPO at Pappers, where I designed monitoring platforms for legal and public affairs professionals.' } },
+        v: { fr: 'Enseigne dans le master affaires publiques de l’Institut catholique de Paris.', en: 'Teaching in the public affairs master’s programme at the Institut Catholique de Paris.' } },
+      { k: { fr: 'Pappers', en: 'Pappers' },
+        v: { fr: 'Ancien Chief Product Officer, responsable de plateformes de veille utilisées par des juristes et des professionnels des affaires publiques.', en: 'Former CPO, responsible for monitoring platforms used by legal and public affairs professionals.' } },
       { k: { fr: 'IA appliquée', en: 'Applied AI' },
         v: { fr: 'Formation doctorale à l’intelligence artificielle donnée à Paris Panthéon Assas en 2026.', en: 'Doctoral training on artificial intelligence delivered at Paris Panthéon Assas in 2026.' } },
     ],
@@ -1794,7 +1794,7 @@ function WfOperator({ lang, density, font, theme = 'paper' }) {
           borderRadius: scrolled ? (compact ? 18 : 999) : 0,
           boxShadow: scrolled ? (isDark ? '0 14px 40px rgba(0,0,0,.22)' : '0 16px 46px rgba(94,72,10,.14)') : 'none',
         }}>
-          <div aria-label="BriefLayer.eu" style={{ display: 'flex', flexDirection: 'column', alignItems: compact ? 'center' : 'flex-start', flex: 'none' }}>
+          <div aria-label="BriefLayer.eu" style={{ display: 'flex', alignItems: 'center', flex: 'none' }}>
             <img
               src="assets/brieflayer-logo-eu.png"
               alt="BriefLayer.eu"
@@ -1807,9 +1807,6 @@ function WfOperator({ lang, density, font, theme = 'paper' }) {
                 mixBlendMode: isDark ? 'normal' : 'multiply',
               }}
             />
-            <div style={{ marginTop: scrolled ? 1 : 4, marginLeft: compact ? 0 : 2, font: `italic 500 ${compact ? '10px' : '11px'}/1.2 ${body}`, color: muted }}>
-              by Jimmy Kolbe-André
-            </div>
           </div>
           <nav style={{ display: 'flex', alignItems: 'center', gap: compact ? (scrolled ? 8 : 12) : (scrolled ? 16 : 22), font: `600 ${compact ? (scrolled ? '11px' : '12px') : '13px'}/1 ${sans}`, flexWrap: 'wrap', justifyContent: compact ? 'center' : 'flex-end', width: compact ? '100%' : 'auto' }}>
             <a style={{ color: muted, textDecoration: 'none' }} href="#service">{L === 'fr' ? 'Service' : 'Service'}</a>
@@ -1969,34 +1966,30 @@ function WfOperator({ lang, density, font, theme = 'paper' }) {
         <section id="cv" className="section-reveal" style={{ ...sectionFrame, position: 'relative', animationDelay: '0.52s' }}>
           <h2 style={{ font: `900 ${compact ? '32px' : density === 'dense' ? '42px' : '52px'}/1.02 ${sans}`, ...headingWide, margin: '0 0 24px', maxWidth: 760 }}>{L === 'fr' ? 'Fondateur' : 'Founder'}</h2>
           <Card style={{ overflow: 'hidden', padding: 0 }}>
-            <div style={{ display: 'grid', gridTemplateColumns: compact ? '1fr' : medium ? '280px 1fr' : '320px 1fr' }}>
-              <div style={{ background: `linear-gradient(165deg, ${surface2}, ${surface})`, padding: compact ? 22 : 28, borderRight: compact ? 'none' : `1px solid ${border}`, borderBottom: compact ? `1px solid ${border}` : 'none', display: 'flex', flexDirection: 'column', alignItems: compact ? 'center' : 'flex-start' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: compact ? '1fr' : medium ? '260px 1fr' : '300px 1fr' }}>
+              <div style={{ background: `linear-gradient(165deg, ${surface2}, ${surface})`, padding: compact ? 22 : 28, borderRight: compact ? 'none' : `1px solid ${border}`, borderBottom: compact ? `1px solid ${border}` : 'none', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center' }}>
                 <div style={{ position: 'relative' }}>
                   <img src="assets/jimmy-kolbe-portrait.jpg" alt="Portrait de Jimmy Kolbe-André" style={{ width: compact ? 210 : 220, height: compact ? 250 : 270, objectFit: 'cover', objectPosition: '50% 22%', borderRadius: 10, border: `1px solid ${border}`, boxShadow: `0 18px 48px ${accent}22`, display: 'block' }} />
                   <div style={{ position: 'absolute', bottom: -8, right: -8, width: 28, height: 28, borderRadius: 999, background: accent, boxShadow: `0 0 16px ${accent}99`, display: 'flex', alignItems: 'center', justifyContent: 'center', font: `700 12px/1 ${mono}`, color: chipFg }}>●</div>
                 </div>
                 <div style={{ font: `900 22px/1.15 ${sans}`, ...headingWide, marginTop: 18 }}>{C.whyMe.name}</div>
-                <div style={{ font: `400 12px/1.4 ${mono}`, color: muted, marginTop: 4 }}>{L === 'fr' ? 'Paris · Bruxelles' : 'Paris · Brussels'}</div>
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginTop: 16, justifyContent: compact ? 'center' : 'flex-start' }}>
-                  {t(C.whyMe.mentions).split(' · ').map((m, i) => (<WfLogo key={i} dark={isDark} label={m} />))}
-                </div>
               </div>
               <div style={{ padding: compact ? 24 : 36 }}>
-                <h2 style={{ font: `900 ${compact ? '30px' : density === 'dense' ? '34px' : '40px'}/1.05 ${sans}`, ...headingWide, margin: '0 0 24px' }}>{t(C.whyMe.title)}</h2>
-                <div style={{ display: 'grid', gridTemplateColumns: compact ? '1fr' : 'repeat(2, minmax(0, 1fr))', gap: 10, marginBottom: 24 }}>
-                  {C.whyMe.proof.map((item, i) => (
-                    <div key={i} style={{ borderTop: `1px solid ${border}`, paddingTop: 12 }}>
-                      <div style={{ font: `800 11px/1.15 ${mono}`, letterSpacing: '.08em', textTransform: 'uppercase', color: accent, marginBottom: 7 }}>{t(item.k)}</div>
-                      <div style={{ font: `500 13px/1.45 ${body}`, color: ink2 }}>{t(item.v)}</div>
-                    </div>
-                  ))}
-                </div>
+                <h2 style={{ font: `900 ${compact ? '30px' : density === 'dense' ? '34px' : '40px'}/1.05 ${sans}`, ...headingWide, margin: '0 0 18px' }}>{t(C.whyMe.title)}</h2>
                 {[C.whyMe.p1, C.whyMe.p2, C.whyMe.p3, C.whyMe.p4].map((p, i, arr) => {
                   const text = t(p);
                   if (!text) return null;
                   const remaining = arr.slice(i + 1).some(next => t(next));
-                  return <p key={i} style={{ font: `400 15px/1.65 ${body}`, color: ink2, margin: remaining ? '0 0 18px' : '0 0 24px' }}>{text}</p>;
+                  return <p key={i} style={{ font: `400 15px/1.65 ${body}`, color: ink2, margin: remaining ? '0 0 16px' : '0 0 24px' }}>{text}</p>;
                 })}
+                <div style={{ borderTop: `1px solid ${border}`, marginTop: 4 }}>
+                  {C.whyMe.proof.map((item, i) => (
+                    <div key={i} style={{ display: 'grid', gridTemplateColumns: compact ? '1fr' : '150px minmax(0, 1fr)', gap: compact ? 6 : 18, padding: '14px 0', borderBottom: `1px solid ${border}` }}>
+                      <div style={{ font: `850 12px/1.2 ${sans}`, ...headingWide, color: ink }}>{t(item.k)}</div>
+                      <div style={{ font: `400 13.5px/1.5 ${body}`, color: ink2 }}>{t(item.v)}</div>
+                    </div>
+                  ))}
+                </div>
                 {t(C.whyMe.cvLink) && <span style={{ display: 'inline-block', marginTop: 22, color: accent, font: `500 13px/1 ${sans}` }}>{t(C.whyMe.cvLink)}</span>}
               </div>
             </div>
