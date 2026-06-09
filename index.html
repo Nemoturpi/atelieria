@@ -2117,23 +2117,34 @@ function WfOperator({ lang, density, font, theme = 'paper' }) {
               <h2 style={{ font: `900 ${compact ? '34px' : density === 'dense' ? '44px' : '54px'}/1.02 ${sans}`, ...headingWide, margin: '0 0 12px', color: ink }}>{C.whyMe.name}</h2>
               <p style={{ font: `500 ${compact ? '16px' : '19px'}/1.5 ${body}`, color: ink2, margin: '0 0 30px', maxWidth: 640 }}>{t(C.whyMe.title)}</p>
 
-              <div style={{ display: 'grid', borderTop: `1px solid ${border}` }}>
+              <div style={{ position: 'relative', padding: compact ? '22px 20px' : '26px 28px', borderRadius: 16, background: isDark ? `${surface2}cc` : 'rgba(255,255,255,.62)', boxShadow: isDark ? 'none' : 'inset 0 1px 0 rgba(255,255,255,.8), 0 18px 48px rgba(18,61,106,.08)' }}>
+                <p style={{ font: `400 ${compact ? '16px' : '18px'}/1.66 ${body}`, color: ink2, margin: 0 }}>
+                  {L === 'fr'
+                    ? <>Jimmy croise le droit du lobbying, les affaires publiques et l’IA appliquée. Il termine un doctorat de droit public à Paris Panthéon Assas, enseigne les affaires publiques, et a passé un an et demi comme Chief Product Officer chez Pappers, où il a conçu des plateformes de veille utilisées par des avocats et des professionnels du secteur.</>
+                    : <>Jimmy brings together lobbying law, public affairs and applied AI. He is completing a doctorate in public law at Paris-Panthéon-Assas, teaches public affairs, and spent a year and a half as Chief Product Officer at Pappers, where he designed monitoring platforms used by lawyers and public affairs professionals.</>}
+                </p>
+                <p style={{ font: `400 ${compact ? '15px' : '16px'}/1.62 ${body}`, color: muted, margin: '14px 0 0' }}>
+                  {L === 'fr'
+                    ? <>Au printemps 2026, il a aussi assuré une formation doctorale à l’intelligence artificielle à Paris Panthéon Assas, en y partageant ses méthodes d’automatisation appliquées à la recherche juridique.</>
+                    : <>In spring 2026, he also delivered doctoral training on artificial intelligence at Paris-Panthéon-Assas, sharing his automation methods applied to legal research.</>}
+                </p>
+              </div>
+
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10, marginTop: 18 }}>
                 {(L === 'fr' ? [
-                  { k: 'Doctorat', v: 'Doctorat de droit public à Paris Panthéon Assas, consacré à l’encadrement du lobbying en France, soutenance prévue en 2026.' },
-                  { k: 'Enseignement', v: 'Enseigne dans le master affaires publiques de l’Institut catholique de Paris.' },
-                  { k: 'Pappers', v: 'Ancien Chief Product Officer chez Pappers, où il a conçu des plateformes de veille utilisées par des professionnels des affaires publiques et des avocats.' },
-                  { k: 'IA juridique', v: 'Formation doctorale à l’intelligence artificielle assurée à Paris Panthéon Assas au printemps 2026, autour de ses méthodes d’automatisation appliquées à la recherche juridique.' },
+                  'Doctorat droit public',
+                  'Affaires publiques',
+                  'CPO chez Pappers',
+                  'IA juridique',
                 ] : [
-                  { k: 'Doctorate', v: 'Doctorate in public law at Paris-Panthéon-Assas on the regulation of lobbying in France, due to be completed in 2026.' },
-                  { k: 'Teaching', v: 'Teaches in the public affairs master’s programme at the Institut Catholique de Paris.' },
-                  { k: 'Product', v: 'Former Chief Product Officer at Pappers, where he designed monitoring platforms used by public affairs professionals and lawyers.' },
-                  { k: 'Legal AI', v: 'Delivered doctoral training on artificial intelligence at Paris-Panthéon-Assas in spring 2026, focused on automation methods for legal research.' },
+                  'Public law doctorate',
+                  'Public affairs',
+                  'CPO at Pappers',
+                  'Legal AI',
                 ]).map((item, i) => (
-                  <div key={i} style={{ display: 'grid', gridTemplateColumns: compact ? '34px minmax(0, 1fr)' : '44px 128px minmax(0, 1fr)', gap: compact ? 12 : 18, alignItems: 'baseline', padding: compact ? '16px 0' : '18px 0', borderBottom: `1px solid ${border}` }}>
-                    <div style={{ font: `800 11px/1 ${mono}`, color: muted }}>{String(i + 1).padStart(2, '0')}</div>
-                    <div style={{ font: `900 13px/1.2 ${sans}`, ...headingWide, color: accent, textTransform: 'uppercase' }}>{item.k}</div>
-                    <div style={{ gridColumn: compact ? '2' : 'auto', font: `400 ${compact ? '14px' : '15px'}/1.58 ${body}`, color: ink2 }}>{item.v}</div>
-                  </div>
+                  <span key={i} style={{ display: 'inline-flex', alignItems: 'center', minHeight: 34, padding: '9px 12px', borderRadius: 999, background: `${accent}0f`, color: ink, font: `800 12px/1.15 ${sans}`, boxShadow: isDark ? 'none' : '0 10px 28px rgba(18,61,106,.07)' }}>
+                    {item}
+                  </span>
                 ))}
               </div>
               {t(C.whyMe.cvLink) && <span style={{ display:'inline-block', marginTop:22, color:accent, font:`500 13px/1 ${sans}` }}>{t(C.whyMe.cvLink)}</span>}
