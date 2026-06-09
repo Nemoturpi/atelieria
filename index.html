@@ -120,14 +120,17 @@ const C = {
     ],
   },
   whoFor: {
-    line:    { fr: "D'après FiscalNote, plus d'un professionnel des affaires publiques sur deux passe jusqu'à 10 h par semaine à suivre les lois et règlements. BriefLayer automatise vos services de veille pour récupérer ce temps sans sacrifier la qualité des bulletins.",
-               en: 'FiscalNote reports that government affairs professionals can still spend up to 10 hours a week finding and monitoring legislation and regulations. BriefLayer automates monitoring services so teams can recover that time without lowering briefing quality.' },
+    line:    { fr: "D'après FiscalNote, 53 % des professionnels interrogés passent jusqu'à 10 h par semaine à suivre les lois et règlements. BriefLayer automatise vos services de veille pour récupérer ce temps sans sacrifier la qualité des bulletins.",
+               en: 'According to FiscalNote, 53% of surveyed professionals spend up to 10 hours a week finding and monitoring legislation and regulations. BriefLayer automates monitoring services so teams can recover that time without lowering briefing quality.' },
+    source:  { fr: "Source : FiscalNote, The 2025 State of Government Affairs.",
+               en: 'Source: FiscalNote, The 2025 State of Government Affairs.' },
+    url: 'https://fiscalnote-marketing.s3.amazonaws.com/State-of-Government-Affairs_2025.pdf',
   },
   pain: {
     title:   { fr: "Votre service de veille est encore artisanal",
                en: 'Your monitoring service is still too manual' },
-    intro:   { fr: "Les rapports FiscalNote le rappellent. Dans les affaires publiques, suivre les lois et règlements reste une grosse ligne de temps. Même avec de bons outils, les heures partent vite dans la recherche d'information et la préparation des bulletins. Les mêmes irritants reviennent souvent.",
-               en: "FiscalNote puts legislative and regulatory monitoring at the center of government affairs work. Even with good tools, time gets swallowed by finding information and preparing client briefings. The same issues keep coming back." },
+    intro:   { fr: "Votre service de veille repose encore sur trop d'opérations manuelles. Les mêmes irritants reviennent souvent.",
+               en: 'Your monitoring service still relies on too many manual operations. The same issues keep coming back.' },
     symptoms: [
       { title: { fr: 'Alertes peu pertinentes', en: 'Low-signal alerts' },
         body:  { fr: 'Trop de bruit, pas assez de signal exploitable.', en: 'Too much noise, not enough usable signal.' } },
@@ -1830,6 +1833,9 @@ function WfOperator({ lang, density, font, theme = 'paper' }) {
         {/* pour qui */}
         <section className="section-reveal" style={{ ...sectionFrame, textAlign: 'center', animationDelay: '0.12s' }}>
           <p style={{ font: `400 ${compact ? '18px' : density === 'dense' ? '20px' : '24px'}/1.4 ${body}`, color: ink, margin: '0 auto', maxWidth: 800 }}>{t(C.whoFor.line)}</p>
+          <a href={C.whoFor.url} target="_blank" rel="noreferrer" style={{ display: 'inline-block', marginTop: 14, font: `600 12px/1.4 ${mono}`, color: muted, textDecoration: 'underline', textUnderlineOffset: 3 }}>
+            {t(C.whoFor.source)}
+          </a>
         </section>
 
         {/* douleur */}
@@ -1838,45 +1844,10 @@ function WfOperator({ lang, density, font, theme = 'paper' }) {
           <p style={{ font: `400 16px/1.6 ${body}`, color: muted, margin: '0 0 36px', maxWidth: 760 }}>{t(C.pain.intro)}</p>
           <div style={{
             display: 'grid',
-            gridTemplateColumns: compact ? '1fr' : medium ? '0.8fr 1.2fr' : '0.72fr 1.28fr',
-            gap: compact ? 20 : 30,
+            gridTemplateColumns: '1fr',
             alignItems: 'stretch',
             marginBottom: 28,
           }}>
-            <div style={{
-              borderTop: `2px solid ${accent}`,
-              borderBottom: `1px solid ${border}`,
-              padding: compact ? '20px 0' : '24px 0',
-              minHeight: compact ? 'auto' : 330,
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'space-between',
-              gap: 24,
-            }}>
-              <div>
-                <div style={{ font: `800 11px/1 ${mono}`, color: accent, letterSpacing: '.08em', textTransform: 'uppercase', marginBottom: 18 }}>
-                  {L === 'fr' ? 'temps récupérable' : 'recoverable time'}
-                </div>
-                <div style={{ font: `900 ${compact ? '58px' : density === 'dense' ? '74px' : '92px'}/0.85 ${sans}`, ...headingWide, color: ink, letterSpacing: '-.01em' }}>
-                  {L === 'fr' ? '1 à 2h' : '1-2h'}
-                </div>
-                <div style={{ font: `800 ${compact ? '18px' : '22px'}/1.15 ${sans}`, ...headingWide, color: ink, marginTop: 14, maxWidth: 320 }}>
-                  {L === 'fr' ? "par jour, soit jusqu'à une journée de travail par semaine." : 'a day, up to a full workday each week.'}
-                </div>
-              </div>
-              <div style={{
-                borderTop: `1px solid ${border}`,
-                paddingTop: 16,
-                font: `400 13.5px/1.55 ${body}`,
-                color: muted,
-                maxWidth: 340,
-              }}>
-                {L === 'fr'
-                  ? "FiscalNote indique qu'une majorité de professionnels des affaires publiques consacre jusqu'à 10 h par semaine au suivi législatif et réglementaire. Rapporté à des bulletins clients, cela correspond à 1 à 2 h par jour que BriefLayer peut reprendre sur la recherche d'information et la mise en forme."
-                  : 'FiscalNote reports that a majority of government affairs professionals spend up to 10 hours a week finding and monitoring legislation and regulations. For client briefings, that translates into 1 to 2 hours a day BriefLayer can take off research and formatting.'}
-              </div>
-            </div>
-
             <div style={{
               display: 'grid',
               gridTemplateColumns: compact ? '1fr' : 'repeat(2, minmax(0, 1fr))',
