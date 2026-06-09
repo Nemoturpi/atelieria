@@ -1838,7 +1838,11 @@ function WfOperator({ lang, density, font, theme = 'paper' }) {
 
         {/* pour qui */}
         <section className="section-reveal" style={{ ...sectionFrame, textAlign: 'center', animationDelay: '0.12s' }}>
-          <p style={{ font: `400 ${compact ? '18px' : density === 'dense' ? '20px' : '24px'}/1.4 ${body}`, color: ink, margin: '0 auto', maxWidth: 800 }}>{t(C.whoFor.line)}</p>
+          <p style={{ font: `400 ${compact ? '18px' : density === 'dense' ? '20px' : '24px'}/1.4 ${body}`, color: ink, margin: '0 auto', maxWidth: 800 }}>
+            {L === 'fr'
+              ? <>D'après FiscalNote, <strong style={{ fontWeight: 900 }}>59 % des professionnels en affaires publiques passent jusqu'à 10 h par semaine à traiter la veille réglementaire</strong> et l'actualité. BriefLayer automatise vos services de veille pour que vous puissiez consacrer ce temps à la stratégie et aux relations clients.</>
+              : <>According to FiscalNote, <strong style={{ fontWeight: 900 }}>59% of public affairs professionals spend up to 10 hours a week processing regulatory monitoring</strong> and news. BriefLayer automates monitoring services so you can spend that time on strategy and client relationships.</>}
+          </p>
           <a href={C.whoFor.url} target="_blank" rel="noreferrer" style={{ display: 'inline-block', marginTop: 14, font: `600 12px/1.4 ${mono}`, color: muted, textDecoration: 'underline', textUnderlineOffset: 3 }}>
             {t(C.whoFor.source)}
           </a>
@@ -1911,8 +1915,8 @@ function WfOperator({ lang, density, font, theme = 'paper' }) {
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: compact ? '1fr' : 'repeat(3, 1fr)', gap: 14, marginTop: 26 }}>
             {C.doing.cards.map((card, i) => (
-              <Card key={i} style={{ padding: 20 }}>
-                <div style={{ width: 40, height: 40, borderRadius: 8, background: `${accent}14`, border: `1px solid ${accent}44`, color: accent, display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 16 }}>
+              <Card key={i} style={{ padding: 20, textAlign: 'center' }}>
+                <div style={{ width: 44, height: 44, borderRadius: 8, background: '#16a34a', border: '1px solid #15803d', color: '#ffffff', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px', boxShadow: '0 12px 28px rgba(22, 163, 74, .24)' }}>
                   <Glyph name={card.icon} size={22} />
                 </div>
                 <h3 style={{ font: `900 17px/1.15 ${sans}`, ...headingWide, margin: '0 0 8px', color: ink }}>{t(card.title)}</h3>
