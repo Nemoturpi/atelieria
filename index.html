@@ -1784,7 +1784,7 @@ function WfOperator({ lang, density, font, theme = 'paper' }) {
           borderRadius: scrolled ? (compact ? 18 : 999) : 0,
           boxShadow: scrolled ? (isDark ? '0 14px 40px rgba(0,0,0,.22)' : '0 16px 46px rgba(94,72,10,.14)') : 'none',
         }}>
-          <div aria-label="BriefLayer.eu" style={{ display: 'flex', alignItems: 'center', flex: 'none' }}>
+          <div aria-label="BriefLayer.eu" style={{ display: 'flex', flexDirection: 'column', alignItems: compact ? 'center' : 'flex-start', flex: 'none' }}>
             <img
               src="assets/brieflayer-logo-eu.png"
               alt="BriefLayer.eu"
@@ -1797,6 +1797,9 @@ function WfOperator({ lang, density, font, theme = 'paper' }) {
                 mixBlendMode: isDark ? 'normal' : 'multiply',
               }}
             />
+            <div style={{ marginTop: scrolled ? 1 : 4, marginLeft: compact ? 0 : 2, font: `italic 500 ${compact ? '10px' : '11px'}/1.2 ${body}`, color: muted }}>
+              by Jimmy Kolbe-André
+            </div>
           </div>
           <nav style={{ display: 'flex', alignItems: 'center', gap: compact ? (scrolled ? 8 : 12) : (scrolled ? 16 : 22), font: `600 ${compact ? (scrolled ? '11px' : '12px') : '13px'}/1 ${sans}`, flexWrap: 'wrap', justifyContent: compact ? 'center' : 'flex-end', width: compact ? '100%' : 'auto' }}>
             <a style={{ color: muted, textDecoration: 'none' }} href="#service">{L === 'fr' ? 'Service' : 'Service'}</a>
