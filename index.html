@@ -2111,38 +2111,43 @@ function WfOperator({ lang, density, font, theme = 'paper' }) {
 
         {/* fondateur */}
         <section id="cv" className="section-reveal" style={{ ...sectionFrame, position: 'relative', scrollMarginTop: compact ? 130 : 110, animationDelay: '0.52s' }}>
-          <h2 style={{ font: `900 ${compact ? '32px' : density === 'dense' ? '42px' : '52px'}/1.02 ${sans}`, ...headingWide, margin: '0 0 24px', maxWidth: 760 }}>{L === 'fr' ? 'Fondateur' : 'Founder'}</h2>
-          <Card style={{ overflow: 'hidden', padding: 0 }}>
-            <div style={{ display: 'grid', gridTemplateColumns: compact ? '1fr' : medium ? 'minmax(0, 1fr) 300px' : 'minmax(0, 1fr) 380px' }}>
-              <div style={{ padding: compact ? 24 : 38 }}>
-                <h2 style={{ font: `900 ${compact ? '30px' : density === 'dense' ? '34px' : '40px'}/1.05 ${sans}`, ...headingWide, margin: '0 0 24px' }}>{t(C.whyMe.title)}</h2>
-                <div style={{ display: 'grid', gap: 12 }}>
-                  {(L === 'fr' ? [
-                    { k: 'Doctorat', v: 'Doctorat de droit public à Paris Panthéon Assas, consacré à l’encadrement du lobbying en France, soutenance prévue en 2026.' },
-                    { k: 'Enseignement', v: 'Enseigne dans le master affaires publiques de l’Institut catholique de Paris.' },
-                    { k: 'Pappers', v: 'Ancien Chief Product Officer chez Pappers, où il a conçu des plateformes de veille utilisées par des professionnels des affaires publiques et des avocats.' },
-                    { k: 'IA juridique', v: 'Formation doctorale à l’intelligence artificielle assurée à Paris Panthéon Assas au printemps 2026, autour de ses méthodes d’automatisation appliquées à la recherche juridique.' },
-                  ] : [
-                    { k: 'Doctorate', v: 'Doctorate in public law at Paris-Panthéon-Assas on the regulation of lobbying in France, due to be completed in 2026.' },
-                    { k: 'Teaching', v: 'Teaches in the public affairs master’s programme at the Institut Catholique de Paris.' },
-                    { k: 'Product', v: 'Former Chief Product Officer at Pappers, where he designed monitoring platforms used by public affairs professionals and lawyers.' },
-                    { k: 'Legal AI', v: 'Delivered doctoral training on artificial intelligence at Paris-Panthéon-Assas in spring 2026, focused on automation methods for legal research.' },
-                  ]).map((item, i) => (
-                    <div key={i} style={{ display: 'grid', gridTemplateColumns: compact ? '1fr' : '116px minmax(0, 1fr)', gap: compact ? 5 : 18, padding: compact ? '13px 0' : '15px 0', borderTop: i === 0 ? `1px solid ${border}` : 'none', borderBottom: `1px solid ${border}` }}>
-                      <div style={{ font: `850 12px/1.2 ${sans}`, ...headingWide, color: accent, textTransform: 'uppercase' }}>{item.k}</div>
-                      <div style={{ font: `400 ${compact ? '14px' : '15px'}/1.55 ${body}`, color: ink2 }}>{item.v}</div>
-                    </div>
-                  ))}
-                </div>
-                {t(C.whyMe.cvLink) && <span style={{ display:'inline-block', marginTop:22, color:accent, font:`500 13px/1 ${sans}` }}>{t(C.whyMe.cvLink)}</span>}
+          <div style={{ display: 'grid', gridTemplateColumns: compact ? '1fr' : medium ? 'minmax(0, 1fr) 340px' : 'minmax(0, 1fr) 430px', gap: compact ? 28 : 40, alignItems: compact ? 'stretch' : 'center' }}>
+            <div style={{ minWidth: 0, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+              <div style={{ font: `800 12px/1 ${mono}`, color: accent, letterSpacing: '.12em', textTransform: 'uppercase', marginBottom: 14 }}>{L === 'fr' ? 'Fondateur' : 'Founder'}</div>
+              <h2 style={{ font: `900 ${compact ? '34px' : density === 'dense' ? '44px' : '54px'}/1.02 ${sans}`, ...headingWide, margin: '0 0 12px', color: ink }}>{C.whyMe.name}</h2>
+              <p style={{ font: `500 ${compact ? '16px' : '19px'}/1.5 ${body}`, color: ink2, margin: '0 0 30px', maxWidth: 640 }}>{t(C.whyMe.title)}</p>
+
+              <div style={{ display: 'grid', borderTop: `1px solid ${border}` }}>
+                {(L === 'fr' ? [
+                  { k: 'Doctorat', v: 'Doctorat de droit public à Paris Panthéon Assas, consacré à l’encadrement du lobbying en France, soutenance prévue en 2026.' },
+                  { k: 'Enseignement', v: 'Enseigne dans le master affaires publiques de l’Institut catholique de Paris.' },
+                  { k: 'Pappers', v: 'Ancien Chief Product Officer chez Pappers, où il a conçu des plateformes de veille utilisées par des professionnels des affaires publiques et des avocats.' },
+                  { k: 'IA juridique', v: 'Formation doctorale à l’intelligence artificielle assurée à Paris Panthéon Assas au printemps 2026, autour de ses méthodes d’automatisation appliquées à la recherche juridique.' },
+                ] : [
+                  { k: 'Doctorate', v: 'Doctorate in public law at Paris-Panthéon-Assas on the regulation of lobbying in France, due to be completed in 2026.' },
+                  { k: 'Teaching', v: 'Teaches in the public affairs master’s programme at the Institut Catholique de Paris.' },
+                  { k: 'Product', v: 'Former Chief Product Officer at Pappers, where he designed monitoring platforms used by public affairs professionals and lawyers.' },
+                  { k: 'Legal AI', v: 'Delivered doctoral training on artificial intelligence at Paris-Panthéon-Assas in spring 2026, focused on automation methods for legal research.' },
+                ]).map((item, i) => (
+                  <div key={i} style={{ display: 'grid', gridTemplateColumns: compact ? '34px minmax(0, 1fr)' : '44px 128px minmax(0, 1fr)', gap: compact ? 12 : 18, alignItems: 'baseline', padding: compact ? '16px 0' : '18px 0', borderBottom: `1px solid ${border}` }}>
+                    <div style={{ font: `800 11px/1 ${mono}`, color: muted }}>{String(i + 1).padStart(2, '0')}</div>
+                    <div style={{ font: `900 13px/1.2 ${sans}`, ...headingWide, color: accent, textTransform: 'uppercase' }}>{item.k}</div>
+                    <div style={{ gridColumn: compact ? '2' : 'auto', font: `400 ${compact ? '14px' : '15px'}/1.58 ${body}`, color: ink2 }}>{item.v}</div>
+                  </div>
+                ))}
               </div>
-              <div style={{ background: `linear-gradient(165deg, ${surface2}, ${surface})`, padding: compact ? 20 : 24, borderLeft: compact ? 'none' : `1px solid ${border}`, borderTop: compact ? `1px solid ${border}` : 'none', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-                <img src="assets/jimmy-kolbe-podium.webp" alt="Jimmy Kolbe-André intervenant à Paris Panthéon Assas" style={{ width: '100%', height: compact ? 360 : medium ? 420 : 500, objectFit: 'cover', objectPosition: '50% 50%', borderRadius: 12, border: `1px solid ${border}`, boxShadow: `0 18px 48px ${accent}22`, display: 'block' }} />
-                <div style={{ font: `900 22px/1.15 ${sans}`, ...headingWide, marginTop: 16 }}>{C.whyMe.name}</div>
-                <div style={{ font: `500 13px/1.4 ${body}`, color: muted, marginTop: 5 }}>{L === 'fr' ? 'Fondateur de BriefLayer' : 'Founder of BriefLayer'}</div>
-              </div>
+              {t(C.whyMe.cvLink) && <span style={{ display:'inline-block', marginTop:22, color:accent, font:`500 13px/1 ${sans}` }}>{t(C.whyMe.cvLink)}</span>}
             </div>
-          </Card>
+
+            <figure style={{ margin: 0, position: 'relative', height: compact ? 390 : medium ? 500 : 590, borderRadius: 18, overflow: 'hidden', border: `1px solid ${border}`, background: '#101827', boxShadow: isDark ? '0 24px 70px rgba(0,0,0,.35)' : '0 24px 70px rgba(18,61,106,.18)' }}>
+              <img src="assets/jimmy-kolbe-podium.webp" alt="Jimmy Kolbe-André intervenant à Paris Panthéon Assas" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: compact ? '50% 42%' : '50% 50%', display: 'block' }} />
+              <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, rgba(5,10,22,0) 38%, rgba(5,10,22,.78) 100%)' }}></div>
+              <div style={{ position: 'absolute', left: compact ? 18 : 22, right: compact ? 18 : 22, bottom: compact ? 18 : 22, color: '#fff' }}>
+                <div style={{ font: `900 ${compact ? '20px' : '24px'}/1.1 ${sans}`, ...headingWide }}>{C.whyMe.name}</div>
+                <div style={{ font: `500 13px/1.4 ${body}`, color: 'rgba(255,255,255,.76)', marginTop: 5 }}>{L === 'fr' ? 'Fondateur de BriefLayer' : 'Founder of BriefLayer'}</div>
+              </div>
+            </figure>
+          </div>
         </section>
 
         {/* cta */}
