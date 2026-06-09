@@ -56,6 +56,10 @@
     from { opacity: 0; transform: translateY(24px) scale(0.985); filter: blur(8px); }
     to   { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
   }
+  @keyframes speechBubblePop {
+    0%   { opacity: 0; transform: translateY(10px) scale(0.985); filter: blur(6px); }
+    100% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+  }
   .ai-star {
     display: inline-block;
     margin-left: 4px;
@@ -78,11 +82,18 @@
     animation: sectionReveal 0.74s cubic-bezier(.16, 1, .3, 1) forwards;
     will-change: opacity, transform, filter;
   }
+  .speech-bubble-pop {
+    opacity: 0;
+    transform-origin: 26px 52px;
+    animation: speechBubblePop 0.58s cubic-bezier(.16, 1, .3, 1) 0.42s forwards;
+    will-change: opacity, transform, filter;
+  }
   @media (prefers-reduced-motion: reduce) {
     .ai-star,
     .site-header,
     .site-header img,
-    .section-reveal {
+    .section-reveal,
+    .speech-bubble-pop {
       transition: none !important;
       animation: none !important;
       opacity: 1 !important;
@@ -232,10 +243,10 @@ const C = {
   },
   whyMe: {
     title: { fr: "Enseignant-chercheur en droit du lobbying et spécialiste des IA juridiques", en: 'Lecturer and researcher in lobbying law, specialising in legal AI' },
-    p1:    { fr: "",
-             en: '' },
-    p2:    { fr: "",
-             en: '' },
+    p1:    { fr: "Je termine en 2026 un doctorat de droit public à l’université Paris Panthéon Assas sur l’encadrement du lobbying en France. J’enseigne également dans le master affaires publiques de l’Institut catholique de Paris.",
+             en: 'I am completing a doctorate in public law at Université Paris-Panthéon-Assas on the regulation of lobbying in France. I also teach in the public affairs master’s programme at the Institut Catholique de Paris.' },
+    p2:    { fr: "J’ai passé un an et demi comme Chief Product Officer chez Pappers, où j’ai conçu des plateformes de veille utilisées par des professionnels des affaires publiques et des avocats. Au printemps 2026, j’ai assuré une formation doctorale à l’intelligence artificielle à Paris Panthéon Assas, en y partageant mes méthodes et mes outils d’automatisation appliqués à la recherche juridique.",
+             en: 'I spent a year and a half as Chief Product Officer at Pappers, where I designed monitoring platforms used by public affairs professionals and lawyers. In spring 2026, I taught a doctoral seminar on artificial intelligence at Paris-Panthéon-Assas, sharing my methods and automation tools applied to legal research.' },
     p3:    { fr: "",
              en: '' },
     p4:    { fr: "",
@@ -1847,17 +1858,18 @@ function WfOperator({ lang, density, font, theme = 'paper' }) {
         </section>
 
         {/* preuve incarnée */}
-        <section id="cv" className="section-reveal" style={{ ...sectionFrame, marginBottom: compact ? 34 : 42, animationDelay: '0.12s' }}>
+        <section className="section-reveal" style={{ ...sectionFrame, marginBottom: compact ? 34 : 42, animationDelay: '0.12s' }}>
           <div style={{
             display: 'grid',
             gridTemplateColumns: compact ? '1fr' : '260px minmax(0, 1fr)',
-            gap: compact ? 18 : 24,
+            gap: compact ? 20 : 34,
             alignItems: 'stretch',
           }}>
             <div style={{
               background: surface,
               border: `1px solid ${border}`,
               borderRadius: 10,
+              boxShadow: `0 16px 38px ${accent}10`,
               padding: compact ? 18 : 20,
               display: 'flex',
               flexDirection: 'column',
@@ -1865,30 +1877,17 @@ function WfOperator({ lang, density, font, theme = 'paper' }) {
               textAlign: 'center',
               minWidth: 0,
             }}>
-              <div style={{ font: `900 ${compact ? '19px' : '21px'}/1.08 ${sans}`, ...headingWide, color: ink, marginBottom: 14 }}>{C.whyMe.name}</div>
+              <div style={{ font: `900 ${compact ? '18px' : '20px'}/1.1 ${sans}`, ...headingWide, color: ink, marginBottom: 14 }}>{L === 'fr' ? 'Jimmy Kolbe-André, fondateur de BriefLayer' : 'Jimmy Kolbe-André, founder of BriefLayer'}</div>
               <img src="assets/jimmy-kolbe-portrait.jpg" alt="Portrait de Jimmy Kolbe-André" style={{ width: compact ? 112 : 132, height: compact ? 132 : 156, objectFit: 'cover', objectPosition: '50% 22%', borderRadius: 10, border: `1px solid ${border}`, boxShadow: `0 16px 36px ${accent}18`, flex: 'none' }} />
               <div style={{ font: `500 13px/1.45 ${body}`, color: ink2, marginTop: 14, maxWidth: 210 }}>
                 {L === 'fr' ? 'Enseignant-chercheur en droit du lobbying et spécialiste des IA juridiques' : 'Lecturer and researcher in lobbying law, specialising in legal AI'}
               </div>
-              <details style={{ width: '100%', marginTop: 16, textAlign: 'left' }}>
-                <summary style={{ cursor: 'pointer', listStyle: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, width: '100%', padding: '10px 12px', border: `1px solid ${border}`, borderRadius: 8, font: `800 12px/1 ${sans}`, color: accent, background: `${accent}0d` }}>
-                  <span>{L === 'fr' ? 'En savoir +' : 'Learn more +'}</span>
-                </summary>
-                <div style={{ marginTop: 12, borderTop: `1px solid ${border}` }}>
-                  {C.whyMe.proof.map((item, i) => (
-                    <div key={i} style={{
-                      padding: i === C.whyMe.proof.length - 1 ? '11px 0 0' : '11px 0',
-                      borderBottom: i === C.whyMe.proof.length - 1 ? 'none' : `1px solid ${border}`,
-                    }}>
-                      <div style={{ font: `850 11.5px/1.2 ${sans}`, ...headingWide, color: ink, marginBottom: 4 }}>{t(item.k)}</div>
-                      <div style={{ font: `400 12.5px/1.45 ${body}`, color: ink2 }}>{t(item.v)}</div>
-                    </div>
-                  ))}
-                </div>
-              </details>
+              <a href="#cv" style={{ marginTop: 16, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 8, width: '100%', padding: '10px 12px', border: `1px solid ${border}`, borderRadius: 8, font: `800 12px/1 ${sans}`, color: accent, background: `${accent}0d`, textDecoration: 'none' }}>
+                {L === 'fr' ? 'En savoir +' : 'Learn more +'}
+              </a>
             </div>
 
-            <div style={{ position: 'relative' }}>
+            <div className="speech-bubble-pop" style={{ position: 'relative' }}>
               <div style={{
                 position: compact ? 'static' : 'absolute',
                 left: -12,
@@ -1900,7 +1899,7 @@ function WfOperator({ lang, density, font, theme = 'paper' }) {
                 borderLeft: compact ? 'none' : `1px solid ${border}`,
                 borderBottom: compact ? 'none' : `1px solid ${border}`,
               }}></div>
-              <div style={{ position: 'relative', background: surface2, border: `1px solid ${border}`, borderRadius: 10, padding: compact ? 18 : 26, minHeight: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+              <div style={{ position: 'relative', background: surface2, border: `1px solid ${border}`, borderRadius: 10, padding: compact ? 18 : 26, minHeight: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', boxShadow: `0 18px 44px ${accent2}10` }}>
                 <p style={{ font: `400 ${compact ? '17px' : density === 'dense' ? '19px' : '22px'}/1.42 ${body}`, color: ink, margin: 0 }}>
                   {L === 'fr'
                     ? <>D'après FiscalNote, <strong style={{ fontWeight: 900 }}>59 % des professionnels en affaires publiques passent jusqu'à 10 h par semaine à traiter la veille réglementaire</strong> et l'actualité. BriefLayer automatise vos services de veille pour que ce temps serve enfin la stratégie et le suivi client.</>
@@ -2018,6 +2017,36 @@ function WfOperator({ lang, density, font, theme = 'paper' }) {
               </details>
             ))}
           </div>
+        </section>
+
+        {/* fondateur */}
+        <section id="cv" className="section-reveal" style={{ ...sectionFrame, position: 'relative', scrollMarginTop: compact ? 130 : 110, animationDelay: '0.52s' }}>
+          <h2 style={{ font: `900 ${compact ? '32px' : density === 'dense' ? '42px' : '52px'}/1.02 ${sans}`, ...headingWide, margin: '0 0 24px', maxWidth: 760 }}>{L === 'fr' ? 'Fondateur' : 'Founder'}</h2>
+          <Card style={{ overflow: 'hidden', padding: 0 }}>
+            <div style={{ display: 'grid', gridTemplateColumns: compact ? '1fr' : medium ? '280px 1fr' : '320px 1fr' }}>
+              <div style={{ background: `linear-gradient(165deg, ${surface2}, ${surface})`, padding: compact ? 22 : 28, borderRight: compact ? 'none' : `1px solid ${border}`, borderBottom: compact ? `1px solid ${border}` : 'none', display: 'flex', flexDirection: 'column', alignItems: compact ? 'center' : 'flex-start' }}>
+                <div style={{ position: 'relative' }}>
+                  <img src="assets/jimmy-kolbe-portrait.jpg" alt="Portrait de Jimmy Kolbe-André" style={{ width: compact ? 210 : 220, height: compact ? 250 : 270, objectFit: 'cover', objectPosition: '50% 22%', borderRadius: 10, border: `1px solid ${border}`, boxShadow: `0 18px 48px ${accent}22`, display: 'block' }} />
+                  <div style={{ position:'absolute', bottom:-8, right:-8, width:28, height:28, borderRadius:999, background:accent, boxShadow:`0 0 16px ${accent}99`, display:'flex', alignItems:'center', justifyContent:'center', font:`700 12px/1 ${mono}`, color:chipFg }}>●</div>
+                </div>
+                <div style={{ font: `900 22px/1.15 ${sans}`, ...headingWide, marginTop: 18 }}>{C.whyMe.name}</div>
+                <div style={{ font: `400 12px/1.4 ${mono}`, color: muted, marginTop: 4 }}>{L === 'fr' ? 'Paris · Bruxelles' : 'Paris · Brussels'}</div>
+                <div style={{ display:'flex', flexWrap:'wrap', gap:8, marginTop:16, justifyContent: compact ? 'center':'flex-start' }}>
+                  {t(C.whyMe.mentions).split(' · ').map((m, i) => (<WfLogo key={i} dark={isDark} label={m} />))}
+                </div>
+              </div>
+              <div style={{ padding: compact ? 24 : 36 }}>
+                <h2 style={{ font: `900 ${compact ? '30px' : density === 'dense' ? '34px' : '40px'}/1.05 ${sans}`, ...headingWide, margin: '0 0 24px' }}>{t(C.whyMe.title)}</h2>
+                {[C.whyMe.p1, C.whyMe.p2, C.whyMe.p3, C.whyMe.p4].map((p, i, arr) => {
+                  const text = t(p);
+                  if (!text) return null;
+                  const remaining = arr.slice(i + 1).some(next => t(next));
+                  return <p key={i} style={{ font: `400 15px/1.65 ${body}`, color: ink2, margin: remaining ? '0 0 18px' : '0 0 24px' }}>{text}</p>;
+                })}
+                {t(C.whyMe.cvLink) && <span style={{ display:'inline-block', marginTop:22, color:accent, font:`500 13px/1 ${sans}` }}>{t(C.whyMe.cvLink)}</span>}
+              </div>
+            </div>
+          </Card>
         </section>
 
         {/* cta */}
