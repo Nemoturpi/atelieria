@@ -109,8 +109,8 @@ const C = {
     eyebrow:  { fr: '', en: '' },
     title:    { fr: 'BriefLayer automatise votre service de veille : un bulletin personnalisé pour chaque client.',
                 en: 'BriefLayer automates your monitoring service: a personalised briefing for every client.' },
-    sub:      { fr: 'Vous vendez de la veille réglementaire, mais sa production vous prend trop de temps ? BriefLayer agrège vos sources, filtre le signal et envoie à chaque client son bulletin personnalisé, automatiquement.',
-                en: 'Selling regulatory monitoring services should not mean spending your day assembling reports. BriefLayer collects your sources, filters the signal and sends each client a tailored briefing automatically.' },
+    sub:      { fr: 'Vous commercialisez de la veille réglementaire, mais sa production vous prend trop de temps ? Avec BriefLayer, automatisez-la en délivrant à chaque client un bulletin sur mesure.',
+                en: 'If you sell regulatory monitoring services but production takes too much time, BriefLayer helps you automate it by delivering a tailored briefing to every client.' },
     cta:      { fr: 'Réserver un appel', en: 'Book a call' },
     sec:      { fr: 'Voir la méthode →', en: 'See the method →' },
     trust:    [
@@ -133,7 +133,7 @@ const C = {
         body:  { fr: 'Trop de bruit, pas assez de signal exploitable.', en: 'Too much noise, not enough usable signal.' } },
       { title: { fr: 'Solutions de veille hors de prix', en: 'Overpriced monitoring tools' },
         body:  { fr: 'Des abonnements coûteux, souvent mal exploités.', en: 'Expensive subscriptions, rarely used to their full potential.' } },
-      { title: { fr: 'Tableurs difficiles à gérer', en: 'Spreadsheets that are hard to manage' },
+      { title: { fr: 'Tableurs désordonnés', en: 'Disorganised spreadsheets' },
         body:  { fr: 'Des versions multiples, rarement à jour au même moment.', en: 'Several versions, never quite up to date at the same time.' } },
       { title: { fr: 'Dépendance aux stagiaires', en: 'Reliance on interns' },
         body:  { fr: 'La continuité repose sur des personnes de passage.', en: 'Continuity depends on people who will soon move on.' } },
@@ -398,20 +398,7 @@ function WfLangToggle({ lang, setLang, dark = false, accent, compact = false }) 
   );
 }
 
-function WfSectionLabel({ num, label, color = 'currentColor', style }) {
-  return (
-    <div style={{
-      display: 'flex', alignItems: 'center', gap: 12,
-      font: '500 11px/1 ui-monospace, Menlo, monospace',
-      textTransform: 'uppercase', letterSpacing: '.12em', color, ...style,
-    }}>
-      <span style={{ opacity: 0.55 }}>§ {num}</span>
-      <span style={{ flex: 1, height: 1, background: 'currentColor', opacity: 0.25 }}></span>
-      <span>{label}</span>
-    </div>
-  );
-}
-Object.assign(window, { WfPortrait, WfLogo, WfLangToggle, WfSectionLabel });
+Object.assign(window, { WfPortrait, WfLogo, WfLangToggle });
 </script>
 
 <!-- ──────────────────────────────────────────────────────────────────────── -->
@@ -874,6 +861,8 @@ function HeroSetup({ lang, tokens, fonts, compact = false }) {
   const uid = React.useId().replace(/:/g, '');
   const fr = lang === 'fr';
   const reduce = typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const alertYellow = '#ffd326';
+  const alertAmber = '#c27a00';
   const fields = [
     { label: fr ? 'Vos sources' : 'Your sources', items: fr ? ['Légifrance', 'AMF', 'Sénat · JO'] : ['Légifrance', 'AMF', 'Senate · Official Journal'], cli: false, add: fr ? '+ coller un flux RSS' : '+ paste an RSS feed' },
     { label: fr ? 'Vos clients' : 'Your clients', items: ['Client A', 'Client B', 'Client C'], cli: true, add: fr ? '+ ajouter un client' : '+ add a client' },
@@ -916,9 +905,18 @@ function HeroSetup({ lang, tokens, fonts, compact = false }) {
           {delivery.map((d, i) => (
             <div key={i} style={{
               display: 'flex', alignItems: 'center', gap: 11, padding: '11px 13px', borderRadius: 11,
-              background: d.hot ? `${accent}0d` : surface2, border: `1px solid ${d.hot ? `${accent}3d` : border}`,
+              background: d.hot
+                ? `radial-gradient(circle at 18% 50%, ${alertYellow}55 0%, ${alertYellow}24 34%, transparent 68%), linear-gradient(90deg, ${alertYellow}20 0%, ${surface2} 76%)`
+                : surface2,
+              border: `1px solid ${d.hot ? `${alertYellow}aa` : border}`,
+              boxShadow: d.hot ? `0 12px 32px ${alertYellow}22, inset 0 0 0 1px rgba(255,255,255,.62)` : 'none',
             }}>
-              <span style={{ color: accent, display: 'flex', flex: 'none' }}>{d.icon}</span>
+              <span style={{
+                color: d.hot ? alertAmber : accent,
+                display: 'flex',
+                flex: 'none',
+                filter: d.hot ? `drop-shadow(0 0 9px ${alertYellow}cc)` : 'none',
+              }}>{d.icon}</span>
               <span style={{ font: `700 13px/1 ${sans}`, color: ink }}>{d.t}</span>
               <span style={{ marginLeft: 'auto', font: `700 9px/1 ${mono}`, letterSpacing: '.1em', textTransform: 'uppercase', color: muted, background: surface, border: `1px solid ${border}`, borderRadius: 6, padding: '5px 8px' }}>{d.chan}</span>
             </div>
@@ -1617,8 +1615,20 @@ function MethodPipeline({ steps, lang, t, tokens, fonts, density, compact = fals
           overflow: 'hidden',
         }}>
           <div style={{ position: 'absolute', inset: '0 auto 0 0', width: 5, background: accent }}></div>
-          <div style={{ font: `900 ${compact ? '12px' : '13px'}/1 ${sans}`, ...headingWide, color: accent, letterSpacing: '.04em', textTransform: 'uppercase', marginBottom: 12 }}>
-            ↳ {lang === 'fr' ? 'vous repartez avec' : 'you leave with'}
+          <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, font: `950 ${compact ? '12px' : '13px'}/1 ${sans}`, ...headingWide, color: accent, letterSpacing: '.04em', textTransform: 'uppercase', marginBottom: 12 }}>
+            <span aria-hidden="true" style={{
+              width: 28,
+              height: 24,
+              borderRadius: 999,
+              background: `${accent}18`,
+              border: `1px solid ${accent}55`,
+              display: 'inline-flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              font: `950 18px/1 ${sans}`,
+              boxShadow: `0 8px 18px ${accent}18`,
+            }}>↳</span>
+            <span>{lang === 'fr' ? 'vous repartez avec' : 'you leave with'}</span>
           </div>
           <div style={{ font: `800 ${compact ? '16px' : '18px'}/1.35 ${sans}`, ...headingWide, color: ink }}>
             {t(cur.del).replace(/^Livrable : |^Deliverable: /, '')}
@@ -1783,7 +1793,7 @@ function WfOperator({ lang, density, font, theme = 'paper' }) {
             <a style={{ color: muted, textDecoration: 'none' }} href="#service">{L === 'fr' ? 'Service' : 'Service'}</a>
             <a style={{ color: muted, textDecoration: 'none' }} href="#methode">{L === 'fr' ? 'Méthode' : 'Method'}</a>
             <a style={{ color: muted, textDecoration: 'none' }} href="#faq">FAQ</a>
-            <a style={{ color: muted, textDecoration: 'none' }} href="#cv">{L === 'fr' ? 'Qui suis-je ?' : 'Founder'}</a>
+            <a style={{ color: muted, textDecoration: 'none' }} href="#cv">{L === 'fr' ? 'Fondateur' : 'Founder'}</a>
             <WfLangToggle lang={L} setLang={setL} dark={isDark} accent={accent} compact={compact} />
             <a href={CALENDLY_URL} target="_blank" rel="noreferrer" style={{ display: compact ? 'none' : 'inline-block', padding: '8px 14px', background: accent, color: chipFg, textDecoration: 'none', font: `800 12px/1 ${sans}`, borderRadius: scrolled ? 999 : 6, boxShadow: `0 10px 28px ${accent}33` }}>{L === 'fr' ? (scrolled ? 'Appeler' : 'Réserver un appel') : (scrolled ? 'Call' : 'Book a call')}</a>
           </nav>
@@ -1824,7 +1834,6 @@ function WfOperator({ lang, density, font, theme = 'paper' }) {
 
         {/* douleur */}
         <section className="section-reveal" style={{ ...sectionFrame, animationDelay: '0.2s' }}>
-          <WfSectionLabel num="01" label="diagnostic" color={muted} style={{ marginBottom: 28 }} />
           <h2 style={{ font: `900 ${compact ? '32px' : density === 'dense' ? '42px' : '52px'}/1.02 ${sans}`, ...headingWide, margin: '0 0 18px', maxWidth: 760 }}>{t(C.pain.title)}</h2>
           <p style={{ font: `400 16px/1.6 ${body}`, color: muted, margin: '0 0 36px', maxWidth: 760 }}>{t(C.pain.intro)}</p>
           <div style={{
@@ -1919,7 +1928,6 @@ function WfOperator({ lang, density, font, theme = 'paper' }) {
 
         {/* ce que nous faisons */}
         <section id="service" className="section-reveal" style={{ ...sectionFrame, animationDelay: '0.28s' }}>
-          <WfSectionLabel num="02" label={L === 'fr' ? 'ce que nous faisons' : 'Service'} color={muted} style={{ marginBottom: 28 }} />
           <div style={{ maxWidth: 760 }}>
             <h2 style={{ font: `900 ${compact ? '32px' : density === 'dense' ? '42px' : '54px'}/1.02 ${sans}`, ...headingWide, margin: '0 0 18px' }}>{t(C.doing.title)}</h2>
             <p style={{ font: `400 ${compact ? '17px' : '20px'}/1.55 ${body}`, color: ink2, margin: 0 }}>{t(C.doing.body)}</p>
@@ -1939,7 +1947,6 @@ function WfOperator({ lang, density, font, theme = 'paper' }) {
 
         {/* méthode */}
         <section id="methode" className="section-reveal" style={{ ...sectionFrame, animationDelay: '0.36s' }}>
-          <WfSectionLabel num="03" label={L === 'fr' ? 'Comment nous procédons' : 'How we work'} color={muted} style={{ marginBottom: 28 }} />
           <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', marginBottom: compact ? 20 : 12, gap: 24, flexWrap: 'wrap' }}>
             <h2 style={{ font: `900 ${compact ? '32px' : density === 'dense' ? '42px' : '52px'}/1.02 ${sans}`, ...headingWide, margin: 0, maxWidth: 640 }}>{L === 'fr' ? 'La méthode' : 'The method'}</h2>
             {(t(C.method.title) || t(C.method.intro)) && <div style={{ font: `400 14px/1.5 ${body}`, color: muted, maxWidth: compact ? '100%' : 320, textAlign: compact ? 'left' : 'right' }}>
@@ -1951,7 +1958,7 @@ function WfOperator({ lang, density, font, theme = 'paper' }) {
 
         {/* faq */}
         <section id="faq" className="section-reveal" style={{ ...sectionFrame, animationDelay: '0.44s' }}>
-          <WfSectionLabel num="04" label={L === 'fr' ? 'Foire aux questions' : 'Frequently asked questions'} color={muted} style={{ marginBottom: 28 }} />
+          <h2 style={{ font: `900 ${compact ? '32px' : density === 'dense' ? '42px' : '52px'}/1.02 ${sans}`, ...headingWide, margin: '0 0 24px', maxWidth: 760 }}>{L === 'fr' ? 'FAQ' : 'FAQ'}</h2>
           <div style={{ display: 'grid', gridTemplateColumns: compact ? '1fr' : '1fr 1fr', gap: 12 }}>
             {C.faq.items.map((it, i) => (
               <details key={i} open={i === 0} style={{ background: surface, border: `1px solid ${border}`, borderRadius: 8, padding: 18 }}>
@@ -1966,7 +1973,7 @@ function WfOperator({ lang, density, font, theme = 'paper' }) {
 
         {/* pourquoi moi */}
         <section id="cv" className="section-reveal" style={{ ...sectionFrame, position: 'relative', animationDelay: '0.52s' }}>
-          <WfSectionLabel num="05" label={L === 'fr' ? 'Le fondateur' : 'Founder'} color={muted} style={{ marginBottom: 28 }} />
+          <h2 style={{ font: `900 ${compact ? '32px' : density === 'dense' ? '42px' : '52px'}/1.02 ${sans}`, ...headingWide, margin: '0 0 24px', maxWidth: 760 }}>{L === 'fr' ? 'Fondateur' : 'Founder'}</h2>
           <Card style={{ overflow: 'hidden', padding: 0 }}>
             <div style={{ display: 'grid', gridTemplateColumns: compact ? '1fr' : medium ? '280px 1fr' : '320px 1fr' }}>
               <div style={{ background: `linear-gradient(165deg, ${surface2}, ${surface})`, padding: compact ? 22 : 28, borderRight: compact ? 'none' : `1px solid ${border}`, borderBottom: compact ? `1px solid ${border}` : 'none', display: 'flex', flexDirection: 'column', alignItems: compact ? 'center' : 'flex-start' }}>
