@@ -232,10 +232,10 @@ const C = {
   },
   whyMe: {
     title: { fr: "Enseignant-chercheur en droit du lobbying et spécialiste de l'IA", en: 'Lecturer and researcher in lobbying law, specialising in AI' },
-    p1:    { fr: "Je termine en 2026 un doctorat de droit public à l’université Paris Panthéon Assas sur l’encadrement du lobbying en France. J’enseigne également dans le master affaires publiques de l’Institut catholique de Paris.",
-             en: "I am completing a doctorate in public law at Université Paris-Panthéon-Assas on the regulation of lobbying in France. I also teach in the public affairs master's programme at the Institut Catholique de Paris." },
-    p2:    { fr: "J’ai passé un an et demi comme Chief Product Officer chez Pappers, où j’ai conçu des plateformes de veille utilisées par des professionnels des affaires publiques et des avocats. Au printemps 2026, j’ai assuré une formation doctorale à l’intelligence artificielle à Paris Panthéon Assas, en y partageant mes méthodes et mes outils d’automatisation appliqués à la recherche juridique.",
-             en: 'I spent a year and a half as Chief Product Officer at Pappers, where I designed monitoring platforms used by public affairs professionals and lawyers. In spring 2026, I taught a doctoral seminar on artificial intelligence at Paris-Panthéon-Assas, sharing my methods and automation tools applied to legal research.' },
+    p1:    { fr: "",
+             en: '' },
+    p2:    { fr: "",
+             en: '' },
     p3:    { fr: "",
              en: '' },
     p4:    { fr: "",
@@ -1847,7 +1847,7 @@ function WfOperator({ lang, density, font, theme = 'paper' }) {
         </section>
 
         {/* pour qui */}
-        <section className="section-reveal" style={{ ...sectionFrame, textAlign: 'center', animationDelay: '0.12s' }}>
+        <section className="section-reveal" style={{ ...sectionFrame, marginBottom: compact ? 24 : 30, textAlign: 'center', animationDelay: '0.12s' }}>
           <p style={{ font: `400 ${compact ? '18px' : density === 'dense' ? '20px' : '24px'}/1.4 ${body}`, color: ink, margin: '0 auto', maxWidth: 800 }}>
             {L === 'fr'
               ? <>D'après FiscalNote, <strong style={{ fontWeight: 900 }}>59 % des professionnels en affaires publiques passent jusqu'à 10 h par semaine à traiter la veille réglementaire</strong> et l'actualité. BriefLayer automatise vos services de veille pour que ce temps serve enfin la stratégie et le suivi client.</>
@@ -1856,6 +1856,39 @@ function WfOperator({ lang, density, font, theme = 'paper' }) {
           <a href={C.whoFor.url} target="_blank" rel="noreferrer" style={{ display: 'inline-block', marginTop: 14, font: `600 12px/1.4 ${mono}`, color: muted, textDecoration: 'underline', textUnderlineOffset: 3 }}>
             {t(C.whoFor.source)}
           </a>
+        </section>
+
+        {/* crédibilité */}
+        <section id="cv" className="section-reveal" style={{ ...sectionFrame, padding: compact ? '18px 0' : '20px 0', marginBottom: compact ? 46 : 56, animationDelay: '0.16s' }}>
+          <Card style={{ padding: compact ? 18 : 22 }}>
+            <div style={{ display: 'grid', gridTemplateColumns: compact ? '1fr' : '88px minmax(0, 1fr)', gap: compact ? 18 : 24, alignItems: 'center' }}>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: compact ? 'flex-start' : 'center', gap: 14 }}>
+                <img src="assets/jimmy-kolbe-portrait.jpg" alt="Portrait de Jimmy Kolbe-André" style={{ width: compact ? 72 : 78, height: compact ? 82 : 92, objectFit: 'cover', objectPosition: '50% 22%', borderRadius: 8, border: `1px solid ${border}`, boxShadow: `0 12px 30px ${accent}18`, flex: 'none' }} />
+                {compact && (
+                  <div>
+                    <div style={{ font: `900 18px/1.1 ${sans}`, ...headingWide, color: ink }}>{C.whyMe.name}</div>
+                    <div style={{ font: `500 12px/1.4 ${body}`, color: muted, marginTop: 3 }}>{t(C.whyMe.title)}</div>
+                  </div>
+                )}
+              </div>
+              <div>
+                {!compact && (
+                  <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: 20, marginBottom: 14 }}>
+                    <div style={{ font: `900 22px/1.1 ${sans}`, ...headingWide, color: ink }}>{C.whyMe.name}</div>
+                    <div style={{ font: `500 13px/1.35 ${body}`, color: muted, textAlign: 'right' }}>{t(C.whyMe.title)}</div>
+                  </div>
+                )}
+                <div style={{ borderTop: `1px solid ${border}` }}>
+                  {C.whyMe.proof.map((item, i) => (
+                    <div key={i} style={{ display: 'grid', gridTemplateColumns: compact ? '1fr' : '132px minmax(0, 1fr)', gap: compact ? 4 : 18, padding: compact ? '10px 0' : '11px 0', borderBottom: `1px solid ${border}` }}>
+                      <div style={{ font: `850 12px/1.2 ${sans}`, ...headingWide, color: ink }}>{t(item.k)}</div>
+                      <div style={{ font: `400 13px/1.45 ${body}`, color: ink2 }}>{t(item.v)}</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </Card>
         </section>
 
         {/* douleur */}
@@ -1960,40 +1993,6 @@ function WfOperator({ lang, density, font, theme = 'paper' }) {
               </details>
             ))}
           </div>
-        </section>
-
-        {/* pourquoi moi */}
-        <section id="cv" className="section-reveal" style={{ ...sectionFrame, position: 'relative', animationDelay: '0.52s' }}>
-          <h2 style={{ font: `900 ${compact ? '32px' : density === 'dense' ? '42px' : '52px'}/1.02 ${sans}`, ...headingWide, margin: '0 0 24px', maxWidth: 760 }}>{L === 'fr' ? 'Fondateur' : 'Founder'}</h2>
-          <Card style={{ overflow: 'hidden', padding: 0 }}>
-            <div style={{ display: 'grid', gridTemplateColumns: compact ? '1fr' : medium ? '260px 1fr' : '300px 1fr' }}>
-              <div style={{ background: `linear-gradient(165deg, ${surface2}, ${surface})`, padding: compact ? 22 : 28, borderRight: compact ? 'none' : `1px solid ${border}`, borderBottom: compact ? `1px solid ${border}` : 'none', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center' }}>
-                <div style={{ position: 'relative' }}>
-                  <img src="assets/jimmy-kolbe-portrait.jpg" alt="Portrait de Jimmy Kolbe-André" style={{ width: compact ? 210 : 220, height: compact ? 250 : 270, objectFit: 'cover', objectPosition: '50% 22%', borderRadius: 10, border: `1px solid ${border}`, boxShadow: `0 18px 48px ${accent}22`, display: 'block' }} />
-                  <div style={{ position: 'absolute', bottom: -8, right: -8, width: 28, height: 28, borderRadius: 999, background: accent, boxShadow: `0 0 16px ${accent}99`, display: 'flex', alignItems: 'center', justifyContent: 'center', font: `700 12px/1 ${mono}`, color: chipFg }}>●</div>
-                </div>
-                <div style={{ font: `900 22px/1.15 ${sans}`, ...headingWide, marginTop: 18 }}>{C.whyMe.name}</div>
-              </div>
-              <div style={{ padding: compact ? 24 : 36 }}>
-                <h2 style={{ font: `900 ${compact ? '30px' : density === 'dense' ? '34px' : '40px'}/1.05 ${sans}`, ...headingWide, margin: '0 0 18px' }}>{t(C.whyMe.title)}</h2>
-                {[C.whyMe.p1, C.whyMe.p2, C.whyMe.p3, C.whyMe.p4].map((p, i, arr) => {
-                  const text = t(p);
-                  if (!text) return null;
-                  const remaining = arr.slice(i + 1).some(next => t(next));
-                  return <p key={i} style={{ font: `400 15px/1.65 ${body}`, color: ink2, margin: remaining ? '0 0 16px' : '0 0 24px' }}>{text}</p>;
-                })}
-                <div style={{ borderTop: `1px solid ${border}`, marginTop: 4 }}>
-                  {C.whyMe.proof.map((item, i) => (
-                    <div key={i} style={{ display: 'grid', gridTemplateColumns: compact ? '1fr' : '150px minmax(0, 1fr)', gap: compact ? 6 : 18, padding: '14px 0', borderBottom: `1px solid ${border}` }}>
-                      <div style={{ font: `850 12px/1.2 ${sans}`, ...headingWide, color: ink }}>{t(item.k)}</div>
-                      <div style={{ font: `400 13.5px/1.5 ${body}`, color: ink2 }}>{t(item.v)}</div>
-                    </div>
-                  ))}
-                </div>
-                {t(C.whyMe.cvLink) && <span style={{ display: 'inline-block', marginTop: 22, color: accent, font: `500 13px/1 ${sans}` }}>{t(C.whyMe.cvLink)}</span>}
-              </div>
-            </div>
-          </Card>
         </section>
 
         {/* cta */}
