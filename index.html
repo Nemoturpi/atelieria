@@ -74,6 +74,10 @@
     0%, 72%, 100% { opacity: .32; transform: translateY(0); }
     36%           { opacity: 1; transform: translateY(-2px); }
   }
+  @keyframes speechWordIn {
+    0%   { opacity: 0; transform: translateY(7px); filter: blur(3px); }
+    100% { opacity: 1; transform: translateY(0); filter: blur(0); }
+  }
   .ai-star {
     display: inline-block;
     margin-left: 4px;
@@ -113,6 +117,16 @@
   .speaking-dot {
     animation: speakingDot 1.2s ease-in-out infinite;
   }
+  .speech-word {
+    opacity: 0;
+    display: inline-block;
+    animation: speechWordIn 0.34s cubic-bezier(.16, 1, .3, 1) forwards;
+    will-change: opacity, transform, filter;
+  }
+  .speech-source-pop {
+    opacity: 0;
+    animation: speechWordIn 0.34s cubic-bezier(.16, 1, .3, 1) 2.58s forwards;
+  }
   @media (prefers-reduced-motion: reduce) {
     .ai-star,
     .site-header,
@@ -121,7 +135,9 @@
     .speech-bubble-pop,
     .speech-tail-pop,
     .speaking-pulse,
-    .speaking-dot {
+    .speaking-dot,
+    .speech-word,
+    .speech-source-pop {
       transition: none !important;
       animation: none !important;
       opacity: 1 !important;
@@ -1795,6 +1811,33 @@ function WfOperator({ lang, density, font, theme = 'paper' }) {
       {sub && <div style={{ font: `400 11px/1.3 ${sans}`, color: muted, marginTop: 4 }}>{sub}</div>}
     </div>
   );
+  const renderSpeech = () => {
+    const parts = L === 'fr'
+      ? [
+          { text: "D'après FiscalNote,", strong: false },
+          { text: "59 % des professionnels en affaires publiques passent jusqu'à 10 h par semaine à traiter la veille réglementaire", strong: true },
+          { text: "et l'actualité. BriefLayer automatise vos services de veille pour que ce temps serve enfin la stratégie et le suivi client.", strong: false },
+        ]
+      : [
+          { text: 'According to FiscalNote,', strong: false },
+          { text: '59% of public affairs professionals spend up to 10 hours a week processing regulatory monitoring', strong: true },
+          { text: 'and news. BriefLayer automates monitoring services so you can spend that time on strategy and client relationships.', strong: false },
+        ];
+    let wordIndex = 0;
+    return parts.map((part, partIndex) => (
+      <React.Fragment key={partIndex}>
+        {part.text.split(' ').map((word, i) => {
+          const delay = 0.98 + wordIndex * 0.035;
+          wordIndex += 1;
+          return (
+            <span key={`${partIndex}-${i}`} className="speech-word" style={{ animationDelay: `${delay}s`, fontWeight: part.strong ? 900 : 400 }}>
+              {word}{' '}
+            </span>
+          );
+        })}
+      </React.Fragment>
+    ));
+  };
 
   return (
     <>
@@ -1918,7 +1961,7 @@ function WfOperator({ lang, density, font, theme = 'paper' }) {
                 {L === 'fr' ? 'Enseignant-chercheur en droit du lobbying et spécialiste des IA juridiques' : 'Lecturer and researcher in lobbying law, specialising in legal AI'}
               </div>
               <a href="#cv" style={{ marginTop: 16, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 8, width: '100%', padding: '10px 12px', border: `1px solid ${border}`, borderRadius: 8, font: `800 12px/1 ${sans}`, color: accent, background: `${accent}0d`, textDecoration: 'none' }}>
-                {L === 'fr' ? 'En savoir +' : 'Learn more +'}
+                {L === 'fr' ? 'Qui suis-je ?' : 'Who am I?'}
               </a>
             </div>
 
@@ -1934,13 +1977,11 @@ function WfOperator({ lang, density, font, theme = 'paper' }) {
                 borderLeft: compact ? 'none' : `1px solid ${border}`,
                 borderBottom: compact ? 'none' : `1px solid ${border}`,
               }} className={compact ? undefined : 'speech-tail-pop'}></div>
-              <div style={{ position: 'relative', background: surface2, border: `1px solid ${border}`, borderRadius: 10, padding: compact ? 18 : 26, minHeight: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', boxShadow: `0 18px 44px ${accent2}10` }}>
-                <p style={{ font: `400 ${compact ? '17px' : density === 'dense' ? '19px' : '22px'}/1.42 ${body}`, color: ink, margin: 0 }}>
-                  {L === 'fr'
-                    ? <>D'après FiscalNote, <strong style={{ fontWeight: 900 }}>59 % des professionnels en affaires publiques passent jusqu'à 10 h par semaine à traiter la veille réglementaire</strong> et l'actualité. BriefLayer automatise vos services de veille pour que ce temps serve enfin la stratégie et le suivi client.</>
-                    : <>According to FiscalNote, <strong style={{ fontWeight: 900 }}>59% of public affairs professionals spend up to 10 hours a week processing regulatory monitoring</strong> and news. BriefLayer automates monitoring services so you can spend that time on strategy and client relationships.</>}
+              <div style={{ position: 'relative', background: surface2, border: `1px solid ${border}`, borderRadius: 10, padding: compact ? '24px 20px' : '34px 38px', minHeight: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center', boxShadow: `0 18px 44px ${accent2}10` }}>
+                <p style={{ font: `400 ${compact ? '19px' : density === 'dense' ? '23px' : '27px'}/1.36 ${body}`, color: ink, margin: 0, maxWidth: 780, textWrap: 'balance' }}>
+                  {renderSpeech()}
                 </p>
-                <div style={{ marginTop: 16 }}>
+                <div className="speech-source-pop" style={{ marginTop: 18 }}>
                   <a href={C.whoFor.url} target="_blank" rel="noreferrer" style={{ font: `600 12px/1.4 ${mono}`, color: muted, textDecoration: 'underline', textUnderlineOffset: 3 }}>
                     {t(C.whoFor.source)}
                   </a>
