@@ -57,8 +57,22 @@
     to   { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
   }
   @keyframes speechBubblePop {
-    0%   { opacity: 0; transform: translateY(10px) scale(0.985); filter: blur(6px); }
-    100% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+    0%   { opacity: 0; transform: translateX(-18px) translateY(8px) scale(0.92); filter: blur(8px); }
+    58%  { opacity: 1; transform: translateX(2px) translateY(0) scale(1.015); filter: blur(0); }
+    100% { opacity: 1; transform: translateX(0) translateY(0) scale(1); filter: blur(0); }
+  }
+  @keyframes speechTailPop {
+    0%   { opacity: 0; transform: rotate(45deg) scale(0); }
+    70%  { opacity: 1; transform: rotate(45deg) scale(1.08); }
+    100% { opacity: 1; transform: rotate(45deg) scale(1); }
+  }
+  @keyframes speakingPulse {
+    0%   { opacity: .5; transform: scale(.78); }
+    100% { opacity: 0; transform: scale(1.7); }
+  }
+  @keyframes speakingDot {
+    0%, 72%, 100% { opacity: .32; transform: translateY(0); }
+    36%           { opacity: 1; transform: translateY(-2px); }
   }
   .ai-star {
     display: inline-block;
@@ -85,15 +99,29 @@
   .speech-bubble-pop {
     opacity: 0;
     transform-origin: 26px 52px;
-    animation: speechBubblePop 0.58s cubic-bezier(.16, 1, .3, 1) 0.42s forwards;
+    animation: speechBubblePop 0.72s cubic-bezier(.16, 1, .3, 1) 0.52s forwards;
     will-change: opacity, transform, filter;
+  }
+  .speech-tail-pop {
+    opacity: 0;
+    transform-origin: center;
+    animation: speechTailPop 0.42s cubic-bezier(.16, 1, .3, 1) 0.64s forwards;
+  }
+  .speaking-pulse {
+    animation: speakingPulse 1.6s ease-out infinite;
+  }
+  .speaking-dot {
+    animation: speakingDot 1.2s ease-in-out infinite;
   }
   @media (prefers-reduced-motion: reduce) {
     .ai-star,
     .site-header,
     .site-header img,
     .section-reveal,
-    .speech-bubble-pop {
+    .speech-bubble-pop,
+    .speech-tail-pop,
+    .speaking-pulse,
+    .speaking-dot {
       transition: none !important;
       animation: none !important;
       opacity: 1 !important;
@@ -1858,7 +1886,7 @@ function WfOperator({ lang, density, font, theme = 'paper' }) {
         </section>
 
         {/* preuve incarnée */}
-        <section className="section-reveal" style={{ ...sectionFrame, marginBottom: compact ? 34 : 42, animationDelay: '0.12s' }}>
+        <section className="section-reveal" style={{ marginBottom: compact ? 34 : 42, animationDelay: '0.12s' }}>
           <div style={{
             display: 'grid',
             gridTemplateColumns: compact ? '1fr' : '260px minmax(0, 1fr)',
@@ -1876,7 +1904,14 @@ function WfOperator({ lang, density, font, theme = 'paper' }) {
               alignItems: 'center',
               textAlign: 'center',
               minWidth: 0,
+              position: 'relative',
             }}>
+              <div aria-hidden="true" style={{ position: 'absolute', right: compact ? 18 : -17, top: compact ? 116 : 92, width: 34, height: 34, borderRadius: 999, background: accent, color: chipFg, display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: `0 14px 32px ${accent}33`, zIndex: 2 }}>
+                <span className="speaking-pulse" style={{ position: 'absolute', inset: -5, borderRadius: 999, border: `1px solid ${accent}` }}></span>
+                {[0, 1, 2].map(i => (
+                  <span key={i} className="speaking-dot" style={{ width: 4, height: 4, borderRadius: 999, background: chipFg, margin: '0 1.5px', animationDelay: `${i * 0.16}s` }}></span>
+                ))}
+              </div>
               <div style={{ font: `900 ${compact ? '18px' : '20px'}/1.1 ${sans}`, ...headingWide, color: ink, marginBottom: 14 }}>{L === 'fr' ? 'Jimmy Kolbe-André, fondateur de BriefLayer' : 'Jimmy Kolbe-André, founder of BriefLayer'}</div>
               <img src="assets/jimmy-kolbe-portrait.jpg" alt="Portrait de Jimmy Kolbe-André" style={{ width: compact ? 112 : 132, height: compact ? 132 : 156, objectFit: 'cover', objectPosition: '50% 22%', borderRadius: 10, border: `1px solid ${border}`, boxShadow: `0 16px 36px ${accent}18`, flex: 'none' }} />
               <div style={{ font: `500 13px/1.45 ${body}`, color: ink2, marginTop: 14, maxWidth: 210 }}>
@@ -1898,7 +1933,7 @@ function WfOperator({ lang, density, font, theme = 'paper' }) {
                 background: surface2,
                 borderLeft: compact ? 'none' : `1px solid ${border}`,
                 borderBottom: compact ? 'none' : `1px solid ${border}`,
-              }}></div>
+              }} className={compact ? undefined : 'speech-tail-pop'}></div>
               <div style={{ position: 'relative', background: surface2, border: `1px solid ${border}`, borderRadius: 10, padding: compact ? 18 : 26, minHeight: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', boxShadow: `0 18px 44px ${accent2}10` }}>
                 <p style={{ font: `400 ${compact ? '17px' : density === 'dense' ? '19px' : '22px'}/1.42 ${body}`, color: ink, margin: 0 }}>
                   {L === 'fr'
