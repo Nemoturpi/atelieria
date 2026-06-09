@@ -75,7 +75,7 @@
     36%           { opacity: 1; transform: translateY(-2px); }
   }
   @keyframes typingIndicatorOut {
-    0%, 76% { opacity: 1; transform: translateY(0); }
+    0%, 92% { opacity: 1; transform: translateY(0); }
     100%    { opacity: 0; transform: translateY(-4px); }
   }
   @keyframes speechWordIn {
@@ -122,7 +122,7 @@
     animation: speakingDot 1.2s ease-in-out infinite;
   }
   .speech-typing {
-    animation: typingIndicatorOut 1.75s ease forwards;
+    animation: typingIndicatorOut 7.35s ease forwards;
     pointer-events: none;
   }
   .speech-word {
@@ -134,7 +134,7 @@
   }
   .speech-source-pop {
     opacity: 0;
-    animation: speechWordIn 0.42s cubic-bezier(.16, 1, .3, 1) 5.7s forwards;
+    animation: speechWordIn 0.42s cubic-bezier(.16, 1, .3, 1) 7.52s forwards;
   }
   @media (prefers-reduced-motion: reduce) {
     .ai-star,
@@ -185,8 +185,8 @@ const C = {
     ],
   },
   whoFor: {
-    line:    { fr: "D'après FiscalNote, 59 % des professionnels en affaires publiques passent jusqu'à 10 h par semaine à traiter la veille réglementaire et l'actualité. BriefLayer automatise vos services de veille pour que ce temps serve enfin la stratégie et le suivi client.",
-               en: 'According to FiscalNote, 59% of public affairs professionals spend up to 10 hours a week processing regulatory monitoring and news. BriefLayer automates monitoring services so you can spend that time on strategy and client relationships.' },
+    line:    { fr: "D'après FiscalNote, 59 % des professionnels en affaires publiques passent jusqu'à 10 h par semaine à traiter la veille réglementaire et l'actualité. BriefLayer automatise vos services de veille pour que ce temps soit consacré à la stratégie, au terrain et au suivi client.",
+               en: 'According to FiscalNote, 59% of public affairs professionals spend up to 10 hours a week processing regulatory monitoring and news. BriefLayer automates monitoring services so you can spend that time on strategy, fieldwork and client follow-up.' },
     source:  { fr: "Source : FiscalNote, The 2025 State of Government Affairs",
                en: 'Source: FiscalNote, The 2025 State of Government Affairs' },
     url: 'https://fiscalnote-marketing.s3.amazonaws.com/State-of-Government-Affairs_2025.pdf',
@@ -1831,18 +1831,18 @@ function WfOperator({ lang, density, font, theme = 'paper' }) {
       ? [
           { text: "D'après FiscalNote,", strong: false },
           { text: "59 % des professionnels en affaires publiques passent jusqu'à 10 h par semaine à traiter la veille réglementaire", strong: true },
-          { text: "et l'actualité. BriefLayer automatise vos services de veille pour que ce temps serve enfin la stratégie et le suivi client.", strong: false },
+          { text: "et l'actualité. BriefLayer automatise vos services de veille pour que ce temps soit consacré à la stratégie, au terrain et au suivi client.", strong: false },
         ]
       : [
           { text: 'According to FiscalNote,', strong: false },
           { text: '59% of public affairs professionals spend up to 10 hours a week processing regulatory monitoring', strong: true },
-          { text: 'and news. BriefLayer automates monitoring services so you can spend that time on strategy and client relationships.', strong: false },
+          { text: 'and news. BriefLayer automates monitoring services so you can spend that time on strategy, fieldwork and client follow-up.', strong: false },
         ];
     let wordIndex = 0;
     return parts.map((part, partIndex) => (
       <React.Fragment key={partIndex}>
         {part.text.split(' ').map((word, i) => {
-          const delay = 1.72 + wordIndex * 0.085;
+          const delay = 1.85 + wordIndex * 0.105;
           wordIndex += 1;
           return (
             <span key={`${partIndex}-${i}`} className="speech-word" style={{ animationDelay: `${delay}s`, fontWeight: part.strong ? 900 : 400 }}>
