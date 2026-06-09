@@ -1846,56 +1846,68 @@ function WfOperator({ lang, density, font, theme = 'paper' }) {
           </div>
         </section>
 
-        {/* crédibilité */}
-        <section id="cv" className="section-reveal" style={{ marginBottom: compact ? 34 : 42, animationDelay: '0.1s' }}>
+        {/* preuve incarnée */}
+        <section id="cv" className="section-reveal" style={{ ...sectionFrame, marginBottom: compact ? 34 : 42, animationDelay: '0.12s' }}>
           <div style={{
             display: 'grid',
-            gridTemplateColumns: compact ? '1fr' : 'minmax(220px, 0.9fr) minmax(0, 1.6fr)',
-            gap: compact ? 18 : 26,
-            alignItems: 'stretch',
-            padding: compact ? '16px 0' : '18px 0',
-            borderTop: `1px solid ${border}`,
-            borderBottom: `1px solid ${border}`,
+            gridTemplateColumns: compact ? '1fr' : '178px minmax(0, 1fr)',
+            gap: compact ? 18 : 28,
+            alignItems: 'start',
           }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 14, minWidth: 0 }}>
-              <img src="assets/jimmy-kolbe-portrait.jpg" alt="Portrait de Jimmy Kolbe-André" style={{ width: 64, height: 76, objectFit: 'cover', objectPosition: '50% 22%', borderRadius: 8, border: `1px solid ${border}`, boxShadow: `0 10px 24px ${accent}18`, flex: 'none' }} />
+              <img src="assets/jimmy-kolbe-portrait.jpg" alt="Portrait de Jimmy Kolbe-André" style={{ width: compact ? 68 : 82, height: compact ? 78 : 96, objectFit: 'cover', objectPosition: '50% 22%', borderRadius: 8, border: `1px solid ${border}`, boxShadow: `0 12px 30px ${accent}18`, flex: 'none' }} />
               <div style={{ minWidth: 0 }}>
-                <div style={{ font: `900 ${compact ? '17px' : '19px'}/1.08 ${sans}`, ...headingWide, color: ink }}>{C.whyMe.name}</div>
-                <div style={{ font: `500 12.5px/1.35 ${body}`, color: muted, marginTop: 5 }}>{L === 'fr' ? 'Droit du lobbying · produit · IA appliquée' : 'Lobbying law · product · applied AI'}</div>
+                <div style={{ font: `900 ${compact ? '17px' : '18px'}/1.08 ${sans}`, ...headingWide, color: ink }}>{C.whyMe.name}</div>
+                <div style={{ font: `500 12px/1.35 ${body}`, color: muted, marginTop: 5 }}>{L === 'fr' ? 'Droit du lobbying · IA appliquée' : 'Lobbying law · applied AI'}</div>
               </div>
             </div>
-            <div style={{
-              display: 'grid',
-              gridTemplateColumns: '1fr',
-              borderLeft: compact ? 'none' : `1px solid ${border}`,
-              paddingLeft: compact ? 0 : 22,
-            }}>
-              {C.whyMe.proof.map((item, i) => (
-                <div key={i} style={{
-                  display: 'grid',
-                  gridTemplateColumns: compact ? '1fr' : '124px minmax(0, 1fr)',
-                  gap: compact ? 3 : 16,
-                  padding: i === 0 ? '0 0 8px' : i === C.whyMe.proof.length - 1 ? '8px 0 0' : '8px 0',
-                  borderBottom: i === C.whyMe.proof.length - 1 ? 'none' : `1px solid ${border}`,
-                }}>
-                  <div style={{ font: `850 11.5px/1.2 ${sans}`, ...headingWide, color: ink }}>{t(item.k)}</div>
-                  <div style={{ font: `400 13px/1.42 ${body}`, color: ink2 }}>{t(item.v)}</div>
+
+            <div style={{ position: 'relative' }}>
+              <div style={{
+                position: compact ? 'static' : 'absolute',
+                left: -12,
+                top: 18,
+                width: 22,
+                height: 22,
+                transform: compact ? 'none' : 'rotate(45deg)',
+                background: surface,
+                borderLeft: compact ? 'none' : `1px solid ${border}`,
+                borderBottom: compact ? 'none' : `1px solid ${border}`,
+              }}></div>
+              <div style={{ position: 'relative', background: surface, border: `1px solid ${border}`, borderRadius: 10, padding: compact ? 18 : 22 }}>
+                <p style={{ font: `400 ${compact ? '17px' : density === 'dense' ? '19px' : '22px'}/1.42 ${body}`, color: ink, margin: 0 }}>
+                  {L === 'fr'
+                    ? <>D'après FiscalNote, <strong style={{ fontWeight: 900 }}>59 % des professionnels en affaires publiques passent jusqu'à 10 h par semaine à traiter la veille réglementaire</strong> et l'actualité. BriefLayer automatise vos services de veille pour que ce temps serve enfin la stratégie et le suivi client.</>
+                    : <>According to FiscalNote, <strong style={{ fontWeight: 900 }}>59% of public affairs professionals spend up to 10 hours a week processing regulatory monitoring</strong> and news. BriefLayer automates monitoring services so you can spend that time on strategy and client relationships.</>}
+                </p>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 14, flexWrap: 'wrap', marginTop: 16 }}>
+                  <a href={C.whoFor.url} target="_blank" rel="noreferrer" style={{ font: `600 12px/1.4 ${mono}`, color: muted, textDecoration: 'underline', textUnderlineOffset: 3 }}>
+                    {t(C.whoFor.source)}
+                  </a>
+                  <details style={{ minWidth: compact ? '100%' : 220 }}>
+                    <summary style={{ cursor: 'pointer', listStyle: 'none', display: 'inline-flex', alignItems: 'center', gap: 8, font: `800 12px/1 ${sans}`, color: accent }}>
+                      <span>{L === 'fr' ? 'Qui suis-je ?' : 'Who am I?'}</span>
+                      <span aria-hidden="true">+</span>
+                    </summary>
+                    <div style={{ marginTop: 14, borderTop: `1px solid ${border}` }}>
+                      {C.whyMe.proof.map((item, i) => (
+                        <div key={i} style={{
+                          display: 'grid',
+                          gridTemplateColumns: compact ? '1fr' : '116px minmax(0, 1fr)',
+                          gap: compact ? 3 : 14,
+                          padding: i === C.whyMe.proof.length - 1 ? '10px 0 0' : '10px 0',
+                          borderBottom: i === C.whyMe.proof.length - 1 ? 'none' : `1px solid ${border}`,
+                        }}>
+                          <div style={{ font: `850 11.5px/1.2 ${sans}`, ...headingWide, color: ink }}>{t(item.k)}</div>
+                          <div style={{ font: `400 13px/1.45 ${body}`, color: ink2 }}>{t(item.v)}</div>
+                        </div>
+                      ))}
+                    </div>
+                  </details>
                 </div>
-              ))}
+              </div>
             </div>
           </div>
-        </section>
-
-        {/* pour qui */}
-        <section className="section-reveal" style={{ ...sectionFrame, marginBottom: compact ? 24 : 30, textAlign: 'center', animationDelay: '0.12s' }}>
-          <p style={{ font: `400 ${compact ? '18px' : density === 'dense' ? '20px' : '24px'}/1.4 ${body}`, color: ink, margin: '0 auto', maxWidth: 800 }}>
-            {L === 'fr'
-              ? <>D'après FiscalNote, <strong style={{ fontWeight: 900 }}>59 % des professionnels en affaires publiques passent jusqu'à 10 h par semaine à traiter la veille réglementaire</strong> et l'actualité. BriefLayer automatise vos services de veille pour que ce temps serve enfin la stratégie et le suivi client.</>
-              : <>According to FiscalNote, <strong style={{ fontWeight: 900 }}>59% of public affairs professionals spend up to 10 hours a week processing regulatory monitoring</strong> and news. BriefLayer automates monitoring services so you can spend that time on strategy and client relationships.</>}
-          </p>
-          <a href={C.whoFor.url} target="_blank" rel="noreferrer" style={{ display: 'inline-block', marginTop: 14, font: `600 12px/1.4 ${mono}`, color: muted, textDecoration: 'underline', textUnderlineOffset: 3 }}>
-            {t(C.whoFor.source)}
-          </a>
         </section>
 
         {/* douleur */}
