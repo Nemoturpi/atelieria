@@ -301,22 +301,6 @@ const C = {
              en: 'I am completing a doctorate in public law at Université Paris-Panthéon-Assas on the regulation of lobbying in France. I also teach in the public affairs master’s programme at the Institut Catholique de Paris.' },
     p2:    { fr: "J’ai passé un an et demi comme Chief Product Officer chez Pappers, où j’ai conçu des plateformes de veille utilisées par des professionnels des affaires publiques et des avocats. Au printemps 2026, j’ai assuré une formation doctorale à l’intelligence artificielle à Paris Panthéon Assas, en y partageant mes méthodes et mes outils d’automatisation appliqués à la recherche juridique.",
              en: 'I spent a year and a half as Chief Product Officer at Pappers, where I designed monitoring platforms used by public affairs professionals and lawyers. In spring 2026, I taught a doctoral seminar on artificial intelligence at Paris-Panthéon-Assas, sharing my methods and automation tools applied to legal research.' },
-    p3:    { fr: "",
-             en: '' },
-    p4:    { fr: "",
-             en: '' },
-    mentions: { fr: '', en: '' },
-    proof: [
-      { k: { fr: 'Droit du lobbying', en: 'Lobbying law' },
-        v: { fr: 'Doctorat en droit public consacré à l’encadrement du lobbying en France.', en: 'Doctorate in public law on the regulation of lobbying in France.' } },
-      { k: { fr: 'Affaires publiques', en: 'Public affairs' },
-        v: { fr: 'Enseigne dans le master affaires publiques de l’Institut catholique de Paris.', en: 'Teaching in the public affairs master’s programme at the Institut Catholique de Paris.' } },
-      { k: { fr: 'Pappers', en: 'Pappers' },
-        v: { fr: 'Ancien Chief Product Officer, responsable de plateformes de veille utilisées par des juristes et des professionnels des affaires publiques.', en: 'Former CPO, responsible for monitoring platforms used by legal and public affairs professionals.' } },
-      { k: { fr: 'IA appliquée', en: 'Applied AI' },
-        v: { fr: 'Formation doctorale à l’intelligence artificielle donnée à Paris Panthéon Assas en 2026.', en: 'Doctoral training on artificial intelligence delivered at Paris Panthéon Assas in 2026.' } },
-    ],
-    cvLink:   { fr: '', en: '' },
     name:     'Jimmy Kolbe-André',
   },
   faq: {
@@ -383,42 +367,6 @@ window.CALENDLY_URL = CALENDLY_URL;
 <!-- Shared primitives                                                         -->
 <!-- ──────────────────────────────────────────────────────────────────────── -->
 <script type="text/babel">
-function WfPortrait({ w = 160, h = 200, dark = false, ring = 0, style, label = 'JK' }) {
-  const stroke = dark ? 'rgba(255,255,255,.7)' : 'rgba(0,0,0,.75)';
-  const bg = dark ? '#181715' : '#f1ede4';
-  return (
-    <div style={{ position: 'relative', width: w, height: h, ...style }}>
-      <svg viewBox="0 0 160 200" width="100%" height="100%" style={{ display: 'block' }}>
-        <rect x="1" y="1" width="158" height="198" rx={ring} fill={bg} stroke={stroke} strokeWidth="1.5" strokeDasharray="4 3" />
-        <g fill="none" stroke={stroke} strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round">
-          <circle cx="80" cy="86" r="32" />
-          <path d="M30 198 C 36 158, 60 138, 80 138 C 100 138, 124 158, 130 198" />
-          <path d="M55 70 q 8 -22 26 -22 q 22 0 30 22" />
-          <path d="M64 88 h 12 M84 88 h 12" />
-          <path d="M72 102 q 8 6 16 0" />
-        </g>
-        <text x="80" y="20" textAnchor="middle" fontFamily="ui-monospace, Menlo, monospace" fontSize="9" fill={stroke} letterSpacing="1">{label}</text>
-      </svg>
-    </div>
-  );
-}
-
-function WfLogo({ label, dark = false, w, style }) {
-  const c = dark ? 'rgba(255,255,255,.55)' : 'rgba(0,0,0,.55)';
-  return (
-    <span style={{
-      display: 'inline-flex', alignItems: 'center', gap: 6,
-      padding: '4px 10px', border: `1px dashed ${c}`, borderRadius: 999,
-      font: '500 10px/1 ui-monospace, Menlo, monospace',
-      textTransform: 'uppercase', letterSpacing: '.06em', color: c,
-      width: w, justifyContent: 'center', whiteSpace: 'nowrap', ...style,
-    }}>
-      <span style={{ width: 6, height: 6, background: c, borderRadius: 1 }}></span>
-      {label}
-    </span>
-  );
-}
-
 function WfLangToggle({ lang, setLang, dark = false, accent, compact = false }) {
   const off = dark ? 'rgba(255,255,255,.55)' : 'rgba(23,34,92,.58)';
   const langs = [
@@ -481,7 +429,7 @@ function WfLangToggle({ lang, setLang, dark = false, accent, compact = false }) 
   );
 }
 
-Object.assign(window, { WfPortrait, WfLogo, WfLangToggle });
+Object.assign(window, { WfLangToggle });
 </script>
 
 <!-- ──────────────────────────────────────────────────────────────────────── -->
@@ -1794,6 +1742,9 @@ function WfOperator({ lang, density, font, theme = 'paper' }) {
   const medium = vw < 1040;
   const pagePad = compact ? 24 : pad;
   const sectionGap = compact ? 52 : pad;
+  const heroSectionGap = sectionGap;
+  const proofSectionGap = sectionGap;
+  const proofInnerGap = compact ? 20 : 34;
   const logoWidth = compact ? (scrolled ? 170 : 206) : (scrolled ? 224 : 292);
 
   const Card = ({ children, style }) => (
@@ -1815,16 +1766,6 @@ function WfOperator({ lang, density, font, theme = 'paper' }) {
     boxShadow: isDark ? `0 18px 54px rgba(0, 0, 0, .22)` : `0 18px 54px rgba(94, 72, 10, .12)`,
     overflow: 'hidden',
   };
-  const Node = ({ x, y, w = 140, h = 56, title, sub, color = accent, style, glow }) => (
-    <div style={{
-      position: 'absolute', left: x, top: y, width: w, height: h, background: surface2, border: `1px solid ${color}66`,
-      borderRadius: 8, padding: '8px 12px', boxShadow: glow ? `0 0 24px ${color}55` : 'none',
-      display: 'flex', flexDirection: 'column', justifyContent: 'center', ...style,
-    }}>
-      <div style={{ font: `600 10px/1 ${mono}`, color, letterSpacing: '.08em', textTransform: 'uppercase' }}>{title}</div>
-      {sub && <div style={{ font: `400 11px/1.3 ${sans}`, color: muted, marginTop: 4 }}>{sub}</div>}
-    </div>
-  );
   const renderSpeech = () => {
     const parts = L === 'fr'
       ? [
@@ -1915,7 +1856,7 @@ function WfOperator({ lang, density, font, theme = 'paper' }) {
         </header>
 
         {/* HERO — éditorial 2 colonnes (texte + bloc setup) */}
-        <section className="section-reveal" style={{ marginBottom: compact ? 48 : pad + 48, paddingTop: compact ? 12 : 36, position: 'relative', animationDelay: '0.03s' }}>
+        <section className="section-reveal" style={{ marginBottom: heroSectionGap, paddingTop: compact ? 12 : 36, position: 'relative', animationDelay: '0.03s' }}>
           <div style={{ display: 'grid', gridTemplateColumns: compact ? '1fr' : 'minmax(0, 1.08fr) minmax(0, 0.92fr)', gap: compact ? 34 : 50, alignItems: 'center' }}>
             <div style={{ textAlign: 'left', minWidth: 0 }}>
               {t(C.hero.eyebrow) && (
@@ -1943,11 +1884,11 @@ function WfOperator({ lang, density, font, theme = 'paper' }) {
         </section>
 
         {/* preuve incarnée */}
-        <section className="section-reveal" style={{ marginBottom: compact ? 52 : medium ? 52 : 42, animationDelay: '0.12s' }}>
+        <section className="section-reveal" style={{ marginBottom: proofSectionGap, animationDelay: '0.12s' }}>
           <div style={{
             display: 'grid',
             gridTemplateColumns: compact ? '1fr' : '260px minmax(0, 1fr)',
-            gap: compact ? 16 : 34,
+            gap: proofInnerGap,
             alignItems: 'stretch',
           }}>
             <div style={{
@@ -1978,16 +1919,17 @@ function WfOperator({ lang, density, font, theme = 'paper' }) {
 
             <div className="speech-bubble-pop" style={{ position: 'relative' }}>
               <div style={{
-                position: compact ? 'static' : 'absolute',
+                display: compact ? 'none' : 'block',
+                position: 'absolute',
                 left: -21,
-                top: compact ? 0 : 56,
+                top: 56,
                 width: 42,
                 height: 42,
-                transform: compact ? 'none' : 'rotate(45deg)',
+                transform: 'rotate(45deg)',
                 background: speechTailBg,
-                borderLeft: compact ? 'none' : speechBorder,
-                borderBottom: compact ? 'none' : speechBorder,
-                boxShadow: compact ? 'none' : `-12px 12px 26px ${accent}12`,
+                borderLeft: speechBorder,
+                borderBottom: speechBorder,
+                boxShadow: `-12px 12px 26px ${accent}12`,
               }} className={compact ? undefined : 'speech-tail-pop'}></div>
               <div style={{ position: 'relative', background: speechBg, border: speechBorder, borderRadius: 12, padding: compact ? '28px 22px' : '38px 42px', minHeight: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center', boxShadow: isDark ? `0 18px 44px ${accent2}10` : '0 22px 58px rgba(18,97,166,.16), inset 0 1px 0 rgba(255,255,255,.72)' }}>
                 <div className="speech-typing" aria-hidden="true" style={{ position: 'absolute', top: compact ? 18 : 22, left: compact ? 18 : 24, display: 'inline-flex', alignItems: 'center', gap: 5, padding: '8px 11px', borderRadius: 999, background: isDark ? `${surface}dd` : 'rgba(255,255,255,.72)', border: speechBorder, color: accent, boxShadow: `0 12px 26px ${accent}16` }}>
@@ -2127,7 +2069,6 @@ function WfOperator({ lang, density, font, theme = 'paper' }) {
                   </p>
                 ))}
               </div>
-              {t(C.whyMe.cvLink) && <span style={{ display:'inline-block', marginTop:22, color:accent, font:`500 13px/1 ${sans}` }}>{t(C.whyMe.cvLink)}</span>}
             </div>
 
             <figure style={{ margin: 0, position: 'relative', height: compact ? 340 : medium ? 420 : 500 }}>
