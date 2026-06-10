@@ -125,6 +125,11 @@
     animation: typingIndicatorOut 7.35s ease forwards;
     pointer-events: none;
   }
+  .speech-typing-mobile {
+    left: 50% !important;
+    top: 16px !important;
+    translate: -50% 0;
+  }
   .speech-word {
     opacity: 0;
     display: inline-block;
@@ -1932,7 +1937,7 @@ function WfOperator({ lang, density, font, theme = 'paper' }) {
                 boxShadow: `-12px 12px 26px ${accent}12`,
               }} className={compact ? undefined : 'speech-tail-pop'}></div>
               <div style={{ position: 'relative', background: speechBg, border: speechBorder, borderRadius: 12, padding: compact ? '28px 22px' : '38px 42px', minHeight: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center', boxShadow: isDark ? `0 18px 44px ${accent2}10` : '0 22px 58px rgba(18,97,166,.16), inset 0 1px 0 rgba(255,255,255,.72)' }}>
-                <div className="speech-typing" aria-hidden="true" style={{ position: 'absolute', top: compact ? 18 : 22, left: compact ? 18 : 24, display: 'inline-flex', alignItems: 'center', gap: 5, padding: '8px 11px', borderRadius: 999, background: isDark ? `${surface}dd` : 'rgba(255,255,255,.72)', border: speechBorder, color: accent, boxShadow: `0 12px 26px ${accent}16` }}>
+                <div className={`speech-typing ${compact ? 'speech-typing-mobile' : ''}`} aria-hidden="true" style={{ position: 'absolute', top: compact ? 18 : 22, left: compact ? 18 : 24, display: 'inline-flex', alignItems: 'center', gap: 5, padding: '8px 11px', borderRadius: 999, background: isDark ? `${surface}dd` : 'rgba(255,255,255,.72)', border: speechBorder, color: accent, boxShadow: `0 12px 26px ${accent}16` }}>
                   {[0, 1, 2].map(i => (
                     <span key={i} className="speaking-dot" style={{ width: 5, height: 5, borderRadius: 999, background: accent, animationDelay: `${i * 0.16}s` }}></span>
                   ))}
