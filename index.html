@@ -297,10 +297,22 @@ const C = {
   },
   whyMe: {
     title: { fr: "Enseignant-chercheur en droit du lobbying et spécialiste des IA juridiques", en: 'Lecturer and researcher in lobbying law, specialising in legal AI' },
-    p1:    { fr: "Je termine en 2026 un doctorat de droit public à l’université Paris Panthéon Assas sur l’encadrement du lobbying en France. J’enseigne également dans le master affaires publiques de l’Institut catholique de Paris.",
-             en: 'I am completing a doctorate in public law at Université Paris-Panthéon-Assas on the regulation of lobbying in France. I also teach in the public affairs master’s programme at the Institut Catholique de Paris.' },
-    p2:    { fr: "J’ai passé un an et demi comme Chief Product Officer chez Pappers, où j’ai conçu des plateformes de veille utilisées par des professionnels des affaires publiques et des avocats. Au printemps 2026, j’ai assuré une formation doctorale à l’intelligence artificielle à Paris Panthéon Assas, en y partageant mes méthodes et mes outils d’automatisation appliqués à la recherche juridique.",
-             en: 'I spent a year and a half as Chief Product Officer at Pappers, where I designed monitoring platforms used by public affairs professionals and lawyers. In spring 2026, I taught a doctoral seminar on artificial intelligence at Paris-Panthéon-Assas, sharing my methods and automation tools applied to legal research.' },
+    credentials: [
+      { text: { fr: "Enseignant-chercheur en droit public à l’Université Paris-Panthéon-Assas, expert de l’encadrement juridique du lobbying.",
+                en: 'Lecturer and researcher in public law at Université Paris-Panthéon-Assas, specialising in the legal framework governing lobbying.' } },
+      { text: { fr: "Formateur IA à l’Université Paris-Panthéon-Assas.",
+                en: 'AI instructor at Université Paris-Panthéon-Assas.' } },
+      { text: { fr: "Ancien Chief Product Officer chez Pappers, où j’ai conçu avec une équipe de développeurs de très haut niveau des plateformes de veille utilisées par des professionnels des affaires publiques et des avocats.",
+                en: 'Former Chief Product Officer at Pappers, where I worked with a highly skilled engineering team to design monitoring platforms used by public affairs professionals and lawyers.' } },
+      { text: { fr: "Enseignant dans le master affaires publiques de l’Institut catholique de Paris.",
+                en: 'Lecturer in the public affairs master’s programme at the Institut Catholique de Paris.' },
+        children: [
+          { fr: "Créateur du premier cours français sur le droit et l’éthique du lobbying.",
+            en: 'Creator of the first French course on lobbying law and ethics.' },
+          { fr: "Créateur du premier cours au monde sur les méthodes de légistique appliquées au lobbying.",
+            en: 'Creator of the first course worldwide on legislative drafting methods applied to lobbying.' },
+        ] },
+    ],
     name:     'Jimmy Kolbe-André',
   },
   faq: {
@@ -2062,13 +2074,41 @@ function WfOperator({ lang, density, font, theme = 'paper' }) {
               <h2 style={{ font: `900 ${compact ? '34px' : density === 'dense' ? '44px' : '54px'}/1.02 ${sans}`, ...headingWide, margin: '0 0 12px', color: ink }}>{C.whyMe.name}</h2>
               <p style={{ font: `500 ${compact ? '16px' : '19px'}/1.5 ${body}`, color: ink2, margin: '0 0 26px', maxWidth: 640 }}>{t(C.whyMe.title)}</p>
 
-              <div style={{ maxWidth: 660 }}>
-                {[C.whyMe.p1, C.whyMe.p2].map((p, i) => (
-                  <p key={i} style={{ font: `400 ${compact ? '15.5px' : '17px'}/1.72 ${body}`, color: ink2, margin: i === 0 ? '0 0 18px' : 0 }}>
-                    {t(p)}
-                  </p>
+              <ul style={{ listStyle: 'none', padding: 0, margin: 0, maxWidth: 720, borderTop: `1px solid ${border}` }}>
+                {C.whyMe.credentials.map((item, i) => (
+                  <li key={i} style={{
+                    display: 'grid',
+                    gridTemplateColumns: compact ? '18px minmax(0, 1fr)' : '22px minmax(0, 1fr)',
+                    gap: compact ? 12 : 14,
+                    padding: compact ? '15px 0' : '17px 0',
+                    borderBottom: `1px solid ${border}`,
+                  }}>
+                    <span aria-hidden="true" style={{
+                      width: compact ? 8 : 9,
+                      height: compact ? 8 : 9,
+                      marginTop: compact ? 8 : 9,
+                      borderRadius: 999,
+                      background: accent,
+                      boxShadow: `0 0 0 4px ${accent}16`,
+                    }}></span>
+                    <span style={{ minWidth: 0 }}>
+                      <span style={{ display: 'block', font: `500 ${compact ? '15px' : '16.5px'}/1.58 ${body}`, color: ink2 }}>
+                        {t(item.text)}
+                      </span>
+                      {item.children && (
+                        <span style={{ display: 'grid', gap: 8, marginTop: 12 }}>
+                          {item.children.map((child, childIndex) => (
+                            <span key={childIndex} style={{ display: 'grid', gridTemplateColumns: '12px minmax(0, 1fr)', gap: 10, font: `400 ${compact ? '14px' : '15px'}/1.55 ${body}`, color: muted }}>
+                              <span aria-hidden="true" style={{ width: 5, height: 5, marginTop: 8, borderRadius: 999, background: accent2 }}></span>
+                              <span>{t(child)}</span>
+                            </span>
+                          ))}
+                        </span>
+                      )}
+                    </span>
+                  </li>
                 ))}
-              </div>
+              </ul>
             </div>
 
             <figure style={{ margin: 0, position: 'relative', height: compact ? 340 : medium ? 420 : 500 }}>
