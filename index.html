@@ -298,13 +298,17 @@ const C = {
   whyMe: {
     title: { fr: "Enseignant-chercheur en droit du lobbying et spécialiste des IA juridiques", en: 'Lecturer and researcher in lobbying law, specialising in legal AI' },
     credentials: [
-      { text: { fr: "Enseignant-chercheur en droit public à l’Université Paris-Panthéon-Assas, expert de l’encadrement juridique du lobbying.",
+      { mark: 'ASSAS',
+        text: { fr: "Enseignant-chercheur en droit public à l’Université Paris-Panthéon-Assas, expert de l’encadrement juridique du lobbying.",
                 en: 'Lecturer and researcher in public law at Université Paris-Panthéon-Assas, specialising in the legal framework governing lobbying.' } },
-      { text: { fr: "Formateur IA à l’Université Paris-Panthéon-Assas.",
+      { mark: 'ASSAS',
+        text: { fr: "Formateur IA à l’Université Paris-Panthéon-Assas.",
                 en: 'AI instructor at Université Paris-Panthéon-Assas.' } },
-      { text: { fr: "Ancien Chief Product Officer chez Pappers, où j’ai conçu avec une équipe de développeurs de très haut niveau des plateformes de veille utilisées par des professionnels des affaires publiques et des avocats.",
+      { mark: 'Pappers',
+        text: { fr: "Ancien Chief Product Officer chez Pappers, où j’ai conçu avec une équipe de développeurs de très haut niveau des plateformes de veille utilisées par des professionnels des affaires publiques et des avocats.",
                 en: 'Former Chief Product Officer at Pappers, where I worked with a highly skilled engineering team to design monitoring platforms used by public affairs professionals and lawyers.' } },
-      { text: { fr: "Enseignant dans le master affaires publiques de l’Institut catholique de Paris.",
+      { mark: 'ICP',
+        text: { fr: "Enseignant dans le master affaires publiques de l’Institut catholique de Paris.",
                 en: 'Lecturer in the public affairs master’s programme at the Institut Catholique de Paris.' },
         children: [
           { fr: "Créateur du premier cours français sur le droit et l’éthique du lobbying.",
@@ -2078,19 +2082,28 @@ function WfOperator({ lang, density, font, theme = 'paper' }) {
                 {C.whyMe.credentials.map((item, i) => (
                   <li key={i} style={{
                     display: 'grid',
-                    gridTemplateColumns: compact ? '18px minmax(0, 1fr)' : '22px minmax(0, 1fr)',
-                    gap: compact ? 12 : 14,
+                    gridTemplateColumns: compact ? '56px minmax(0, 1fr)' : '88px minmax(0, 1fr)',
+                    gap: compact ? 12 : 18,
                     padding: compact ? '15px 0' : '17px 0',
                     borderBottom: `1px solid ${border}`,
+                    alignItems: 'start',
                   }}>
                     <span aria-hidden="true" style={{
-                      width: compact ? 8 : 9,
-                      height: compact ? 8 : 9,
-                      marginTop: compact ? 8 : 9,
-                      borderRadius: 999,
-                      background: accent,
-                      boxShadow: `0 0 0 4px ${accent}16`,
-                    }}></span>
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      width: compact ? 56 : 88,
+                      minHeight: compact ? 34 : 38,
+                      padding: compact ? '7px 6px' : '8px 10px',
+                      borderRadius: 7,
+                      border: `1px solid ${border}`,
+                      background: isDark ? `${surface2}cc` : 'rgba(255,255,255,.62)',
+                      color: item.mark === 'Pappers' ? '#1261a6' : ink,
+                      font: `900 ${item.mark === 'Pappers' ? (compact ? '10px' : '13px') : (compact ? '9px' : '11px')}/1 ${sans}`,
+                      letterSpacing: item.mark === 'ICP' ? '.12em' : item.mark === 'ASSAS' ? '.08em' : '0',
+                      textTransform: item.mark === 'Pappers' ? 'none' : 'uppercase',
+                      boxShadow: `0 10px 24px ${accent}0d`,
+                    }}>{item.mark}</span>
                     <span style={{ minWidth: 0 }}>
                       <span style={{ display: 'block', font: `500 ${compact ? '15px' : '16.5px'}/1.58 ${body}`, color: ink2 }}>
                         {t(item.text)}
