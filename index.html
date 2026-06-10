@@ -2127,9 +2127,9 @@ function WfOperator({ lang, density, font, theme = 'paper' }) {
               {t(C.whyMe.cvLink) && <span style={{ display:'inline-block', marginTop:22, color:accent, font:`500 13px/1 ${sans}` }}>{t(C.whyMe.cvLink)}</span>}
             </div>
 
-            <figure style={{ margin: 0, position: 'relative', height: compact ? 340 : medium ? 420 : 500, borderRadius: 18, overflow: 'hidden', border: isDark ? `1px solid ${border}` : '1px solid rgba(18,97,166,.18)', background: isDark ? surface2 : 'linear-gradient(145deg, rgba(255,255,255,.94), rgba(234,248,255,.86))', boxShadow: isDark ? '0 24px 70px rgba(0,0,0,.26)' : '0 24px 70px rgba(18,61,106,.14), inset 0 1px 0 rgba(255,255,255,.9)' }}>
+            <figure style={{ margin: 0, position: 'relative', height: compact ? 340 : medium ? 420 : 500 }}>
               <div style={{ position: 'absolute', inset: 0, background: `radial-gradient(circle at 22% 16%, ${accent}20 0%, transparent 34%), radial-gradient(circle at 82% 82%, ${accent2}12 0%, transparent 38%)` }}></div>
-              <img src="assets/jimmy-kolbe-podium.webp" alt="Jimmy Kolbe-André intervenant à Paris Panthéon Assas" style={{ position: 'absolute', left: '50%', top: '50%', width: compact ? '78%' : '74%', height: 'auto', maxHeight: '86%', transform: 'translate(-50%, -50%)', objectFit: 'contain', display: 'block', filter: 'contrast(1.03) saturate(.95)', borderRadius: 12, boxShadow: '0 18px 42px rgba(5,10,22,.22)' }} />
+              <img src="assets/jimmy-kolbe-podium.webp" alt="Jimmy Kolbe-André intervenant à Paris Panthéon Assas" style={{ position: 'absolute', left: '50%', top: '50%', width: compact ? '78%' : '74%', height: 'auto', maxHeight: '86%', transform: 'translate(-50%, -50%)', objectFit: 'contain', display: 'block', filter: 'contrast(1.03) saturate(.95)' }} />
               <div style={{ position: 'absolute', inset: 0, backgroundImage: isDark ? 'repeating-linear-gradient(135deg, rgba(255,255,255,.07) 0, rgba(255,255,255,.07) 1px, transparent 1px, transparent 7px)' : 'repeating-linear-gradient(135deg, rgba(18,97,166,.08) 0, rgba(18,97,166,.08) 1px, transparent 1px, transparent 8px)', opacity: .55 }}></div>
             </figure>
           </div>
