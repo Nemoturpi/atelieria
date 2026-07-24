@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <title>BriefLayer | Automatisez vos services de veille réglementaire</title>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta name="description" content="BriefLayer automatise votre service de veille réglementaire : sources agrégées, tri IA, validation humaine et bulletins clients personnalisés." />
+<meta name="description" content="BriefLayer rassemble vos sources, prépare un bulletin personnalisé pour chaque client et vous laisse valider avant l'envoi." />
 <meta name="robots" content="index, follow" />
 <meta name="author" content="Jimmy Kolbe-André" />
 <meta name="keywords" content="veille réglementaire automatisée, bulletin de veille, veille affaires publiques, automatisation veille, IA veille réglementaire, bulletins clients personnalisés" />
@@ -17,7 +17,7 @@
 <meta property="og:locale:alternate" content="en_GB" />
 <meta property="og:url" content="https://brieflayer.eu/" />
 <meta property="og:title" content="BriefLayer | Automatisez vos services de veille réglementaire" />
-<meta property="og:description" content="Automatisez votre service de veille réglementaire : sources agrégées, tri IA, validation humaine et bulletins clients personnalisés." />
+<meta property="og:description" content="BriefLayer rassemble vos sources, prépare un bulletin personnalisé pour chaque client et vous laisse valider avant l'envoi." />
 <meta property="og:image" content="https://brieflayer.eu/assets/social-preview.png" />
 <meta property="og:image:secure_url" content="https://brieflayer.eu/assets/social-preview.png" />
 <meta property="og:image:type" content="image/png" />
@@ -26,7 +26,7 @@
 <meta property="og:image:alt" content="BriefLayer.eu - Automatisez vos services de veille réglementaire" />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="BriefLayer | Automatisez vos services de veille réglementaire" />
-<meta name="twitter:description" content="Automatisez votre service de veille réglementaire : sources agrégées, tri IA, validation humaine et bulletins clients personnalisés." />
+<meta name="twitter:description" content="BriefLayer rassemble vos sources, prépare un bulletin personnalisé pour chaque client et vous laisse valider avant l'envoi." />
 <meta name="twitter:image" content="https://brieflayer.eu/assets/social-preview.png" />
 
 <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -136,6 +136,51 @@
     opacity: 0;
     animation: speechWordIn 0.42s cubic-bezier(.16, 1, .3, 1) 7.52s forwards;
   }
+  @keyframes bulletinBackdropIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+  @keyframes bulletinWindowIn {
+    from { opacity: 0; transform: translateY(22px) scale(0.974); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
+  }
+  .bulletin-backdrop { animation: bulletinBackdropIn 0.22s ease forwards; }
+  .bulletin-window   { animation: bulletinWindowIn 0.36s cubic-bezier(.16, 1, .3, 1) forwards; }
+  .bulletin-teaser {
+    transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+  }
+  .bulletin-teaser:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 24px 54px rgba(18, 97, 166, .22);
+    border-color: rgba(18, 97, 166, .4);
+  }
+  .bulletin-teaser:focus-visible {
+    outline: 2px solid #1261a6;
+    outline-offset: 3px;
+  }
+  @keyframes triageCardIn {
+    from { opacity: 0; transform: translateY(12px) scale(0.985); }
+    to   { opacity: 1; transform: none; }
+  }
+  .triage-card { animation: triageCardIn 0.3s cubic-bezier(.16, 1, .3, 1); }
+  .triage-btn { transition: transform .14s ease, box-shadow .14s ease, background-color .14s ease, color .14s ease; }
+  .triage-btn:hover { transform: translateY(-1px); }
+  .triage-btn:focus-visible { outline: 2px solid currentColor; outline-offset: 2px; }
+  .hero-video-trigger {
+    cursor: pointer;
+  }
+  .hero-video-trigger:focus-visible {
+    outline: 3px solid #1261a6;
+    outline-offset: 4px;
+  }
+  .hero-video-play {
+    transition: transform .2s ease, box-shadow .2s ease, background-color .2s ease;
+  }
+  .hero-video-trigger:hover .hero-video-play {
+    transform: translateY(-2px);
+    background: #ffffff;
+    box-shadow: 0 20px 48px rgba(7, 27, 84, .34);
+  }
   @media (prefers-reduced-motion: reduce) {
     .ai-star,
     .site-header,
@@ -147,7 +192,13 @@
     .speaking-pulse,
     .speaking-dot,
     .speech-word,
-    .speech-source-pop {
+    .speech-source-pop,
+    .bulletin-teaser,
+    .bulletin-backdrop,
+    .bulletin-window,
+    .triage-card,
+    .triage-btn,
+    .hero-video-play {
       transition: none !important;
       animation: none !important;
       opacity: 1 !important;
@@ -171,21 +222,21 @@
 const CALENDLY_URL = 'https://calendly.com/kolbejimmy/30min';
 const C = {
   hero: {
-    eyebrow:  { fr: '', en: '' },
+    eyebrow:  { fr: 'Pour les professionnels en affaires publiques, les fédérations, les syndicats et les avocats.',
+                en: 'For public affairs professionals, trade federations, unions and law firms.' },
     title:    { fr: 'BriefLayer automatise votre service de veille : un bulletin personnalisé pour chaque client.',
                 en: 'BriefLayer automates your monitoring service: a personalised briefing for every client.' },
-    sub:      { fr: 'Vous travaillez en affaires publiques ou en cabinet d’avocats ? Vos bulletins de veille vous prennent encore 1 à 2 h par jour ? BriefLayer automatise leur production pour livrer à chaque client une veille personnalisée en quelques minutes.',
-                en: 'Are you a public affairs professional or a lawyer? Are your monitoring briefings still taking 1 to 2 hours a day? BriefLayer automates production to deliver each client a personalized briefing in minutes.' },
+    sub:      { fr: '', en: '' },
     cta:      { fr: 'Réserver un appel', en: 'Book a call' },
     sec:      { fr: 'Voir la méthode →', en: 'See the method →' },
     trust:    [
-      { fr: 'Droit public — Paris-Panthéon-Assas', en: 'Université Paris-Panthéon-Assas' },
-      { fr: 'Formation IA — Paris-Panthéon-Assas (2026)', en: 'AI training — Université Paris-Panthéon-Assas (2026)' },
-      { fr: 'Pappers — plateformes de veille', en: 'Pappers — monitoring platforms' },
+      { fr: 'Droit public · Paris-Panthéon-Assas', en: 'Université Paris-Panthéon-Assas' },
+      { fr: 'Formation IA · Paris-Panthéon-Assas (2026)', en: 'AI training · Université Paris-Panthéon-Assas (2026)' },
+      { fr: 'Pappers · plateformes de veille', en: 'Pappers · monitoring platforms' },
     ],
   },
   whoFor: {
-    line:    { fr: "D'après FiscalNote, 59 % des professionnels en affaires publiques passent jusqu'à 10 h par semaine à traiter la veille réglementaire et l'actualité. BriefLayer automatise vos services de veille pour que ce temps soit consacré à la stratégie, au terrain et au suivi client.",
+    line:    { fr: "D'après FiscalNote, 59 % des professionnels en affaires publiques passent jusqu'à 10 h par semaine à traiter la veille réglementaire et l'actualité. BriefLayer s'occupe de ce travail répétitif pour que vous puissiez vous concentrer sur la stratégie, le terrain et vos clients.",
                en: 'According to FiscalNote, 59% of public affairs professionals spend up to 10 hours a week processing regulatory monitoring and news. BriefLayer automates monitoring services so you can spend that time on strategy, fieldwork and client follow-up.' },
     source:  { fr: "Source : FiscalNote, The 2025 State of Government Affairs",
                en: 'Source: FiscalNote, The 2025 State of Government Affairs' },
@@ -194,39 +245,39 @@ const C = {
   pain: {
     title:   { fr: "Votre service de veille est encore artisanal",
                en: 'Your monitoring service is still too manual' },
-    intro:   { fr: "Votre service de veille repose encore sur trop d'opérations manuelles. Les mêmes irritants reviennent souvent.",
+    intro:   { fr: "Votre veille demande encore beaucoup de manipulations. Et, à la longue, ce sont toujours les mêmes problèmes qui reviennent.",
                en: 'Your monitoring service still relies on too many manual operations. The same issues keep coming back.' },
     symptoms: [
       { title: { fr: 'Alertes peu pertinentes', en: 'Low-signal alerts' },
-        body:  { fr: 'Trop de bruit, pas assez de signal exploitable.', en: 'Too much noise, not enough usable signal.' } },
+        body:  { fr: "Vous ouvrez dix alertes pour n'en garder qu'une.", en: 'Too much noise, not enough usable signal.' } },
       { title: { fr: 'Solutions de veille hors de prix', en: 'Overpriced monitoring tools' },
-        body:  { fr: 'Des abonnements coûteux, souvent mal exploités.', en: 'Expensive subscriptions, rarely used to their full potential.' } },
+        body:  { fr: "Vous payez cher des outils dont vous n'utilisez qu'une petite partie.", en: 'Expensive subscriptions, rarely used to their full potential.' } },
       { title: { fr: 'Tableurs désordonnés', en: 'Disorganised spreadsheets' },
-        body:  { fr: 'Des versions multiples, rarement à jour au même moment.', en: 'Several versions, never quite up to date at the same time.' } },
+        body:  { fr: "Chacun a sa version et personne ne sait laquelle est la bonne.", en: 'Several versions, never quite up to date at the same time.' } },
       { title: { fr: 'Dépendance aux stagiaires', en: 'Reliance on interns' },
-        body:  { fr: 'La continuité repose sur des personnes de passage.', en: 'Continuity depends on people who will soon move on.' } },
+        body:  { fr: "À chaque départ, il faut presque tout expliquer à nouveau.", en: 'Continuity depends on people who will soon move on.' } },
       { title: { fr: 'Flux de veille trop complexes', en: 'Overly complex monitoring flows' },
-        body:  { fr: 'Des étapes dispersées que personne ne pilote vraiment.', en: 'Scattered steps that no one really owns.' } },
+        body:  { fr: "Les étapes s'empilent entre les boîtes mail, les outils et les fichiers.", en: 'Scattered steps that no one really owns.' } },
       { title: { fr: 'Bulletins non personnalisés', en: 'Generic client briefings' },
-        body:  { fr: 'Le même contenu part à tous les clients, sans nuance.', en: 'The same content goes to every client, with little nuance.' } },
+        body:  { fr: "Tout le monde reçoit la même chose, alors que chaque client attend autre chose.", en: 'The same content goes to every client, with little nuance.' } },
     ],
     flip:    { fr: '',
                en: '' },
   },
   doing: {
-    title: { fr: "Ajoutez une couche d'automatisation à votre système",
+    title: { fr: "Automatisez ce qui vous fait perdre du temps",
              en: 'Add an automation layer to your system' },
-    body:  { fr: 'Nous organisons et automatisons les flux et traitements que vous utilisez déjà.',
+    body:  { fr: "On part de vos outils et de vos habitudes, puis on automatise ce qui peut l'être sans bousculer votre façon de travailler.",
              en: 'We organise and automate the feeds and processing steps you already rely on.' },
     cards: [
       { icon: 'key', title: { fr: 'Simplicité', en: 'Simplicity' },
-        body: { fr: 'Nous concevons des processus que votre équipe voit, comprend et utilise',
+        body: { fr: "Votre équipe comprend comment ça marche et sait s'en servir.",
                 en: 'We design processes your team can see, understand and actually use' } },
       { icon: 'eye', title: { fr: 'Vérification humaine', en: 'Human review' },
-        body: { fr: 'Le processus reste soumis à des étapes de validation humaine',
+        body: { fr: "Vous gardez le dernier mot avant chaque envoi.",
                 en: 'The process remains subject to human validation at the right steps' } },
       { icon: 'braces', title: { fr: 'Sur-mesure', en: 'Tailored' },
-        body: { fr: 'Le système s’adapte à vos clients, à vos sources et à vos formats',
+        body: { fr: "Les sources, les règles et les formats suivent les besoins de chaque client.",
                 en: "The system is fully customisable around each client's needs" } },
     ],
   },
@@ -236,17 +287,17 @@ const C = {
                en: '' },
     steps: [
       { name: { fr: 'Audit', en: 'Audit' },
-        body: { fr: "Nous passons en revue vos sources, vos abonnements, vos outils et vos usages réels. Nous repérons les doublons, les angles morts et les coûts inutiles, pour partir sur des bases claires avant d'automatiser.",
+        body: { fr: "Nous regardons ensemble ce que vous suivez aujourd'hui, avec quels outils et à quel prix. Les doublons et les trous dans la raquette apparaissent vite. Vous savez alors quoi garder, quoi arrêter et quoi automatiser.",
                 en: 'We review your sources, subscriptions, tools and actual usage. We quantify costs, identify duplicates and map blind spots, so automation starts from a clear baseline.' },
         del:  { fr: "Cartographie des sources, audit des coûts, recommandations d’optimisation.", en: 'Source map, cost audit, optimisation recommendations.' } },
       { name: { fr: 'Conception', en: 'Design' },
-        body: { fr: "Nous définissons les règles de tri et de priorité pour ne garder, pour chaque client, que l'information utile. Nous fixons aussi les moments où une validation humaine reste indispensable.",
+        body: { fr: "Nous décidons ensemble de ce qui mérite d'arriver dans chaque bulletin. Vous fixez les priorités et les cas où un œil humain reste indispensable.",
                 en: 'We define sorting, qualification and prioritisation rules so each client only receives useful information. We also identify the points where human validation remains essential.' },
         del:  { fr: "Architecture de traitement validée, chiffrage d’exploitation, interface de validation configurée.", en: 'Validated processing architecture, operating-cost estimate, configured validation interface.' } },
       { name: { fr: 'Mise en place', en: 'Implementation' },
-        body: { fr: "Nous installons le dispositif défini ensemble, sur votre infrastructure ou sur la nôtre. Nous branchons les sources, paramétrons les règles, ajoutons les validations nécessaires et connectons les bons canaux de diffusion.",
+        body: { fr: "Nous installons le tout chez vous ou sur notre infrastructure. Vos sources, vos règles de tri et vos canaux d'envoi sont raccordés. Votre équipe teste ensuite le résultat en conditions réelles.",
                 en: 'We implement the system designed in the previous step, on your infrastructure or ours. We connect the sources, configure the rules and human review points, and plug in the right output channels for your team.' },
-        del:  { fr: 'Un dispositif opérationnel, des flux branchés, un suivi dans le temps défini avec vous.', en: 'An operational system, connected feeds and an ongoing follow-up plan defined with you.' } },
+        del:  { fr: "Un système prêt à l'emploi, des sources raccordées et un suivi défini avec vous.", en: 'An operational system, connected feeds and an ongoing follow-up plan defined with you.' } },
     ],
   },
   cases: {
@@ -254,11 +305,11 @@ const C = {
     items: [
       { tag:  { fr: 'Fédération professionnelle', en: 'Trade association' },
         head: { fr: 'Sept heures par semaine récupérées.', en: 'Seven hours a week, back on the desk.' },
-        body: { fr: "Fédération sectorielle de 200 adhérents. Une chargée de mission bricolait la veille hebdomadaire deux jours par semaine. Nous avons mis en place un système automatisé couvrant quatorze sources institutionnelles. Le bulletin du lundi part désormais tout seul et les heures gagnées repartent dans le suivi parlementaire.",
+        body: { fr: "Dans cette fédération de 200 adhérents, une chargée de mission passait deux jours par semaine à bricoler la veille. Quatorze sources institutionnelles sont maintenant suivies automatiquement. Le bulletin du lundi est prêt à l'heure et le temps gagné sert au suivi parlementaire.",
                 en: 'A sectoral trade association (200 members). Weekly monitoring patched together by a policy officer, two days a week. We set up an automated system covering fourteen institutional sources. The Monday briefing is now automatic. The policy officer redeploys those hours into parliamentary tracking.' } },
       { tag:  { fr: "Cabinet d'affaires publiques", en: 'Public affairs consultancy' },
         head: { fr: 'Huit revues clients, chaque matin.', en: 'Eight client briefings, every morning.' },
-        body: { fr: "Cabinet de conseil en affaires publiques, huit consultants. Le système produit chaque matin huit revues thématiques à partir d'un même flux de captation. Elles partent par e-mail nominatif et chaque consultant commence sa journée avec un brief client déjà à jour.",
+        body: { fr: "Dans ce cabinet de huit consultants, chaque client attend sa propre veille. BriefLayer prépare huit revues thématiques à partir des mêmes sources. Chaque consultant commence sa journée avec un brief déjà à jour.",
                 en: 'A public affairs consultancy (8 consultants). We set up a system that produces eight thematic reviews each morning from a single capture flow. Distribution via individual emails. Every consultant starts the day with an up-to-date client brief.' } },
     ],
   },
@@ -322,47 +373,47 @@ const C = {
   faq: {
     items: [
       { q: { fr: "En quoi est-ce différent d'une solution de veille classique ?", en: 'How is this different from a standard monitoring solution?' },
-        a: { fr: "Une solution de veille fait remonter l'information. BriefLayer part de vos flux existants et prépare des bulletins clients déjà filtrés, hiérarchisés et mis en forme. Vous gardez la main sur la validation, le système absorbe le travail répétitif.",
+        a: { fr: "Une solution de veille fait remonter l'information. BriefLayer va plus loin : il trie vos sources et prépare un bulletin adapté à chaque client. Vous relisez, vous validez, et BriefLayer s'occupe du travail répétitif.",
              en: 'A monitoring solution surfaces information. BriefLayer turns your existing feeds into client briefings ready for review, with the right filters, level of detail and formatting. You keep validation, the system handles the repetitive work.' } },
       { q: { fr: "Est-ce que je pourrais l'automatiser moi-même avec ChatGPT ?", en: 'Could I automate this myself with ChatGPT?' },
-        a: { fr: "Oui, pour un premier prototype. Le vrai sujet dépasse vite le prompt. Il faut brancher les sources, fiabiliser le tri, gérer les formats clients, suivre les sorties et prévoir les validations. BriefLayer vous évite de construire cette chaîne en parallèle de votre activité principale.",
+        a: { fr: "Oui, pour faire un premier essai. Mais un prompt ne suffit pas longtemps. Il faut raccorder les sources, rendre le tri fiable, gérer les formats de chaque client et contrôler ce qui part. BriefLayer vous évite de monter tout cela en plus de votre travail.",
              en: 'Yes, for a first prototype. The issue is rarely the prompt alone. You need connected sources, reliable triage rules, client formats, output tracking and validation steps. BriefLayer saves you from building all of that alongside your core work.' } },
       { q: { fr: 'Quelle garantie ai-je sur la qualité des bulletins ?', en: 'How do you guarantee briefing quality?' },
-        a: { fr: "La qualité se joue avant l'automatisation. Nous partons de vos meilleurs bulletins, de vos critères éditoriaux et des attentes de chaque client. Les premiers livrables sont relus avec vous, puis le système est ajusté jusqu'à produire un bulletin que vous pouvez envoyer sans tout reprendre.",
+        a: { fr: "Nous partons de vos meilleurs bulletins et de ce que chaque client attend vraiment. Au début, nous relisons les résultats ensemble. Les réglages continuent jusqu'à ce que vous puissiez envoyer le bulletin sans devoir tout réécrire.",
              en: 'Quality is built before automation. We start from your best briefings, editorial criteria and each client’s expectations. The first outputs are reviewed with you, then the system is adjusted until it produces work you can send without rewriting everything.' } },
       { q: { fr: 'Est-ce que je vais devoir payer un abonnement ?', en: 'Will I have to pay a subscription?' },
-        a: { fr: "Le système sur mesure se paie une fois. Si vous voulez que j'en assure ensuite l'exploitation, la maintenance et les ajustements, cela devient un service mensuel séparé. Vous choisissez le niveau d'accompagnement qui vous convient.",
+        a: { fr: "La mise en place sur mesure se paie une fois. Ensuite, vous pouvez gérer BriefLayer en interne ou me confier son entretien et ses réglages dans le cadre d'un service mensuel. C'est vous qui choisissez.",
              en: 'The custom system is paid for once. If you want us to operate, maintain and adjust it over time, that becomes a separate monthly service. You choose the level of dependency that suits you.' } },
       { q: { fr: "Je n'aurai plus besoin d'être abonné à des services de veille ?", en: 'Will I still need subscriptions to monitoring services?' },
-        a: { fr: "BriefLayer ne vend pas de données. Nous utilisons vos sources, vos abonnements et vos flux, puis nous regardons ce qui sert vraiment. L'audit permet aussi de repérer les doublons, les angles morts et les coûts mal justifiés.",
+        a: { fr: "BriefLayer ne vend pas de données. Il travaille avec vos sources et vos abonnements. L'audit permet justement de voir lesquels vous servent vraiment, lesquels font doublon et ce qui vous manque encore.",
              en: 'BriefLayer does not sell data. We use your sources, subscriptions and feeds, then identify which ones are actually useful. The audit also helps spot duplicates, blind spots and costs that do not create enough value.' } },
       { q: { fr: 'Mes données et celles de mes clients restent-elles confidentielles ?', en: "Will my data and my clients' data remain confidential?" },
-        a: { fr: "Oui. Le processus peut tourner sur votre infrastructure ou sur un hébergement français dédié, avec un engagement de confidentialité. Les accès, les sources et les livrables clients sont cadrés dès l'audit pour limiter les circulations inutiles.",
+        a: { fr: "Oui. BriefLayer peut fonctionner sur votre infrastructure ou sur un hébergement français dédié, avec un engagement de confidentialité. Dès l'audit, nous limitons les accès et les échanges de données au strict nécessaire.",
              en: 'Yes. The process can run on your infrastructure or dedicated French hosting, with a confidentiality commitment. Access, sources and client deliverables are scoped during the audit to avoid unnecessary data flows.' } },
       { q: { fr: 'À quel point les bulletins de veille envoyés aux clients pourront-ils être personnalisés ?', en: 'How personalised can the client briefings be?' },
-        a: { fr: "Chaque client peut avoir son périmètre, ses sources prioritaires, son niveau de synthèse et son format. L'objectif n'est pas d'envoyer le même bulletin à tout le monde, mais de produire plus vite des livrables réellement adaptés.",
+        a: { fr: "Chaque client peut avoir ses sujets, ses sources prioritaires, son niveau de détail et son propre format. Le but est justement d'éviter le bulletin passe-partout.",
              en: 'Each client can have their own scope, priority sources, level of synthesis and format. The point is not to send the same briefing to everyone, but to produce tailored deliverables faster.' } },
-      { q: { fr: 'En combien de temps mon processus pourra-t-il être automatisé ?', en: 'How quickly can my process be automated?' },
-        a: { fr: "L'audit prend généralement une semaine. La conception demande ensuite deux à trois semaines selon le nombre de sources, de formats et de clients. La mise en production se fait par étapes, pour ne pas perturber votre service de veille pendant la transition.",
+      { q: { fr: 'En combien de temps peut-on automatiser ma veille ?', en: 'How quickly can my process be automated?' },
+        a: { fr: "Comptez généralement une semaine pour l'audit, puis deux à trois semaines de mise en place selon le nombre de sources, de formats et de clients. Nous avançons par étapes pour que votre veille continue de tourner pendant la transition.",
              en: 'The audit usually takes one week. Design then takes two to three weeks depending on the number of sources, formats and clients. Deployment happens in stages, so your monitoring service is not disrupted during the transition.' } },
-      { q: { fr: 'À qui appartient le processus une fois la prestation terminée ?', en: 'Who owns the process once the engagement is over?' },
-        a: { fr: "À vous. La documentation, les configurations et les prompts sont livrés. Vous pouvez reprendre la main en interne ou me laisser l'exploiter si vous préférez garder une équipe légère.",
+      { q: { fr: 'Est-ce que je garde la main après la mise en place ?', en: 'Who owns the process once the engagement is over?' },
+        a: { fr: "À vous. Je vous remets la documentation, les réglages et les prompts. Votre équipe peut reprendre la main, ou vous pouvez me confier la suite si vous préférez.",
              en: 'You do. Documentation, configurations and prompts are handed over. You can take it in-house, or let me keep operating it if you prefer to keep your team light.' } },
       { q: { fr: 'Quelles informations devrais-je vous communiquer pour un audit ?', en: 'What information do you need for an audit?' },
-        a: { fr: "Vos sources, vos abonnements, quelques bulletins récents, vos formats clients et la manière dont vous validez aujourd'hui les contenus. Plus le point de départ est clair, plus l'automatisation colle à votre façon de travailler.",
+        a: { fr: "J'ai besoin de vos sources, de vos abonnements, de quelques bulletins récents et de votre façon actuelle de les relire. Avec cela, je peux rapidement comprendre ce qui mérite d'être automatisé.",
              en: 'Your sources, subscriptions, a few recent briefings, client formats and the way you currently validate content. The clearer the starting point, the closer the automation fits how you work.' } },
       { q: { fr: 'Quels types de veille traitez-vous ?', en: 'What kinds of monitoring can you handle?' },
-        a: { fr: "Veille réglementaire, institutionnelle, parlementaire, médiatique ou réputationnelle. La méthode reste la même. On part de vos sources, on formalise ce qui compte, puis on automatise la production du livrable.",
+        a: { fr: "Je travaille sur la veille réglementaire, institutionnelle, parlementaire, médiatique et réputationnelle. Dans tous les cas, nous partons de vos sources et de vos critères pour préparer le bon bulletin.",
              en: 'Regulatory, institutional, parliamentary, media or reputational monitoring. The method stays the same. We start from your sources, formalise what matters, then automate deliverable production.' } },
       { q: { fr: 'Travaillez-vous à Paris, Bruxelles, ailleurs ?', en: 'Do you work in Paris, Brussels or elsewhere?' },
-        a: { fr: "À distance pour l'essentiel. Des rendez-vous en présentiel sont possibles à Paris ou Bruxelles quand cela aide à cadrer le besoin. Pour le reste, tout peut se faire en visio.",
+        a: { fr: "Je travaille surtout à distance. Nous pouvons aussi nous voir à Paris ou à Bruxelles quand une réunion sur place est utile. Le reste se fait très bien en visio.",
              en: 'Mostly remotely. In-person meetings are possible in Paris or Brussels when they help scope the need. Otherwise, everything can be done by video call.' } },
     ],
   },
   finalCta: {
     title: { fr: "Faites le point sur votre service de veille en 30 minutes",
              en: 'Review your monitoring service in 30 minutes' },
-    sub:   { fr: "Vous me présentez votre dispositif actuel. Vous repartez avec un premier plan d'action pour l'automatiser. C'est gratuit.",
+    sub:   { fr: "Montrez-moi comment vous faites votre veille aujourd'hui. En 30 minutes, nous verrons ce qui peut être simplifié et automatisé. L'échange est gratuit.",
              en: "Walk me through your current monitoring setup. You leave with a first action plan for automating it. It's free." },
     btn:   { fr: 'Réserver un appel', en: 'Book a call' },
     alt:   { fr: '',
@@ -979,9 +1030,114 @@ function HeroSetup({ lang, tokens, fonts, compact = false }) {
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 6l6 6-6 6" /></svg></a>
         <span style={{ flex: 1, minWidth: 210, font: `600 13px/1.4 ${sans}`, color: ink }}>
           <span style={{ display: 'inline-block', width: 8, height: 8, borderRadius: 999, background: '#18b9d1', marginRight: 8, animation: reduce ? 'none' : `lf-pulse-${uid} 2s ease-out infinite` }}></span>
-          {fr ? <>Chaque client reçoit son bulletin <span style={{ color: accent }}>automatiquement</span>.</> : <>Every morning, each client gets their briefing — <span style={{ color: accent }}>automatically</span>.</>}
+          {fr ? <>Chaque client reçoit son bulletin <span style={{ color: accent }}>automatiquement</span>.</> : <>Every morning, each client gets their briefing, <span style={{ color: accent }}>automatically</span>.</>}
         </span>
       </div>
+    </div>
+  );
+}
+
+function HeroVideo({ lang = 'fr', tokens, fonts, compact = false, maxWidth = 720 }) {
+  const { accent, ink, muted, surface, border } = tokens;
+  const { sans, mono, body } = fonts;
+  const videoRef = React.useRef(null);
+  const [started, setStarted] = React.useState(false);
+  const fr = lang === 'fr';
+
+  const startVideo = () => {
+    const video = videoRef.current;
+    if (!video) return;
+    video.muted = false;
+    video.volume = 0.9;
+    setStarted(true);
+    const playPromise = video.play();
+    if (playPromise && typeof playPromise.catch === 'function') {
+      playPromise.catch(() => setStarted(false));
+    }
+  };
+
+  const resetVideo = () => {
+    const video = videoRef.current;
+    setStarted(false);
+    if (video) video.load();
+  };
+
+  return (
+    <div style={{
+      width: '100%', maxWidth: compact ? '100%' : maxWidth, margin: '0 auto',
+    }}>
+      <div style={{
+        display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 9,
+        marginBottom: compact ? 11 : 14, color: ink,
+        font: `800 ${compact ? '10px' : '11px'}/1 ${mono}`,
+        letterSpacing: '.11em', textTransform: 'uppercase',
+      }}>
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke={accent} strokeWidth="2.3" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+          <rect x="3" y="5" width="18" height="14" rx="2" />
+          <path d="m10 9 5 3-5 3V9Z" fill={accent} stroke="none" />
+        </svg>
+        <span>{fr ? 'Vidéo de présentation' : 'Introduction video'}</span>
+        <span aria-hidden="true" style={{ color: muted }}>·</span>
+        <span style={{ color: accent }}>1:08</span>
+      </div>
+
+      <div style={{
+        position: 'relative', aspectRatio: '16 / 9', borderRadius: compact ? 14 : 18, overflow: 'hidden',
+        background: '#000', border: `1px solid ${accent}55`, boxShadow: `0 24px 70px ${accent}24`,
+      }}>
+        <video
+          ref={videoRef}
+          controls={started}
+          playsInline
+          preload="metadata"
+          poster="assets/social-preview.png"
+          onEnded={resetVideo}
+          style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+        >
+          <source src="assets/brieflayer-promo-1080p.mp4" type="video/mp4" />
+        </video>
+
+        {!started && (
+          <button
+            type="button"
+            className="hero-video-trigger"
+            onClick={startVideo}
+            aria-label={fr ? 'Lire la vidéo de présentation BriefLayer, durée 1 minute 8 secondes' : 'Play the BriefLayer introduction video, duration 1 minute 8 seconds'}
+            style={{
+              position: 'absolute', inset: 0, width: '100%', height: '100%', border: 0, padding: 20,
+              display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: compact ? 12 : 16,
+              color: '#fff', background: 'linear-gradient(180deg, rgba(7,27,84,.08) 0%, rgba(7,27,84,.24) 52%, rgba(7,27,84,.58) 100%)',
+            }}
+          >
+            <span className="hero-video-play" aria-hidden="true" style={{
+              width: compact ? 66 : 84, height: compact ? 66 : 84, borderRadius: 999,
+              display: 'grid', placeItems: 'center', color: '#071b54', background: 'rgba(255,255,255,.94)',
+              border: '1px solid rgba(255,255,255,.78)', boxShadow: '0 16px 38px rgba(7,27,84,.28)',
+            }}>
+              <svg width={compact ? 28 : 36} height={compact ? 28 : 36} viewBox="0 0 24 24" fill="currentColor">
+                <path d="M8.4 5.35a1 1 0 0 1 1.52-.85l10 6.65a1 1 0 0 1 0 1.7l-10 6.65a1 1 0 0 1-1.52-.85V5.35Z" />
+              </svg>
+            </span>
+            <span style={{
+              padding: compact ? '8px 12px' : '10px 16px', borderRadius: 999,
+              background: 'rgba(7,27,84,.82)', border: '1px solid rgba(255,255,255,.32)',
+              boxShadow: '0 10px 26px rgba(7,27,84,.24)',
+              font: `800 ${compact ? '13px' : '15px'}/1 ${sans}`,
+            }}>
+              {fr ? 'Voir la présentation' : 'Watch the introduction'}
+            </span>
+          </button>
+        )}
+      </div>
+
+      <p style={{
+        margin: `${compact ? 12 : 16}px auto 0`, maxWidth: 680, textAlign: 'center',
+        font: `500 ${compact ? '13px' : '14px'}/1.5 ${body}`, color: muted,
+      }}>
+        {fr
+          ? 'En 1 min 08, découvrez comment BriefLayer transforme vos sources de veille en bulletins personnalisés pour chaque client.'
+          : 'In 1 min 08, see how BriefLayer turns your monitoring sources into a personalised briefing for every client.'}
+      </p>
     </div>
   );
 }
@@ -1686,6 +1842,501 @@ function MethodPipeline({ steps, lang, t, tokens, fonts, density, compact = fals
   );
 }
 
+const VEILLE_DEMO = {
+  fr: {
+    eyebrow: 'Démo · à vous de jouer',
+    h2a: 'Faites le tri.',
+    h2b: 'Le bulletin se génère.',
+    intro: "Les informations de la nuit sont déjà rassemblées et classées. Gardez ce qui compte pour votre client, écartez le reste, puis générez son bulletin. Vous gardez la main du début à la fin.",
+    clientLabel: 'Client',
+    clientName: '[groupe énergie]',
+    themeLabel: "Régulation de l'énergie",
+    collectedLabel: 'informations trouvées cette nuit',
+    todayWord: "aujourd'hui",
+    ignoreBtn: 'Ignorer',
+    keepBtn: 'Garder',
+    kbdHint: '←  ignorer   ·   →  garder',
+    scoreOutOf: '/100',
+    scoreBands: { prio: 'À traiter', pert: 'Utile', faible: 'Peu utile' },
+    whyScoreLabel: 'Pourquoi ce classement',
+    rubriqueLabel: 'Rubrique client',
+    sourceWord: 'Source',
+    sortedWord: 'passées en revue',
+    keptWord: 'gardées',
+    doneTitle: "C'est trié",
+    keptNoun: 'information gardée pour le bulletin.',
+    keptNounPlural: 'informations gardées pour le bulletin.',
+    generateBtn: 'Créer le bulletin',
+    restartBtn: '↺ Recommencer',
+    emptyKept: "Vous n'avez rien gardé. Recommencez et gardez au moins une information pour générer le bulletin.",
+    guardrail: "Cette démo donne un aperçu de votre espace de validation. En pratique, BriefLayer rassemble et trie vos sources chaque jour. Il ne vous reste qu'à valider avant l'envoi.",
+    sectionOrder: ['À la une', 'Textes en discussion', 'À surveiller'],
+    mail: {
+      windowLabel: 'Bulletin de veille',
+      badge: 'APERÇU',
+      from: '[Votre cabinet]',
+      to: '[Client · groupe énergie]',
+      when: 'lun. 07:14',
+      avatar: 'VC',
+      subject: 'Veille énergie · semaine du 13 juillet 2026',
+      period: 'Semaine du 13 juillet 2026',
+      greeting: 'Bonjour, voici votre veille énergie de la semaine.',
+      whyLabel: 'Pourquoi ça compte',
+      sourceLabel: 'Source',
+      keptWord: 'gardées',
+      signalsWord: 'informations',
+      footer: 'Sources : Journal officiel · Assemblée nationale · Sénat · CRE · Commission européenne · presse spécialisée. Bulletin préparé automatiquement, puis relu avant envoi.',
+    },
+    items: [
+      { id: 'cap', date: '15 juil', today: true, score: 88, category: 'Texte réglementaire · décret', source: 'legifrance.gouv.fr',
+        title: 'Mécanisme de capacité : le projet de décret en consultation',
+        whyScore: "Ce texte peut toucher directement les revenus du client, et la consultation est encore ouverte.",
+        rubrique: 'Marché de capacité', section: 'À la une',
+        body: "Le projet de décret réformant le mécanisme de capacité électrique est en consultation publique jusqu'au 4 août. Il modifie les modalités de certification des capacités, introduit une déclaration trimestrielle des volumes disponibles et resserre le calendrier des enchères 2027. La fenêtre de contestation des volumes certifiés passe de trente à quinze jours.",
+        impact: "Impact direct sur vos revenus de capacité 2027 et sur votre charge déclarative. La consultation ferme dans trois semaines. Il est encore temps d'y contribuer.",
+        bulletinSource: 'Ministère de la transition énergétique · consultation publique' },
+      { id: 'turpe', date: '15 juil', today: true, score: 82, category: 'Décision · régulateur', source: 'cre.fr',
+        title: 'TURPE : la CRE ouvre la prochaine période tarifaire',
+        whyScore: "Cette délibération fixera une partie des coûts d'acheminement du client.",
+        rubrique: 'Réseaux & tarifs', section: 'À la une',
+        body: "La Commission de régulation de l'énergie a publié le document de cadrage de la prochaine période tarifaire (TURPE 7). Il retient une trajectoire d'investissement des gestionnaires de réseau en hausse et ouvre le débat sur la répartition des coûts entre soutirage et injection.",
+        impact: "Les arbitrages de cette délibération structureront vos coûts d'acheminement sur les quatre prochaines années.",
+        bulletinSource: 'CRE · délibération de cadrage' },
+      { id: 'lpec', date: '14 juil', today: false, score: 74, category: 'Texte législatif · projet de loi', source: 'assemblee-nationale.fr',
+        title: 'Loi de programmation énergie-climat : examen en commission',
+        whyScore: "Le texte est important, mais il est encore loin d'être adopté.",
+        rubrique: 'Cadre législatif', section: 'Textes en discussion',
+        body: "Les articles fixant les objectifs de capacités renouvelables et nucléaires ont été examinés en commission à l'Assemblée nationale. Plusieurs amendements adoptés assouplissent les procédures d'autorisation environnementale pour les projets déclarés d'intérêt national majeur.",
+        impact: "Le régime d'autorisation conditionne directement le calendrier de vos projets de développement.",
+        bulletinSource: 'Assemblée nationale · dossier législatif' },
+      { id: 'raccord', date: '13 juil', today: false, score: 68, category: 'Texte législatif · proposition de loi', source: 'senat.fr',
+        title: 'Raccordements au réseau : proposition de loi au Sénat',
+        whyScore: "Le sujet touche directement les délais des projets, mais son adoption reste incertaine.",
+        rubrique: 'Réseaux & tarifs', section: 'Textes en discussion',
+        body: "Une proposition de loi visant à accélérer les raccordements a été déposée au Sénat. Elle prévoit un délai plafond opposable au gestionnaire de réseau et une procédure simplifiée pour les sites industriels existants.",
+        impact: "Les délais de raccordement sont souvent le chemin critique de vos projets ; un délai opposable modifierait vos plannings.",
+        bulletinSource: 'Sénat · proposition de loi' },
+      { id: 'aides', date: '13 juil', today: false, score: 63, category: 'Consultation publique', source: 'ec.europa.eu',
+        title: "Aides d'État à l'énergie : révision de l'encadrement européen",
+        whyScore: "La consultation n'est pas encore ouverte. L'effet peut être important, mais pas tout de suite.",
+        rubrique: 'Aides & financements', section: 'À surveiller',
+        body: "La Commission européenne prépare la révision de son encadrement des aides d'État à l'énergie et à l'environnement. Une consultation est attendue à l'automne, avec un possible durcissement des conditions d'éligibilité des soutiens à l'industrie.",
+        impact: "Ce cadre conditionnera l'éligibilité de vos futurs dispositifs de soutien public. À suivre dès l'ouverture de la consultation.",
+        bulletinSource: 'Commission européenne · feuille de route' },
+      { id: 'telecom', date: '15 juil', today: true, score: 22, category: 'Actualité sectorielle', source: 'news.google.com',
+        title: "Un opérateur télécom lance une offre mobile à 5 €/mois",
+        whyScore: "Hors sujet pour ce client : cette information ne concerne pas la régulation de l'énergie.",
+        rubrique: 'Hors sujet', section: 'À surveiller',
+        body: "Un opérateur télécom lance une nouvelle offre mobile grand public à bas prix.",
+        impact: "Lien avec votre périmètre énergie : négligeable.",
+        bulletinSource: 'news.google.com' },
+      { id: 'results', date: '14 juil', today: false, score: 41, category: 'Actualité sectorielle', source: 'news.google.com',
+        title: "Un fournisseur d'énergie publie ses résultats trimestriels",
+        whyScore: "C'est une information de marché, sans conséquence réglementaire directe.",
+        rubrique: 'Veille marché', section: 'À surveiller',
+        body: "Un grand fournisseur d'énergie a publié des résultats trimestriels en hausse, portés par la demande industrielle.",
+        impact: "Information de marché ; aucun enjeu réglementaire pour le client.",
+        bulletinSource: 'news.google.com' },
+      { id: 'tribune', date: '13 juil', today: false, score: 38, category: 'Communication institutionnelle', source: 'presse.fr',
+        title: "Tribune : « il faut accélérer la transition énergétique »",
+        whyScore: "C'est une tribune d'opinion, pas un texte qui crée des obligations.",
+        rubrique: 'Non classé', section: 'À surveiller',
+        body: "Une tribune collective appelle le gouvernement à accélérer le calendrier de la transition énergétique.",
+        impact: "Opinion, sans effet juridique direct.",
+        bulletinSource: 'presse spécialisée · tribune' },
+      { id: 'salon', date: '12 juil', today: false, score: 19, category: 'Autre signal', source: 'news.google.com',
+        title: "Salon européen de l'énergie : les dates 2027 sont annoncées",
+        whyScore: "Il s'agit d'un événement, sans décision à suivre pour le client.",
+        rubrique: 'Non classé', section: 'À surveiller',
+        body: "L'organisateur du salon européen de l'énergie a annoncé les dates de son édition 2027.",
+        impact: "Purement événementiel.",
+        bulletinSource: 'news.google.com' },
+      { id: 'thinktank', date: '12 juil', today: false, score: 48, category: 'Rapport · étude', source: 'news.google.com',
+        title: "Un think tank publie une étude sur les prix de l'électricité",
+        whyScore: "L'étude est intéressante, mais elle concerne peu les priorités de ce client.",
+        rubrique: 'Veille marché', section: 'À surveiller',
+        body: "Un think tank publie une étude prospective sur l'évolution des prix de l'électricité à l'horizon 2030.",
+        impact: "Éclairage utile mais indirect ; à archiver plutôt qu'à envoyer.",
+        bulletinSource: 'étude · think tank' },
+    ],
+  },
+  en: {
+    eyebrow: 'Demo · validation desk',
+    h2a: 'Do the triage.',
+    h2b: 'The briefing writes itself.',
+    intro: "The overnight updates are already collected and ranked. Keep what matters to your client, discard the rest, then generate the briefing. You stay in control from start to finish.",
+    clientLabel: 'Client',
+    clientName: '[energy group]',
+    themeLabel: 'Energy regulation',
+    collectedLabel: 'signals collected overnight',
+    todayWord: 'today',
+    ignoreBtn: 'Ignore',
+    keepBtn: 'Keep',
+    kbdHint: '←  ignore   ·   →  keep',
+    scoreOutOf: '/100',
+    scoreBands: { prio: 'Priority', pert: 'Relevant', faible: 'Weak signal' },
+    whyScoreLabel: 'Why this score',
+    rubriqueLabel: 'Client topic',
+    sourceWord: 'Source',
+    sortedWord: 'sorted',
+    keptWord: 'kept',
+    doneTitle: 'Triage complete',
+    keptNoun: 'item kept for the briefing.',
+    keptNounPlural: 'items kept for the briefing.',
+    generateBtn: 'Generate the briefing',
+    restartBtn: '↺ Restart',
+    emptyKept: 'You kept nothing. Restart and keep at least one item to generate the briefing.',
+    guardrail: 'This demo gives you a preview of the review desk. In practice, BriefLayer collects and ranks your sources every day. All you have to do is approve before sending.',
+    sectionOrder: ['Top stories', 'Bills in discussion', 'On the radar'],
+    mail: {
+      windowLabel: 'Monitoring briefing',
+      badge: 'PREVIEW',
+      from: '[Your firm]',
+      to: '[Client · energy group]',
+      when: 'Mon 07:14',
+      avatar: 'YF',
+      subject: 'Energy monitoring · week of 13 July 2026',
+      period: 'Week of 13 July 2026',
+      greeting: 'Hello, here is your energy monitoring for the week.',
+      whyLabel: 'Why it matters',
+      sourceLabel: 'Source',
+      keptWord: 'kept',
+      signalsWord: 'signals',
+      footer: 'Sources: Official Journal · National Assembly · Senate · CRE · European Commission · trade press. Briefing produced automatically, then validated before sending.',
+    },
+    items: [
+      { id: 'cap', date: '15 Jul', today: true, score: 88, category: 'Regulation · decree', source: 'legifrance.gouv.fr',
+        title: 'Capacity mechanism: draft decree open for consultation',
+        whyScore: 'Regulation with direct impact on the client’s revenue; consultation open.',
+        rubrique: 'Capacity market', section: 'Top stories',
+        body: 'The draft decree reforming the electricity capacity mechanism is open for public consultation until 4 August. It changes how capacity is certified, introduces a quarterly declaration of available volumes and tightens the 2027 auction calendar. The window to contest certified volumes drops from thirty to fifteen days.',
+        impact: 'Direct impact on your 2027 capacity revenue and reporting workload. The consultation closes in three weeks. A submission is still possible.',
+        bulletinSource: 'Ministry for the Energy Transition · public consultation' },
+      { id: 'turpe', date: '15 Jul', today: true, score: 82, category: 'Ruling · regulator', source: 'cre.fr',
+        title: 'TURPE: CRE opens the next tariff period',
+        whyScore: 'Regulator ruling that will shape the client’s network costs.',
+        rubrique: 'Networks & tariffs', section: 'Top stories',
+        body: 'The energy regulator (CRE) has published the scoping document for the next network tariff period (TURPE 7). It sets a higher investment trajectory for network operators and opens the debate on how costs are shared between withdrawal and injection.',
+        impact: 'The trade-offs in this ruling will shape your network costs for the next four years.',
+        bulletinSource: 'CRE · scoping ruling' },
+      { id: 'lpec', date: '14 Jul', today: false, score: 74, category: 'Legislation · government bill', source: 'assemblee-nationale.fr',
+        title: 'Energy-climate programming bill: committee stage',
+        whyScore: 'A structuring bill, but still far from adoption: worth watching.',
+        rubrique: 'Legislative framework', section: 'Bills in discussion',
+        body: 'The articles setting renewable and nuclear capacity targets were examined in committee at the National Assembly. Several adopted amendments ease environmental permitting for projects designated as of major national interest.',
+        impact: 'The permitting regime directly governs the timeline of your development projects.',
+        bulletinSource: 'National Assembly · legislative file' },
+      { id: 'raccord', date: '13 Jul', today: false, score: 68, category: 'Legislation · private member’s bill', source: 'senat.fr',
+        title: 'Grid connections: Senate bill',
+        whyScore: 'Relevant to project lead times; adoption uncertain.',
+        rubrique: 'Networks & tariffs', section: 'Bills in discussion',
+        body: 'A bill to speed up grid connections has been tabled in the Senate. It provides for an enforceable maximum lead time on the network operator and a simplified procedure for existing industrial sites.',
+        impact: 'Connection lead times are often the critical path of your projects; an enforceable deadline would change your schedules.',
+        bulletinSource: 'Senate · bill' },
+      { id: 'aides', date: '13 Jul', today: false, score: 63, category: 'Public consultation', source: 'ec.europa.eu',
+        title: 'Energy state aid: revision of the EU framework',
+        whyScore: 'Upstream signal: consultation ahead, potential but not immediate impact.',
+        rubrique: 'Aid & funding', section: 'On the radar',
+        body: 'The European Commission is preparing to revise its framework for state aid to energy and the environment. A consultation is expected in the autumn, with a possible tightening of eligibility conditions for support to industry.',
+        impact: 'This framework will govern the eligibility of your future public support schemes. Watch for the consultation opening.',
+        bulletinSource: 'European Commission · roadmap' },
+      { id: 'telecom', date: '15 Jul', today: true, score: 22, category: 'Sector news', source: 'news.google.com',
+        title: 'A telecom operator launches a €5/month mobile plan',
+        whyScore: 'Out of scope: nothing to do with energy regulation.',
+        rubrique: 'Out of scope', section: 'On the radar',
+        body: 'A telecom operator has launched a new low-cost consumer mobile plan.',
+        impact: 'Link to your energy scope: negligible.',
+        bulletinSource: 'news.google.com' },
+      { id: 'results', date: '14 Jul', today: false, score: 41, category: 'Sector news', source: 'news.google.com',
+        title: 'An energy supplier reports quarterly results',
+        whyScore: 'Market news, with no direct regulatory bearing.',
+        rubrique: 'Market watch', section: 'On the radar',
+        body: 'A major energy supplier reported higher quarterly results, driven by industrial demand.',
+        impact: 'Market information; no regulatory stake for the client.',
+        bulletinSource: 'news.google.com' },
+      { id: 'tribune', date: '13 Jul', today: false, score: 38, category: 'Institutional communication', source: 'presse.fr',
+        title: 'Op-ed: "we must speed up the energy transition"',
+        whyScore: 'An opinion piece, not an enforceable regulatory source.',
+        rubrique: 'Uncategorised', section: 'On the radar',
+        body: 'A collective op-ed calls on the government to accelerate the energy transition timetable.',
+        impact: 'Opinion, with no direct legal effect.',
+        bulletinSource: 'trade press · op-ed' },
+      { id: 'salon', date: '12 Jul', today: false, score: 19, category: 'Other signal', source: 'news.google.com',
+        title: 'European energy trade show: 2027 dates announced',
+        whyScore: 'An events signal, no decision at stake.',
+        rubrique: 'Uncategorised', section: 'On the radar',
+        body: 'The organiser of the European energy trade show has announced the dates of its 2027 edition.',
+        impact: 'Purely an event.',
+        bulletinSource: 'news.google.com' },
+      { id: 'thinktank', date: '12 Jul', today: false, score: 48, category: 'Report · study', source: 'news.google.com',
+        title: 'A think tank publishes a study on electricity prices',
+        whyScore: 'An interesting third-party study, but weak client link: weak signal.',
+        rubrique: 'Market watch', section: 'On the radar',
+        body: 'A think tank publishes a forward-looking study on electricity price trends to 2030.',
+        impact: 'Useful but indirect context; better archived than sent.',
+        bulletinSource: 'study · think tank' },
+    ],
+  },
+};
+
+function BulletinDemoWindow({ lang, items, onClose, compact, tokens, fonts }) {
+  const { surface, surface2, border, ink, ink2, muted, accent, accent2, bg, chipFg, isDark } = tokens;
+  const { sans, mono, body } = fonts;
+  const headingWide = { letterSpacing: 0, fontVariationSettings: '"wdth" 112' };
+  const d = VEILLE_DEMO[lang] || VEILLE_DEMO.fr;
+  const m = d.mail;
+  const kept = items || [];
+  const total = d.items.length;
+  const groups = d.sectionOrder
+    .map(sec => ({ name: sec, items: kept.filter(it => it.section === sec) }))
+    .filter(g => g.items.length);
+
+  React.useEffect(() => {
+    const onKey = (e) => { if (e.key === 'Escape') onClose(); };
+    document.addEventListener('keydown', onKey);
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.removeEventListener('keydown', onKey);
+      document.body.style.overflow = prevOverflow;
+    };
+  }, [onClose]);
+
+  return (
+    <div
+      className="bulletin-backdrop"
+      onClick={onClose}
+      style={{
+        position: 'fixed', inset: 0, zIndex: 2000,
+        background: 'rgba(6, 10, 24, .58)',
+        backdropFilter: 'blur(6px)', WebkitBackdropFilter: 'blur(6px)',
+        display: 'flex', alignItems: 'flex-start', justifyContent: 'center',
+        padding: compact ? '14px 8px 40px' : '46px 20px',
+        overflowY: 'auto',
+      }}
+    >
+      <div
+        role="dialog"
+        aria-modal="true"
+        aria-label={m.windowLabel}
+        onClick={(e) => e.stopPropagation()}
+        className="bulletin-window"
+        style={{
+          width: '100%', maxWidth: 720, margin: 'auto',
+          background: isDark ? bg : '#ffffff',
+          border: `1px solid ${border}`,
+          borderRadius: compact ? 14 : 16,
+          boxShadow: '0 40px 120px rgba(6, 10, 24, .5)',
+          overflow: 'hidden',
+        }}
+      >
+        <div style={{
+          display: 'flex', alignItems: 'center', gap: 10,
+          padding: compact ? '10px 12px' : '12px 16px',
+          background: isDark ? surface2 : '#f2f6fb',
+          borderBottom: `1px solid ${border}`,
+        }}>
+          <div style={{ display: 'flex', gap: 6, flex: 'none' }}>
+            {['#ff5f57', '#febc2e', '#28c840'].map(c => (
+              <span key={c} style={{ width: 11, height: 11, borderRadius: 999, background: c }}></span>
+            ))}
+          </div>
+          <div style={{ flex: 1, textAlign: 'center', font: `600 11px/1 ${mono}`, color: muted, letterSpacing: '.05em', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+            {compact ? m.windowLabel : `${m.windowLabel} · ${m.subject}`}
+          </div>
+          <span style={{ font: `800 9px/1 ${mono}`, letterSpacing: '.12em', color: accent2, border: `1px solid ${accent2}55`, background: `${accent2}14`, padding: '4px 7px', borderRadius: 999, flex: 'none' }}>{m.badge}</span>
+          <button onClick={onClose} aria-label={lang === 'fr' ? 'Fermer' : 'Close'} style={{ border: `1px solid ${border}`, background: isDark ? surface : '#fff', color: ink, width: 26, height: 26, borderRadius: 7, cursor: 'pointer', font: `700 13px/1 ${sans}`, display: 'flex', alignItems: 'center', justifyContent: 'center', flex: 'none' }}>✕</button>
+        </div>
+
+        <div style={{ padding: compact ? '14px 16px' : '18px 24px', borderBottom: `1px solid ${border}`, background: isDark ? bg : '#fff' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+            <span style={{ width: 40, height: 40, borderRadius: 999, background: accent, color: chipFg, display: 'flex', alignItems: 'center', justifyContent: 'center', font: `800 14px/1 ${sans}`, flex: 'none' }}>{m.avatar}</span>
+            <div style={{ minWidth: 0, flex: 1 }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', gap: 10, alignItems: 'baseline' }}>
+                <span style={{ font: `800 13.5px/1.3 ${sans}`, color: ink, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{m.from}</span>
+                <span style={{ font: `500 11px/1 ${mono}`, color: muted, flex: 'none' }}>{m.when}</span>
+              </div>
+              <div style={{ font: `400 12px/1.4 ${mono}`, color: muted, marginTop: 3, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{lang === 'fr' ? 'À : ' : 'To: '}{m.to}</div>
+            </div>
+          </div>
+          <div style={{ font: `800 15px/1.32 ${sans}`, color: ink, marginTop: 12 }}>{m.subject}</div>
+        </div>
+
+        <div style={{ padding: compact ? '20px 16px 24px' : '28px 30px 32px', background: isDark ? bg : '#fff' }}>
+          <div style={{ font: `800 11px/1.4 ${mono}`, color: accent, letterSpacing: '.12em', textTransform: 'uppercase', marginBottom: 10 }}>{m.period} · {kept.length} {m.keptWord} {lang === 'fr' ? 'sur' : 'of'} {total} {m.signalsWord}</div>
+          <h3 style={{ font: `900 ${compact ? '22px' : '26px'}/1.1 ${sans}`, ...headingWide, margin: 0, color: ink }}>{m.windowLabel} · {lang === 'fr' ? "régulation de l'énergie" : 'energy regulation'}</h3>
+          <p style={{ font: `400 14px/1.6 ${body}`, color: ink2, margin: '14px 0 24px' }}>{m.greeting}</p>
+
+          {groups.map((sec, si) => (
+            <div key={si} style={{ marginBottom: si === groups.length - 1 ? 4 : 24 }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 14 }}>
+                <span style={{ font: `900 11px/1 ${mono}`, color: accent2, letterSpacing: '.16em', textTransform: 'uppercase', flex: 'none' }}>{sec.name}</span>
+                <span style={{ flex: 1, height: 1, background: border }}></span>
+              </div>
+              <div style={{ display: 'grid', gap: 18 }}>
+                {sec.items.map((it, ii) => (
+                  <article key={ii} style={{ borderLeft: `2px solid ${accent}55`, paddingLeft: 15 }}>
+                    <h4 style={{ font: `800 ${compact ? '15px' : '16px'}/1.3 ${sans}`, color: ink, margin: '0 0 7px' }}>{it.title}</h4>
+                    <p style={{ font: `400 ${compact ? '13.5px' : '14px'}/1.64 ${body}`, color: ink2, margin: '0 0 10px' }}>{it.body}</p>
+                    <p style={{ font: `400 13.5px/1.58 ${body}`, color: ink, margin: '0 0 7px' }}>
+                      <span style={{ font: `800 10px/1 ${mono}`, color: accent, textTransform: 'uppercase', letterSpacing: '.08em', marginRight: 8 }}>{m.whyLabel}</span>
+                      {it.impact}
+                    </p>
+                    <div style={{ font: `500 11.5px/1.4 ${mono}`, color: muted }}>{m.sourceLabel} · {it.bulletinSource}</div>
+                  </article>
+                ))}
+              </div>
+            </div>
+          ))}
+
+          <div style={{ marginTop: 24, paddingTop: 16, borderTop: `1px solid ${border}`, font: `400 11.5px/1.58 ${mono}`, color: muted }}>{m.footer}</div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function VeilleTriageDemo({ lang, compact, density, tokens, fonts, onGenerate }) {
+  const { surface, surface2, border, ink, ink2, muted, accent, accent2, bg, chipFg, isDark } = tokens;
+  const { sans, mono, body } = fonts;
+  const headingWide = { letterSpacing: 0, fontVariationSettings: '"wdth" 112' };
+  const d = VEILLE_DEMO[lang] || VEILLE_DEMO.fr;
+  const items = d.items;
+
+  const [decisions, setDecisions] = React.useState({});
+  const [index, setIndex] = React.useState(0);
+  const rootRef = React.useRef(null);
+
+  const done = index >= items.length;
+  const keptItems = items.filter(it => decisions[it.id] === 'kept');
+  const keptCount = keptItems.length;
+
+  const decide = React.useCallback((verdict) => {
+    setIndex(i => {
+      const it = items[i];
+      if (it) setDecisions(prev => ({ ...prev, [it.id]: verdict }));
+      return Math.min(i + 1, items.length);
+    });
+  }, [items]);
+
+  const reset = () => { setDecisions({}); setIndex(0); };
+
+  React.useEffect(() => {
+    if (done) return;
+    const onKey = (e) => {
+      if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
+      const el = rootRef.current;
+      if (!el) return;
+      const r = el.getBoundingClientRect();
+      const visible = r.top < window.innerHeight * 0.9 && r.bottom > window.innerHeight * 0.1;
+      if (!visible) return;
+      e.preventDefault();
+      decide(e.key === 'ArrowRight' ? 'kept' : 'ignored');
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [done, decide]);
+
+  const bandOf = (score) => score >= 80
+    ? { label: d.scoreBands.prio, color: accent2 }
+    : score >= 60
+      ? { label: d.scoreBands.pert, color: accent }
+      : { label: d.scoreBands.faible, color: muted };
+
+  const current = items[index];
+  const pct = Math.round((Math.min(index, items.length) / items.length) * 100);
+
+  const chip = (text, color) => (
+    <span style={{ font: `600 10px/1 ${mono}`, color, border: `1px solid ${color}44`, background: `${color}12`, padding: '5px 8px', borderRadius: 999, whiteSpace: 'nowrap' }}>{text}</span>
+  );
+
+  return (
+    <div ref={rootRef}>
+      <div style={{ font: `800 12px/1 ${mono}`, color: accent, letterSpacing: '.14em', textTransform: 'uppercase', margin: '0 auto 12px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, textAlign: 'center' }}>
+        <span style={{ width: 7, height: 7, borderRadius: 999, background: '#22c55e', boxShadow: '0 0 0 3px #22c55e33' }}></span>
+        {d.eyebrow}
+      </div>
+      <h2 style={{ font: `900 ${compact ? '30px' : density === 'dense' ? '40px' : '46px'}/1.03 ${sans}`, ...headingWide, margin: '0 auto 14px', maxWidth: 680, color: ink, textAlign: 'center', textWrap: 'balance' }}>
+        {d.h2a} <span style={{ color: accent }}>{d.h2b}</span>
+      </h2>
+      <p style={{ font: `400 16px/1.6 ${body}`, color: muted, margin: '0 auto 20px', maxWidth: 680, textAlign: 'center', textWrap: 'balance' }}>{d.intro}</p>
+
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, flexWrap: 'wrap', marginBottom: 22, font: `500 11.5px/1.5 ${mono}`, color: muted }}>
+        {chip(`${d.clientLabel} · ${d.clientName}`, accent)}
+        {chip(d.themeLabel, muted)}
+        {chip(`${items.length} ${d.collectedLabel}`, muted)}
+      </div>
+
+      <div style={{ maxWidth: 620, margin: '0 auto' }}>
+        <div style={{ marginBottom: 14 }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', font: `600 11px/1 ${mono}`, color: muted, marginBottom: 6, letterSpacing: '.04em' }}>
+            <span>{Math.min(index, items.length)}/{items.length} {d.sortedWord}</span>
+            <span style={{ color: accent }}>{keptCount} {d.keptWord}</span>
+          </div>
+          <div style={{ height: 6, borderRadius: 999, background: isDark ? surface2 : '#e9eff6', overflow: 'hidden' }}>
+            <div style={{ width: `${pct}%`, height: '100%', background: accent, borderRadius: 999, transition: 'width .3s cubic-bezier(.16,1,.3,1)' }}></div>
+          </div>
+        </div>
+
+        {!done ? (
+          (() => {
+            const band = bandOf(current.score);
+            return (
+              <article className="triage-card" key={current.id} style={{ background: surface, border: `1px solid ${border}`, borderRadius: 14, boxShadow: `0 16px 40px ${accent}12`, padding: compact ? '16px 16px' : '22px 24px' }}>
+                <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 14, marginBottom: 12 }}>
+                  <div style={{ minWidth: 0, display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+                    {chip(`${current.date}${current.today ? ' · ' + d.todayWord : ''}`, muted)}
+                    {chip(current.category, accent)}
+                  </div>
+                  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 5, flex: 'none' }}>
+                    <div style={{ display: 'inline-flex', alignItems: 'baseline', gap: 3, padding: '6px 10px', borderRadius: 8, border: `1px solid ${band.color}66`, background: `${band.color}14`, color: band.color }}>
+                      <span style={{ font: `900 17px/1 ${sans}` }}>{current.score}</span>
+                      <span style={{ font: `600 10px/1 ${mono}` }}>{d.scoreOutOf}</span>
+                    </div>
+                    <span style={{ font: `800 9px/1 ${mono}`, letterSpacing: '.1em', textTransform: 'uppercase', color: band.color }}>{band.label}</span>
+                  </div>
+                </div>
+
+                <h3 style={{ font: `800 ${compact ? '16px' : '18px'}/1.3 ${sans}`, color: ink, margin: '0 0 10px' }}>{current.title}</h3>
+
+                <div style={{ font: `400 13px/1.55 ${body}`, color: ink2, margin: '0 0 14px' }}>
+                  <span style={{ font: `800 9.5px/1 ${mono}`, color: muted, textTransform: 'uppercase', letterSpacing: '.08em', marginRight: 8 }}>{d.whyScoreLabel}</span>
+                  {current.whyScore}
+                </div>
+
+                <div style={{ display: 'flex', justifyContent: 'space-between', gap: 12, flexWrap: 'wrap', font: `500 11px/1.4 ${mono}`, color: muted, marginBottom: 18, paddingTop: 12, borderTop: `1px solid ${border}` }}>
+                  <span>{d.rubriqueLabel} · <span style={{ color: ink2 }}>{current.rubrique}</span></span>
+                  <span>{d.sourceWord} · {current.source}</span>
+                </div>
+
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
+                  <button type="button" className="triage-btn" onClick={() => decide('ignored')} style={{ cursor: 'pointer', padding: '13px 14px', borderRadius: 10, border: `1px solid ${border}`, background: isDark ? surface2 : '#fff', color: ink2, font: `800 13px/1 ${sans}` }}>✕ {d.ignoreBtn}</button>
+                  <button type="button" className="triage-btn" onClick={() => decide('kept')} style={{ cursor: 'pointer', padding: '13px 14px', borderRadius: 10, border: `1px solid ${accent}`, background: accent, color: chipFg, font: `800 13px/1 ${sans}`, boxShadow: `0 10px 26px ${accent}44` }}>✓ {d.keepBtn}</button>
+                </div>
+                <div style={{ textAlign: 'center', marginTop: 12, font: `500 10.5px/1 ${mono}`, color: muted, letterSpacing: '.06em' }}>{d.kbdHint}</div>
+              </article>
+            );
+          })()
+        ) : (
+          <div style={{ background: surface, border: `1px solid ${border}`, borderRadius: 14, boxShadow: `0 16px 40px ${accent}12`, padding: compact ? '24px 18px' : '32px 28px', textAlign: 'center' }}>
+            <div style={{ width: 46, height: 46, borderRadius: 999, margin: '0 auto 14px', display: 'flex', alignItems: 'center', justifyContent: 'center', background: keptCount > 0 ? `${accent}18` : `${muted}18`, color: keptCount > 0 ? accent : muted, font: `900 20px/1 ${sans}` }}>{keptCount > 0 ? '✓' : '·'}</div>
+            <h3 style={{ font: `900 ${compact ? '20px' : '24px'}/1.1 ${sans}`, ...headingWide, margin: '0 0 8px', color: ink }}>{d.doneTitle}</h3>
+            <p style={{ font: `400 14px/1.55 ${body}`, color: muted, margin: '0 auto 22px', maxWidth: 420 }}>{keptCount > 0 ? `${keptCount} ${keptCount > 1 ? d.keptNounPlural : d.keptNoun}` : d.emptyKept}</p>
+            <div style={{ display: 'flex', gap: 10, justifyContent: 'center', flexWrap: 'wrap' }}>
+              {keptCount > 0 && (
+                <button type="button" className="triage-btn" onClick={() => onGenerate(keptItems)} style={{ cursor: 'pointer', padding: '14px 22px', borderRadius: 10, border: `1px solid ${accent}`, background: accent, color: chipFg, font: `800 14px/1 ${sans}`, boxShadow: `0 14px 34px ${accent}55` }}>⚡ {d.generateBtn} · {keptCount}</button>
+              )}
+              <button type="button" className="triage-btn" onClick={reset} style={{ cursor: 'pointer', padding: '14px 20px', borderRadius: 10, border: `1px solid ${border}`, background: isDark ? surface2 : '#fff', color: ink2, font: `700 13px/1 ${sans}` }}>{d.restartBtn}</button>
+            </div>
+          </div>
+        )}
+      </div>
+
+      <p style={{ margin: '18px auto 0', font: `400 12.5px/1.55 ${mono}`, color: muted, maxWidth: 680, textAlign: 'center' }}>{d.guardrail}</p>
+    </div>
+  );
+}
+
 function WfOperator({ lang, density, font, theme = 'paper' }) {
   const t = (k) => typeof k === 'object' ? k[L] : k;
   const pad = density === 'dense' ? 48 : 72;
@@ -1707,8 +2358,8 @@ function WfOperator({ lang, density, font, theme = 'paper' }) {
     const seo = {
       fr: {
         title: 'BriefLayer | Automatisez vos services de veille réglementaire',
-        description: 'BriefLayer automatise votre service de veille réglementaire : sources agrégées, tri IA, validation humaine et bulletins clients personnalisés.',
-        socialDescription: 'Automatisez votre service de veille réglementaire : sources agrégées, tri IA, validation humaine et bulletins clients personnalisés.',
+        description: "BriefLayer rassemble vos sources, prépare un bulletin personnalisé pour chaque client et vous laisse valider avant l'envoi.",
+        socialDescription: "BriefLayer rassemble vos sources, prépare un bulletin personnalisé pour chaque client et vous laisse valider avant l'envoi.",
         keywords: 'veille réglementaire automatisée, bulletin de veille, veille affaires publiques, automatisation veille, IA veille réglementaire, bulletins clients personnalisés',
         locale: 'fr_FR',
         alternateLocale: 'en_GB',
@@ -1754,6 +2405,7 @@ function WfOperator({ lang, density, font, theme = 'paper' }) {
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
+  const [bulletinItems, setBulletinItems] = React.useState(null);
   const compact = vw < 760;
   const medium = vw < 1040;
   const pagePad = compact ? 24 : pad;
@@ -1787,7 +2439,7 @@ function WfOperator({ lang, density, font, theme = 'paper' }) {
       ? [
           { text: "D'après FiscalNote,", strong: false },
           { text: "59 % des professionnels en affaires publiques passent jusqu'à 10 h par semaine à traiter la veille réglementaire", strong: true },
-          { text: "et l'actualité. BriefLayer automatise vos services de veille pour que ce temps soit consacré à la stratégie, au terrain et au suivi client.", strong: false },
+          { text: "et l'actualité. BriefLayer prend en charge ce travail répétitif. Vous pouvez vous concentrer sur la stratégie, le terrain et vos clients.", strong: false },
         ]
       : [
           { text: 'According to FiscalNote,', strong: false },
@@ -1862,41 +2514,47 @@ function WfOperator({ lang, density, font, theme = 'paper' }) {
             />
           </div>
           <nav style={{ display: 'flex', alignItems: 'center', gap: compact ? (scrolled ? 8 : 12) : (scrolled ? 16 : 22), font: `600 ${compact ? (scrolled ? '11px' : '12px') : '13px'}/1 ${sans}`, flexWrap: 'wrap', justifyContent: compact ? 'center' : 'flex-end', width: compact ? '100%' : 'auto' }}>
+            <a style={{ color: accent, textDecoration: 'none', fontWeight: 800 }} href="#demo">{L === 'fr' ? 'Démo' : 'Demo'}</a>
             <a style={{ color: muted, textDecoration: 'none' }} href="#service">{L === 'fr' ? 'Service' : 'Service'}</a>
             <a style={{ color: muted, textDecoration: 'none' }} href="#methode">{L === 'fr' ? 'Méthode' : 'Method'}</a>
             <a style={{ color: muted, textDecoration: 'none' }} href="#faq">FAQ</a>
             <a style={{ color: muted, textDecoration: 'none' }} href="#cv">{L === 'fr' ? 'Fondateur' : 'Founder'}</a>
             <WfLangToggle lang={L} setLang={setL} dark={isDark} accent={accent} compact={compact} />
-            <a href={CALENDLY_URL} target="_blank" rel="noreferrer" style={{ display: compact ? 'none' : 'inline-block', padding: '8px 14px', background: accent, color: chipFg, textDecoration: 'none', font: `800 12px/1 ${sans}`, borderRadius: scrolled ? 999 : 6, boxShadow: `0 10px 28px ${accent}33` }}>{L === 'fr' ? (scrolled ? 'Appeler' : 'Réserver un appel') : (scrolled ? 'Call' : 'Book a call')}</a>
+            <a href={CALENDLY_URL} target="_blank" rel="noreferrer" style={{ display: compact ? 'none' : 'inline-block', padding: '8px 14px', background: accent, color: chipFg, textDecoration: 'none', font: `800 12px/1 ${sans}`, borderRadius: scrolled ? 999 : 6, boxShadow: `0 10px 28px ${accent}33` }}>{L === 'fr' ? 'Réserver un appel' : 'Book a call'}</a>
           </nav>
         </header>
 
-        {/* HERO — éditorial 2 colonnes (texte + bloc setup) */}
+        {/* Hero éditorial avec vidéo de présentation */}
         <section className="section-reveal" style={{ marginBottom: heroSectionGap, paddingTop: compact ? 12 : 36, position: 'relative', animationDelay: '0.03s' }}>
-          <div style={{ display: 'grid', gridTemplateColumns: compact ? '1fr' : 'minmax(0, 1.08fr) minmax(0, 0.92fr)', gap: compact ? 34 : 50, alignItems: 'center' }}>
-            <div style={{ textAlign: 'left', minWidth: 0 }}>
-              {t(C.hero.eyebrow) && (
-                <div style={{ display: 'inline-flex', alignItems: 'center', gap: 10, font: `600 12px/1 ${mono}`, color: muted, letterSpacing: '.2em', textTransform: 'uppercase', marginBottom: compact ? 20 : 26 }}>
-                  <span style={{ width: 6, height: 6, borderRadius: 999, background: accent2, boxShadow: `0 0 8px ${accent2}` }}></span>
-                  {t(C.hero.eyebrow)}
-                </div>
-              )}
+          <div style={{ maxWidth: 800, margin: '0 auto', textAlign: 'center' }}>
+            {t(C.hero.eyebrow) && (
+              <div style={{ font: `600 ${compact ? '13px' : '14px'}/1.5 ${sans}`, color: muted, letterSpacing: '.01em', marginBottom: compact ? 16 : 20 }}>
+                {t(C.hero.eyebrow)}
+              </div>
+            )}
 
-              <h1 style={{ font: `900 clamp(2.45rem, 5.1vw, 4.05rem)/0.98 ${sans}`, ...headingWide, margin: '0 0 26px', textWrap: 'balance', overflowWrap: 'break-word' }}>
-                {L === 'fr'
-                  ? <>BriefLayer <span style={{ position: 'relative', display: 'inline' }}>automatise<span className="ai-star" style={{ color: '#ffd326' }}>✦</span></span> <span style={{ color: accent }}>votre service de veille réglementaire.</span></>
-                  : <>BriefLayer <span style={{ position: 'relative', display: 'inline' }}>automates<span className="ai-star" style={{ color: '#ffd326' }}>✦</span></span> <span style={{ color: accent }}>your regulatory monitoring service.</span></>}
-              </h1>
-
-              <p style={{ font: `400 ${compact ? '16px' : '18px'}/1.6 ${body}`, color: ink2, margin: '0 0 32px', maxWidth: 520 }}>{t(C.hero.sub)}</p>
-
-              <a href={CALENDLY_URL} target="_blank" rel="noreferrer" style={{ display: 'inline-block', boxSizing: 'border-box', padding: '15px 26px', background: accent, color: chipFg, textDecoration: 'none', font: `800 15px/1 ${sans}`, borderRadius: 8, boxShadow: `${ctaShadow} ${accent}55`, width: compact ? '100%' : 'auto', textAlign: 'center' }}>{compact ? (L === 'fr' ? 'Réserver un appel' : 'Book a call') : t(C.hero.cta)}</a>
-            </div>
-
-            <div style={{ minWidth: 0 }}>
-              <HeroSetup lang={L} tokens={{ ink, ink2, muted, border, accent, surface, surface2, bg, chipFg }} fonts={{ sans, mono, body }} compact={compact} />
-            </div>
+            <h1 style={{ font: `900 clamp(2.35rem, 4.6vw, 3.7rem)/1.05 ${sans}`, ...headingWide, margin: '0 0 22px', textWrap: 'balance', overflowWrap: 'break-word' }}>
+              {L === 'fr'
+                ? <>Vous vendez un service de veille&nbsp;? <span style={{ color: accent }}>Automatisez sa production avec l'IA&nbsp;!</span></>
+                : <>You sell a monitoring service? <span style={{ color: accent }}>Automate its production with AI!</span></>}
+            </h1>
           </div>
+
+          <div style={{ maxWidth: 1080, margin: `${compact ? 34 : 54}px auto 0` }}>
+            <HeroVideo lang={L} tokens={{ ink, ink2, muted, border, accent, surface, surface2, bg, chipFg }} fonts={{ sans, mono, body }} compact={compact} maxWidth={1080} />
+          </div>
+        </section>
+
+        {/* Démo interactive */}
+        <section id="demo" className="section-reveal" style={{ ...sectionFrame, scrollMarginTop: compact ? 138 : 116, animationDelay: '0.09s' }}>
+          <VeilleTriageDemo
+            lang={L}
+            compact={compact}
+            density={density}
+            tokens={{ surface, surface2, border, ink, ink2, muted, accent, accent2, bg, chipFg, isDark }}
+            fonts={{ sans, mono, body }}
+            onGenerate={setBulletinItems}
+          />
         </section>
 
         {/* preuve incarnée */}
@@ -2147,10 +2805,20 @@ function WfOperator({ lang, density, font, theme = 'paper' }) {
         </footer>
       </div>
     </div>
+    {bulletinItems && (
+      <BulletinDemoWindow
+        lang={L}
+        items={bulletinItems}
+        compact={compact}
+        onClose={() => setBulletinItems(null)}
+        tokens={{ surface, surface2, border, ink, ink2, muted, accent, accent2, bg, chipFg, isDark }}
+        fonts={{ sans, mono, body }}
+      />
+    )}
     </>
   );
 }
-Object.assign(window, { WfOperator, OPERATOR_THEMES, StreamCard, ClientChip, MethodPipeline });
+Object.assign(window, { WfOperator, OPERATOR_THEMES, StreamCard, ClientChip, MethodPipeline, BulletinDemoWindow, VeilleTriageDemo });
 </script>
 
 <!-- ──────────────────────────────────────────────────────────────────────── -->
