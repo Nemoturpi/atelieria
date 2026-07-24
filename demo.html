@@ -1,97 +1,103 @@
+  const prompt = buildPrompt(c.name, brief, a, manual);
+const demoName = demoClientName(c);
+const prompt = buildPrompt(demoName, anonymizeDemoText(brief), a, manual);
+  const { data: bul, error } = await sb.from('bulletins').insert({ tenant_id: c.tenant_id, profile_id: c.client_profiles[0].id, prompt_text: prompt, status: 'draft' }).select('id').single();
+  if (error) { toast('Erreur bulletin : ' + error.message); return; }
+  pendingBulletin = { id: bul.id, matchIds: a.map(r => r.id), manualIds: manual.map(item => item.id) };
+  $('m-client').textContent = c.name;
+  $('m-prompt').textContent = prompt;
+$('m-client').textContent = demoName;  $('m-prompt').textContent = prompt;
+  $('m-copy').onclick = async () => { try { await navigator.clipboard.writeText(prompt); toast('Copié'); } catch (e) {} };
+  $('m-finalize').style.display = 'inline-block';
+  $('m-finalize').onclick = finalizeBulletin;
+  $('m-reopen').style.display = 'none';
+  $('modal').style.display = 'flex';
+  // La copie peut rester en attente si le navigateur bloque le presse-papiers.
+  // La fenêtre de validation doit donc être affichée avant de la tenter.
+  Promise.resolve()
+    .then(() => navigator.clipboard.writeText(prompt))
+    .then(() => toast('Texte de travail copié'))
+    .catch(() => toast('Copie manuelle nécessaire'));
+}
 
-  .manual-item { border: 1px solid var(--line); border-radius: 8px; padding: 12px; background: var(--cream); display: grid; gap: 6px; }
-  .manual-item strong { font-family: 'Inter Tight', sans-serif; font-size: 14px; }
-  .manual-item p { margin: 0; font-size: 13px; line-height: 1.45; color: #4a4d55; }
-  .manual-item a, .manual-item span { font-size: 12px; color: var(--ink-mute); word-break: break-word; }
-  pre.prompt { white-space: pre-wrap; font-size: 12px; background: var(--cream); border: 1px solid var(--line); padding: 14px; border-radius: 10px; max-height: 45vh; overflow: auto; font-family: 'JetBrains Mono', ui-monospace, monospace; }
-  .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); background: var(--ink); color: #fff; padding: 11px 22px; border-radius: 8px; font-size: 14px; opacity: 0; transition: opacity .3s; pointer-events: none; z-index: 99; }
-  .toast.show { opacity: 1; }
-  .faq-section { margin-top: 28px; }
-  .faq-head { margin-bottom: 4px; }
-  .faq-title { font-family: 'Inter Tight', sans-serif; font-size: clamp(30px, 4vw, 48px); line-height: 1; margin: 3px 0 0; letter-spacing: 0; }
-  .faq-section .legend { margin-bottom: 0; }
-  .faq-body { display: grid; gap: 10px; }
-  .faq-section .legend-body { max-width: 980px; }
-  .faq-section .legend-body ul { margin: 0; padding-left: 18px; }
-  .faq-section .legend-body li { margin: 0 0 6px; }
-.logo-text { font-family: 'Inter Tight', sans-serif; font-size: 24px; font-weight: 700; color: var(--ink); }
-  footer { text-align: center; font-size: 11.5px; color: var(--ink-mute); padding: 26px; border-top: 1px solid var(--line); background: #fff; }
-  footer .gold { color: var(--gold); }
-  @media (max-width: 1180px) { .generate-layout { grid-template-columns: 1fr; } }
-  @media (max-width: 980px) { .list-row { grid-template-columns: 1fr; } .list-actions { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-  @media (max-width: 680px) { header { padding: 12px 16px; } header .hdr-info { margin-left: 0; } .stage-nav, .split-list, .stats-legend .lg-row, .card-radar, .stage-toolbar { grid-template-columns: 1fr; } .stage-title { font-size: 42px; } .stage-head { font-size: 28px; } .bar { align-items: stretch; } .bar select, .bar button, .bigbtn { width: 100%; } .stage-viewbar { justify-content: stretch; padding-left: 0; border-left: 0; border-top: 1px solid var(--line); padding-top: 10px; } .stage-viewbar .view-toggle { width: 100%; } .list-actions { grid-template-columns: 1fr; } }
-</style>
-</head>
-<body>
-<header>
-<div class="logo-text">Votre logo</div>
-  <span class="sub">Veille &amp; intelligence sociétale — espace de validation</span>
-  <nav class="navlinks" aria-label="Navigation secondaire">
-    <a class="navlink" href="brieflayer-monitoring-n8n-CHATGPT.html" target="_blank" rel="noopener">Dashboard</a>
-    <a class="navlink" href="#faq">FAQ</a>
-  </nav>
-  <span class="hdr-info" id="hdr-info">connexion…</span>
-</header>
-<main>
-  <div class="tabs client-tabs" id="tabs"></div>
-  <select id="f-jours" onchange="render()" style="display:none" aria-hidden="true">
-    <option value="today">Aujourd'hui</option>
-    <option value="3" selected>3 derniers jours</option>
-    <option value="0">Tout</option>
-  </select>
-  <div class="hidden-filters" aria-hidden="true">
-    <select id="f-type" onchange="render()">
-      <option value="">Toutes catégories</option>
-      <option value="projet_loi">Texte législatif - projet de loi</option>
-      <option value="proposition_loi">Texte législatif - proposition de loi</option>
-      <option value="decret">Texte réglementaire - décret</option>
-      <option value="arrete">Texte réglementaire - arrêté</option>
-      <option value="consultation">Consultation publique</option>
-      <option value="jurisprudence">Décision / jurisprudence</option>
-      <option value="rapport">Rapport / étude</option>
-      <option value="communication_institutionnelle">Communication institutionnelle</option>
-    <details class="legend">
-      <summary>Que fait Dernier bulletin ?</summary>
-      <div class="legend-body">
-        <p>Il permet de rouvrir la dernière base de bulletin préparée pour le client actif, par exemple pour relire ce qui avait été retenu ou reprendre une génération récente.</p>
-      </div>
-    </details>
-    </div>
-  </details>
-</main>
+async function finalizeBulletin() {
+  if (!pendingBulletin) { toast('Aucun brouillon à valider dans cette session.'); return; }
+  const draft = pendingBulletin;
+  if (draft.matchIds.length) {
+    const linked = await sb.from('matches').update({ bulletin_id: draft.id }).in('id', draft.matchIds).is('bulletin_id', null);
+    if (linked.error) { toast('Erreur rattachement : ' + linked.error.message); return; }
+  }
+  if (draft.manualIds.length) {
+    const linkedManual = await sb.from('manual_items').update({ bulletin_id: draft.id, status: 'included', updated_at: new Date().toISOString() }).in('id', draft.manualIds).eq('status', 'pending');
+    if (linkedManual.error) {
+      if (draft.matchIds.length) await sb.from('matches').update({ bulletin_id: null }).eq('bulletin_id', draft.id);
+      toast('Erreur infos supplémentaires : ' + linkedManual.error.message);
+      return;
+    }
+  }
+  const written = await sb.from('bulletins').update({ status: 'written' }).eq('id', draft.id);
+  if (written.error) {
+    if (draft.matchIds.length) await sb.from('matches').update({ bulletin_id: null }).eq('bulletin_id', draft.id);
+    if (draft.manualIds.length) await sb.from('manual_items').update({ bulletin_id: null, status: 'pending', updated_at: new Date().toISOString() }).in('id', draft.manualIds);
+    toast('Validation annulée : ' + written.error.message);
+    return;
+  }
+  const includedManual = new Set(draft.manualIds);
+  manualRows = manualRows.filter(item => !includedManual.has(item.id));
+  pendingBulletin = null;
+  $('m-finalize').style.display = 'none';
+  $('modal').style.display = 'none';
+  await load();
+  toast('Bulletin validé : les informations ont été archivées');
+}
 
-<div class="modal-bg" id="modal" style="display:none">
-  <div class="panel">
-    <h2>Base de bulletin — <span id="m-client"></span></h2>
-    <p class="hint">Le texte de travail est copié : collez-le dans Claude (ou votre IA habituelle), répondez à ses questions, ajoutez votre édito. Les infos retenues pour ce bulletin et les infos supplémentaires du client actif sont utilisées.</p>
-    <pre class="prompt" id="m-prompt"></pre>
-    <div style="margin-top:12px; display:flex; gap:10px">
-      <button class="bigbtn" id="m-copy" type="button">Copier à nouveau</button>
-      <button class="bigbtn" id="m-finalize" type="button" style="display:none">Valider ce bulletin</button>
-      <button class="tab" id="m-reopen" type="button" style="display:none">Rouvrir les infos générées</button>
-      <button class="tab" id="m-close" type="button">Fermer</button>
-    </div>
-  </div>
-</div>
+async function openLastBulletin() {
+  const c = clients.find(x => x.id === current); if (!c) return;
+  const { data } = await sb.from('bulletins').select('id,prompt_text,created_at').eq('profile_id', c.client_profiles[0].id).order('created_at', { ascending: false }).limit(1);
+  if (!data || !data.length) { toast('Aucun bulletin généré pour ce client.'); return; }
+  const b = data[0];
+  $('m-client').textContent = c.name + ' — généré le ' + new Date(b.created_at).toLocaleDateString('fr-FR');
+  $('m-client').textContent = demoClientName(c) + ' — généré le ' + new Date(b.created_at).toLocaleDateString('fr-FR');
+  $('m-prompt').textContent = b.prompt_text || '';
+  try { await navigator.clipboard.writeText(b.prompt_text || ''); toast('Texte de travail copié'); } catch (e) {}
+  $('m-copy').onclick = async () => { try { await navigator.clipboard.writeText(b.prompt_text || ''); toast('Copié'); } catch (e) {} };
+  $('m-finalize').style.display = 'none';
+  $('m-reopen').style.display = 'inline-block';
+  $('m-reopen').onclick = async () => {
+    await sb.from('matches').update({ bulletin_id: null }).eq('bulletin_id', b.id);
+    $('modal').style.display = 'none'; $('m-reopen').style.display = 'none';
+    toast('Infos rouvertes : elles comptent à nouveau pour la génération');
+    load();
+  };
+  $('modal').style.display = 'flex';
+}
 
-<div class="toast" id="toast"></div>
-<footer>Votre entreprise &amp; représentation d'intérêts — <span class="gold">veille propulsée par BriefLayer</span></footer>
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
-<script>
-const EMBED = {
-  url: 'https://xkqeqajeccsacocnfqca.supabase.co',
-  key: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhrcWVxYWplY2NzYWNvY25mcWNhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODExNjc4OTIsImV4cCI6MjA5Njc0Mzg5Mn0.7NmmzyrXt-kVMBl-_WFqPuBP_9r-BAuIbavRO_sIryk'
-};
-let sb = null, clients = [], current = null, rows = [], manualRows = [], manualStorageError = '', themes = new Set(), activeStage = 'todo', listMode = false, pendingBulletin = null;
-const TAGLABELS = { energie: 'Énergie', environnement: 'Environnement', sante: 'Santé', numerique: 'Numérique', donnees_personnelles: 'Données personnelles', fiscalite: 'Fiscalité', travail_emploi: 'Travail & emploi', transports: 'Transports', agriculture_alimentation: 'Agriculture', industrie: 'Industrie', finance: 'Finance', logement_urbanisme: 'Logement & urbanisme', education_recherche: 'Éducation & recherche', culture_medias: 'Culture & médias', defense_securite: 'Défense & sécurité', justice: 'Justice', collectivites_territoriales: 'Collectivités', europe_ue: 'Europe / UE', international: 'International', concurrence: 'Concurrence', marches_publics: 'Marchés publics', aides_etat: "Aides d'État", consommation: 'Consommation', institutions: 'Institutions' };
-const LEGACY_TITLE_TRANSLATIONS = new Map([
-  ['Quality and AI in focus at the annual Main SACEPO meeting', "La qualité et l'IA au coeur de la réunion plénière annuelle du SACEPO"],
-  ['EUIPO streamlines online filing tools to simplify the user experience', "L'EUIPO simplifie ses outils de dépôt en ligne pour améliorer l'expérience utilisateur"],
-  ['EPO meets with Jio Platforms', "L'OEB rencontre Jio Platforms"],
-  ["Design (law) aficionados beware: A new era is about to begin!", "Droit des dessins et modèles : une nouvelle ère est sur le point de commencer"],
-  ["New ‘National Days at the EUIPO’ initiative strengthens EUIPN cooperation, kicking-off with Germany", "Une nouvelle initiative de journées nationales à l'EUIPO renforce la coopération de l'EUIPN, en commençant par l'Allemagne"],
-  ['More than 66 000 fake football jerseys seized ahead of FIFA World Cup 2026', 'Plus de 66 000 faux maillots de football saisis avant la Coupe du monde 2026'],
-  ["The list of the representatives of the Member States on the Administrative Council has been updated", "La liste des représentants des États membres au Conseil d'administration a été mise à jour"],
-  ["EPO launches its Data Desk, providing actionable intelligence for Europe's innovators and policymakers", "L'OEB lance son Data Desk au service des innovateurs et des décideurs européens"],
-  ['New referral G 1/26: Further guidance sought on claim interpretation', "Nouvelle saisine G 1/26 : des précisions attendues sur l'interprétation des revendications"],
+async function resetReview() {
+  const c = clients.find(x => x.id === current); if (!c) return;
+  if (!confirm('Remettre toutes les propositions de ' + c.name + ' à l\'état initial ?\nLes décisions de tri et les bulletins générés seront annulés.')) return;
+  if (!confirm('Remettre toutes les propositions de ' + demoClientName(c) + ' à l\'état initial ?\nLes décisions de tri et les bulletins générés seront annulés.')) return;
+  const pid = c.client_profiles[0].id;
+  const r1 = await sb.from('matches').update({ status: 'proposed', reviewed_at: null, bulletin_id: null }).eq('profile_id', pid).gte('llm_score', 60);
+  const r2 = await sb.from('matches').update({ status: 'grey', reviewed_at: null, bulletin_id: null }).eq('profile_id', pid).lt('llm_score', 60);
+  if (r1.error || r2.error) { toast('Erreur : ' + (r1.error || r2.error).message); return; }
+  toast('Réinitialisé : toutes les propositions sont de retour');
+  renderTabs(); load();
+}
+async function resetCurrentStep() {
+  const list = ['manual', 'generate'].includes(activeStage) ? rows : filteredRows();
+  const grouped = groupRows(list);
+  if (activeStage === 'manual') {
+    if (!manualItems().length) { toast('Aucune info manuelle à retirer.'); return; }
+    if (!confirm('Retirer les informations supplémentaires du client actif ?')) return;
+    const c = clients.find(x => x.id === current); if (!c) return;
+    const removed = await sb.from('manual_items').delete().eq('profile_id', c.client_profiles[0].id).eq('status', 'pending').is('bulletin_id', null);
+    if (removed.error) { toast('Suppression impossible : ' + removed.error.message); return; }
+    manualRows = [];
+    render();
+    toast('Étape infos supplémentaires réinitialisée');
+    return;
+  }
+  let candidates = [];
+  let label = '';
+  if (activeStage === 'grey') {
+    candidates = list.filter(r => r.llm_score < 60 && ['approved', 'rejected', 'edited', 'incubated'].includes(r.status));
