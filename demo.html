@@ -3,21 +3,34 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Votre organisation — Système de validation de la veille</title>
+<title>Démo BriefLayer — Validation de la veille</title>
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@500;600&family=Inter:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500&display=swap" rel="stylesheet">
 <style>
   :root { --accent: #b22234; --accent-2: #8e1b2a; --ink: #1c1d22; --ink-mute: #6c6f76; --cream: #faf8f4; --card: #ffffff; --line: #e8e4da; --gold: #a8853b; --grey-z: #71717a; --step-keep: #00a86b; --step-grey: #8b8f98; --step-bulletin: #2478ff; --step-manual: #9b5de5; --step-generate: #ff9f1c; --step-list: #06a6c9; }
   * { box-sizing: border-box; }
-  body { margin: 0; font-family: 'Inter', system-ui, sans-serif; background: var(--cream); color: var(--ink); }
-  header { background: #fff; border-bottom: 1px solid var(--line); padding: 14px 32px; display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
-  header img.logo { height: 46px; display: block; }
-  header .sub { font-size: 13px; color: var(--ink-mute); letter-spacing: .02em; }
-  header .navlinks { margin-left: auto; display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
-  header .navlink { border: 1px solid var(--line); border-radius: 8px; padding: 8px 11px; color: var(--ink); text-decoration: none; font-family: 'Inter Tight', sans-serif; font-size: 13px; font-weight: 650; background: #fff; }
-  header .navlink:hover { border-color: var(--step-bulletin); color: var(--step-bulletin); }
-  header .hdr-info { margin-left: 0; font-size: 12px; color: var(--ink-mute); }
+  body { margin: 0; font-family: 'Inter', system-ui, sans-serif; background: #edf3f7; color: var(--ink); }
+  .site-header { background: #fff; border-bottom: 1px solid #dce5eb; }
+  .site-header-inner { max-width: 1540px; min-height: 72px; margin: 0 auto; padding: 12px 24px; display: flex; align-items: center; gap: 18px; }
+  .brand-home { display: inline-flex; align-items: center; border-radius: 8px; }
+  .brand-home img { width: 220px; height: auto; display: block; }
+  .brand-home:focus-visible, .site-return:focus-visible, .navlink:focus-visible { outline: 3px solid rgba(3,105,161,.28); outline-offset: 3px; }
+  .brand-tag { padding-left: 18px; border-left: 1px solid #dce5eb; color: #475569; font-family: 'Inter Tight', sans-serif; font-size: 13px; font-weight: 600; letter-spacing: .02em; }
+  .site-return { min-height: 44px; margin-left: auto; padding: 0 15px; border: 1px solid #cbd5e1; border-radius: 9px; display: inline-flex; align-items: center; gap: 8px; color: #0f172a; background: #fff; text-decoration: none; font-family: 'Inter Tight', sans-serif; font-size: 13px; font-weight: 650; transition: border-color .2s ease, color .2s ease, background .2s ease; }
+  .site-return:hover { border-color: #0369a1; color: #0369a1; background: #f7fbff; }
+  .site-return svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  .demo-frame { max-width: 1540px; margin: 20px auto 34px; overflow: hidden; background: var(--cream); border: 1px solid #dce5eb; border-radius: 14px; box-shadow: 0 20px 50px rgba(15,23,42,.08); }
+  .demo-header { background: #fff; border-bottom: 1px solid var(--line); padding: 14px 24px; display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
+  .demo-title { display: grid; gap: 2px; }
+  .demo-title strong { font-family: 'Inter Tight', sans-serif; font-size: 17px; font-weight: 650; color: var(--ink); }
+  .demo-title .sub { font-size: 12.5px; color: var(--ink-mute); letter-spacing: .02em; }
+  .demo-header .navlinks { margin-left: auto; display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+  .navlink { min-height: 44px; border: 1px solid var(--line); border-radius: 8px; padding: 0 13px; display: inline-flex; align-items: center; justify-content: center; color: var(--ink); text-decoration: none; font-family: 'Inter Tight', sans-serif; font-size: 13px; font-weight: 650; background: #fff; cursor: pointer; transition: border-color .2s ease, color .2s ease, background .2s ease; }
+  .navlink:hover { border-color: var(--step-bulletin); color: var(--step-bulletin); background: #f7fbff; }
+  .navlink.demo-disabled { color: #475569; border-style: dashed; }
+  .demo-header .hdr-info { margin-left: 0; font-size: 12px; color: var(--ink-mute); }
   main { max-width: 1480px; margin: 0 auto; padding: 24px 18px 90px; }
   .legend { background: #fff; border: 1px solid var(--line); border-radius: 8px; margin-bottom: 18px; }
   .legend summary { cursor: pointer; padding: 13px 18px; font-size: 13.5px; font-weight: 500; color: var(--ink); list-style: none; display: flex; align-items: center; gap: 8px; }
@@ -48,7 +61,6 @@
   .client-tabs .tab { min-width: 150px; padding: 14px 22px; border-radius: 8px; border-left-width: 6px; font-size: 18px; font-weight: 650; text-align: center; text-transform: uppercase; }
   .client-tabs .tab:hover { border-color: var(--step-bulletin); }
   .client-tabs .tab.on { background: var(--ink); border-color: var(--ink); color: #fff; }
-  .session-note { margin: -6px 0 16px; padding: 10px 12px; border: 1px solid #cfe0ef; border-radius: 8px; background: #f7fbff; color: #2f5f88; font-size: 12.5px; line-height: 1.4; }
   .hidden-filters { display: none; }
   .bar { display: flex; gap: 10px; align-items: center; margin-bottom: 16px; font-size: 13px; color: var(--ink-mute); flex-wrap: wrap; }
   .bar select { padding: 7px 9px; border: 1px solid var(--line); border-radius: 8px; background: #fff; font-size: 12.5px; font-family: 'Inter', sans-serif; color: var(--ink); }
@@ -270,27 +282,40 @@
   .faq-section .legend-body { max-width: 980px; }
   .faq-section .legend-body ul { margin: 0; padding-left: 18px; }
   .faq-section .legend-body li { margin: 0 0 6px; }
-.logo-text { font-family: 'Inter Tight', sans-serif; font-size: 24px; font-weight: 700; color: var(--ink); }
   footer { text-align: center; font-size: 11.5px; color: var(--ink-mute); padding: 26px; border-top: 1px solid var(--line); background: #fff; }
   footer .gold { color: var(--gold); }
   @media (max-width: 1180px) { .generate-layout { grid-template-columns: 1fr; } }
   @media (max-width: 980px) { .list-row { grid-template-columns: 1fr; } .list-actions { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-  @media (max-width: 680px) { header { padding: 12px 16px; } header .hdr-info { margin-left: 0; } .stage-nav, .split-list, .stats-legend .lg-row, .card-radar, .stage-toolbar { grid-template-columns: 1fr; } .stage-title { font-size: 42px; } .stage-head { font-size: 28px; } .bar { align-items: stretch; } .bar select, .bar button, .bigbtn { width: 100%; } .stage-viewbar { justify-content: stretch; padding-left: 0; border-left: 0; border-top: 1px solid var(--line); padding-top: 10px; } .stage-viewbar .view-toggle { width: 100%; } .list-actions { grid-template-columns: 1fr; } }
+  @media (max-width: 680px) { .site-header-inner { padding: 10px 14px; flex-wrap: wrap; } .brand-home img { width: 172px; } .brand-tag { padding-left: 12px; } .site-return { width: 100%; margin-left: 0; } .demo-frame { margin: 0; border-width: 0; border-radius: 0; box-shadow: none; } .demo-header { padding: 12px 16px; } .demo-header .navlinks { width: 100%; margin-left: 0; } .demo-header .navlink { flex: 1; } .demo-header .hdr-info { width: 100%; margin-left: 0; } .stage-nav, .split-list, .stats-legend .lg-row, .card-radar, .stage-toolbar { grid-template-columns: 1fr; } .stage-title { font-size: 42px; } .stage-head { font-size: 28px; } .bar { align-items: stretch; } .bar select, .bar button, .bigbtn { width: 100%; } .stage-viewbar { justify-content: stretch; padding-left: 0; border-left: 0; border-top: 1px solid var(--line); padding-top: 10px; } .stage-viewbar .view-toggle { width: 100%; } .list-actions { grid-template-columns: 1fr; } }
 </style>
 </head>
 <body>
-<header>
-<div class="logo-text">Votre logo</div>
-  <span class="sub">Veille &amp; intelligence sociétale — espace de validation</span>
-  <nav class="navlinks" aria-label="Navigation secondaire">
-    <a class="navlink" href="brieflayer-monitoring-n8n-CHATGPT.html" target="_blank" rel="noopener">Dashboard</a>
+<header class="site-header">
+  <div class="site-header-inner">
+    <a class="brand-home" href="https://www.brieflayer.eu/" aria-label="Retour au site principal BriefLayer">
+      <img src="assets/brieflayer-logo-eu.png" alt="BriefLayer.eu">
+    </a>
+    <span class="brand-tag">Démo interactive</span>
+    <a class="site-return" href="https://www.brieflayer.eu/">
+      Retour au site
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
+    </a>
+  </div>
+</header>
+<section class="demo-frame" aria-label="Démonstration de l’espace de validation BriefLayer">
+<div class="demo-header">
+  <div class="demo-title">
+    <strong>Espace de validation de la veille</strong>
+    <span class="sub">Parcours de démonstration avec données anonymisées</span>
+  </div>
+  <nav class="navlinks" aria-label="Navigation de la démonstration">
+    <button class="navlink demo-disabled" type="button" onclick="dashboardUnavailable()">Dashboard</button>
     <a class="navlink" href="#faq">FAQ</a>
   </nav>
   <span class="hdr-info" id="hdr-info">connexion…</span>
-</header>
+</div>
 <main>
   <div class="tabs client-tabs" id="tabs"></div>
-  <div class="session-note">Session de démonstration locale : vos choix restent dans cet onglet et ne modifient aucune donnée partagée.</div>
   <select id="f-jours" onchange="render()" style="display:none" aria-hidden="true">
     <option value="today">Aujourd'hui</option>
     <option value="3">3 derniers jours</option>
@@ -411,7 +436,8 @@
 </div>
 
 <div class="toast" id="toast"></div>
-<footer>Votre entreprise &amp; représentation d'intérêts — <span class="gold">veille propulsée par Plateforme de veille</span></footer>
+<footer>BriefLayer — <span class="gold">démo de validation de la veille</span></footer>
+</section>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <script>
@@ -530,6 +556,9 @@ function anonymizeDemoText(text) {
 }
 const $ = id => document.getElementById(id);
 const toast = m => { const t = $('toast'); t.textContent = m; t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 2600); };
+function dashboardUnavailable() {
+  toast("Le dashboard n'est pas disponible dans cette démo.");
+}
 
 function withFrenchLegacyTitle(row) {
   const item = row && row.items;
@@ -550,7 +579,7 @@ async function loadClients() {
   const { data, error } = await sb.from('clients').select('id,tenant_id,name,client_profiles(id,brief)').eq('active', true).order('name');
   if (error) { $('hdr-info').textContent = 'erreur : ' + error.message; return; }
   clients = (data || []).filter(c => c.client_profiles && c.client_profiles.length);
-  $('hdr-info').textContent = clients.length + ' client(s) · session locale';
+  $('hdr-info').textContent = clients.length + ' ' + (clients.length > 1 ? 'clients' : 'client') + ' de démonstration';
   if (!current && clients.length) current = clients[0].id;
   renderTabs(); load();
 }
@@ -1590,6 +1619,7 @@ document.addEventListener('keydown', handleKeyboard);
 window.switchTo = switchTo; window.decide = decide; window.retainAllSelected = retainAllSelected; window.incubate = incubate; window.resumeIncubation = resumeIncubation; window.recallIncubationToTodo = recallIncubationToTodo; window.recallReadyToTodo = recallReadyToTodo; window.toggleTheme = toggleTheme; window.setStage = setStage; window.generateBulletin = generateBulletin; window.finalizeBulletin = finalizeBulletin;
 window.setPeriod = setPeriod; window.toggleListMode = toggleListMode; window.openLastBulletin = openLastBulletin; window.resetReview = resetReview; window.resetCurrentStep = resetCurrentStep; window.resetRetained = resetRetained;
 window.dragCard = dragCard; window.endDrag = endDrag; window.allowDrop = allowDrop; window.leaveDrop = leaveDrop; window.dropOnLane = dropOnLane;
+window.dashboardUnavailable = dashboardUnavailable;
 (function start() {
   if (typeof supabase !== 'undefined') { init(); return; }
   const s = document.createElement('script');
