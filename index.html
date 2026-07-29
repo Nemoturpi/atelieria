@@ -98,6 +98,17 @@
   .site-header img {
     transition: width .24s ease, max-width .24s ease;
   }
+  .demo-cta-link {
+    transition: transform .2s ease, box-shadow .2s ease, filter .2s ease;
+  }
+  .demo-cta-link:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.04);
+  }
+  .demo-cta-link:focus-visible {
+    outline: 3px solid rgba(3, 105, 161, .28);
+    outline-offset: 4px;
+  }
   .section-reveal {
     opacity: 0;
     transform-origin: center top;
@@ -4431,1105 +4442,6 @@ function MethodPipeline({
     }
   }, t(cur.del).replace(/^Livrable : |^Deliverable: /, '')))));
 }
-const VEILLE_DEMO = {
-  fr: {
-    eyebrow: 'Démo · à vous de jouer',
-    h2a: 'Faites le tri.',
-    h2b: 'Le bulletin se génère.',
-    intro: "Les informations de la nuit sont déjà rassemblées et classées. Gardez ce qui compte pour votre client, écartez le reste, puis générez son bulletin. Vous gardez la main du début à la fin.",
-    clientLabel: 'Client',
-    clientName: '[groupe énergie]',
-    themeLabel: "Régulation de l'énergie",
-    collectedLabel: 'informations trouvées cette nuit',
-    todayWord: "aujourd'hui",
-    ignoreBtn: 'Ignorer',
-    keepBtn: 'Garder',
-    kbdHint: '←  ignorer   ·   →  garder',
-    scoreOutOf: '/100',
-    scoreBands: {
-      prio: 'À traiter',
-      pert: 'Utile',
-      faible: 'Peu utile'
-    },
-    whyScoreLabel: 'Pourquoi ce classement',
-    rubriqueLabel: 'Rubrique client',
-    sourceWord: 'Source',
-    sortedWord: 'passées en revue',
-    keptWord: 'gardées',
-    doneTitle: "C'est trié",
-    keptNoun: 'information gardée pour le bulletin.',
-    keptNounPlural: 'informations gardées pour le bulletin.',
-    generateBtn: 'Créer le bulletin',
-    restartBtn: '↺ Recommencer',
-    emptyKept: "Vous n'avez rien gardé. Recommencez et gardez au moins une information pour générer le bulletin.",
-    guardrail: "Cette démo donne un aperçu de votre espace de validation. En pratique, BriefLayer rassemble et trie vos sources chaque jour. Il ne vous reste qu'à valider avant l'envoi.",
-    sectionOrder: ['À la une', 'Textes en discussion', 'À surveiller'],
-    mail: {
-      windowLabel: 'Bulletin de veille',
-      badge: 'APERÇU',
-      from: '[Votre cabinet]',
-      to: '[Client · groupe énergie]',
-      when: 'lun. 07:14',
-      avatar: 'VC',
-      subject: 'Veille énergie · semaine du 13 juillet 2026',
-      period: 'Semaine du 13 juillet 2026',
-      greeting: 'Bonjour, voici votre veille énergie de la semaine.',
-      whyLabel: 'Pourquoi ça compte',
-      sourceLabel: 'Source',
-      keptWord: 'gardées',
-      signalsWord: 'informations',
-      footer: 'Sources : Journal officiel · Assemblée nationale · Sénat · CRE · Commission européenne · presse spécialisée. Bulletin préparé automatiquement, puis relu avant envoi.'
-    },
-    items: [{
-      id: 'cap',
-      date: '15 juil',
-      today: true,
-      score: 88,
-      category: 'Texte réglementaire · décret',
-      source: 'legifrance.gouv.fr',
-      title: 'Mécanisme de capacité : le projet de décret en consultation',
-      whyScore: "Ce texte peut toucher directement les revenus du client, et la consultation est encore ouverte.",
-      rubrique: 'Marché de capacité',
-      section: 'À la une',
-      body: "Le projet de décret réformant le mécanisme de capacité électrique est en consultation publique jusqu'au 4 août. Il modifie les modalités de certification des capacités, introduit une déclaration trimestrielle des volumes disponibles et resserre le calendrier des enchères 2027. La fenêtre de contestation des volumes certifiés passe de trente à quinze jours.",
-      impact: "Impact direct sur vos revenus de capacité 2027 et sur votre charge déclarative. La consultation ferme dans trois semaines. Il est encore temps d'y contribuer.",
-      bulletinSource: 'Ministère de la transition énergétique · consultation publique'
-    }, {
-      id: 'turpe',
-      date: '15 juil',
-      today: true,
-      score: 82,
-      category: 'Décision · régulateur',
-      source: 'cre.fr',
-      title: 'TURPE : la CRE ouvre la prochaine période tarifaire',
-      whyScore: "Cette délibération fixera une partie des coûts d'acheminement du client.",
-      rubrique: 'Réseaux & tarifs',
-      section: 'À la une',
-      body: "La Commission de régulation de l'énergie a publié le document de cadrage de la prochaine période tarifaire (TURPE 7). Il retient une trajectoire d'investissement des gestionnaires de réseau en hausse et ouvre le débat sur la répartition des coûts entre soutirage et injection.",
-      impact: "Les arbitrages de cette délibération structureront vos coûts d'acheminement sur les quatre prochaines années.",
-      bulletinSource: 'CRE · délibération de cadrage'
-    }, {
-      id: 'lpec',
-      date: '14 juil',
-      today: false,
-      score: 74,
-      category: 'Texte législatif · projet de loi',
-      source: 'assemblee-nationale.fr',
-      title: 'Loi de programmation énergie-climat : examen en commission',
-      whyScore: "Le texte est important, mais il est encore loin d'être adopté.",
-      rubrique: 'Cadre législatif',
-      section: 'Textes en discussion',
-      body: "Les articles fixant les objectifs de capacités renouvelables et nucléaires ont été examinés en commission à l'Assemblée nationale. Plusieurs amendements adoptés assouplissent les procédures d'autorisation environnementale pour les projets déclarés d'intérêt national majeur.",
-      impact: "Le régime d'autorisation conditionne directement le calendrier de vos projets de développement.",
-      bulletinSource: 'Assemblée nationale · dossier législatif'
-    }, {
-      id: 'raccord',
-      date: '13 juil',
-      today: false,
-      score: 68,
-      category: 'Texte législatif · proposition de loi',
-      source: 'senat.fr',
-      title: 'Raccordements au réseau : proposition de loi au Sénat',
-      whyScore: "Le sujet touche directement les délais des projets, mais son adoption reste incertaine.",
-      rubrique: 'Réseaux & tarifs',
-      section: 'Textes en discussion',
-      body: "Une proposition de loi visant à accélérer les raccordements a été déposée au Sénat. Elle prévoit un délai plafond opposable au gestionnaire de réseau et une procédure simplifiée pour les sites industriels existants.",
-      impact: "Les délais de raccordement sont souvent le chemin critique de vos projets ; un délai opposable modifierait vos plannings.",
-      bulletinSource: 'Sénat · proposition de loi'
-    }, {
-      id: 'aides',
-      date: '13 juil',
-      today: false,
-      score: 63,
-      category: 'Consultation publique',
-      source: 'ec.europa.eu',
-      title: "Aides d'État à l'énergie : révision de l'encadrement européen",
-      whyScore: "La consultation n'est pas encore ouverte. L'effet peut être important, mais pas tout de suite.",
-      rubrique: 'Aides & financements',
-      section: 'À surveiller',
-      body: "La Commission européenne prépare la révision de son encadrement des aides d'État à l'énergie et à l'environnement. Une consultation est attendue à l'automne, avec un possible durcissement des conditions d'éligibilité des soutiens à l'industrie.",
-      impact: "Ce cadre conditionnera l'éligibilité de vos futurs dispositifs de soutien public. À suivre dès l'ouverture de la consultation.",
-      bulletinSource: 'Commission européenne · feuille de route'
-    }, {
-      id: 'telecom',
-      date: '15 juil',
-      today: true,
-      score: 22,
-      category: 'Actualité sectorielle',
-      source: 'news.google.com',
-      title: "Un opérateur télécom lance une offre mobile à 5 €/mois",
-      whyScore: "Hors sujet pour ce client : cette information ne concerne pas la régulation de l'énergie.",
-      rubrique: 'Hors sujet',
-      section: 'À surveiller',
-      body: "Un opérateur télécom lance une nouvelle offre mobile grand public à bas prix.",
-      impact: "Lien avec votre périmètre énergie : négligeable.",
-      bulletinSource: 'news.google.com'
-    }, {
-      id: 'results',
-      date: '14 juil',
-      today: false,
-      score: 41,
-      category: 'Actualité sectorielle',
-      source: 'news.google.com',
-      title: "Un fournisseur d'énergie publie ses résultats trimestriels",
-      whyScore: "C'est une information de marché, sans conséquence réglementaire directe.",
-      rubrique: 'Veille marché',
-      section: 'À surveiller',
-      body: "Un grand fournisseur d'énergie a publié des résultats trimestriels en hausse, portés par la demande industrielle.",
-      impact: "Information de marché ; aucun enjeu réglementaire pour le client.",
-      bulletinSource: 'news.google.com'
-    }, {
-      id: 'tribune',
-      date: '13 juil',
-      today: false,
-      score: 38,
-      category: 'Communication institutionnelle',
-      source: 'presse.fr',
-      title: "Tribune : « il faut accélérer la transition énergétique »",
-      whyScore: "C'est une tribune d'opinion, pas un texte qui crée des obligations.",
-      rubrique: 'Non classé',
-      section: 'À surveiller',
-      body: "Une tribune collective appelle le gouvernement à accélérer le calendrier de la transition énergétique.",
-      impact: "Opinion, sans effet juridique direct.",
-      bulletinSource: 'presse spécialisée · tribune'
-    }, {
-      id: 'salon',
-      date: '12 juil',
-      today: false,
-      score: 19,
-      category: 'Autre signal',
-      source: 'news.google.com',
-      title: "Salon européen de l'énergie : les dates 2027 sont annoncées",
-      whyScore: "Il s'agit d'un événement, sans décision à suivre pour le client.",
-      rubrique: 'Non classé',
-      section: 'À surveiller',
-      body: "L'organisateur du salon européen de l'énergie a annoncé les dates de son édition 2027.",
-      impact: "Purement événementiel.",
-      bulletinSource: 'news.google.com'
-    }, {
-      id: 'thinktank',
-      date: '12 juil',
-      today: false,
-      score: 48,
-      category: 'Rapport · étude',
-      source: 'news.google.com',
-      title: "Un think tank publie une étude sur les prix de l'électricité",
-      whyScore: "L'étude est intéressante, mais elle concerne peu les priorités de ce client.",
-      rubrique: 'Veille marché',
-      section: 'À surveiller',
-      body: "Un think tank publie une étude prospective sur l'évolution des prix de l'électricité à l'horizon 2030.",
-      impact: "Éclairage utile mais indirect ; à archiver plutôt qu'à envoyer.",
-      bulletinSource: 'étude · think tank'
-    }]
-  },
-  en: {
-    eyebrow: 'Demo · validation desk',
-    h2a: 'Do the triage.',
-    h2b: 'The briefing writes itself.',
-    intro: "The overnight updates are already collected and ranked. Keep what matters to your client, discard the rest, then generate the briefing. You stay in control from start to finish.",
-    clientLabel: 'Client',
-    clientName: '[energy group]',
-    themeLabel: 'Energy regulation',
-    collectedLabel: 'signals collected overnight',
-    todayWord: 'today',
-    ignoreBtn: 'Ignore',
-    keepBtn: 'Keep',
-    kbdHint: '←  ignore   ·   →  keep',
-    scoreOutOf: '/100',
-    scoreBands: {
-      prio: 'Priority',
-      pert: 'Relevant',
-      faible: 'Weak signal'
-    },
-    whyScoreLabel: 'Why this score',
-    rubriqueLabel: 'Client topic',
-    sourceWord: 'Source',
-    sortedWord: 'sorted',
-    keptWord: 'kept',
-    doneTitle: 'Triage complete',
-    keptNoun: 'item kept for the briefing.',
-    keptNounPlural: 'items kept for the briefing.',
-    generateBtn: 'Generate the briefing',
-    restartBtn: '↺ Restart',
-    emptyKept: 'You kept nothing. Restart and keep at least one item to generate the briefing.',
-    guardrail: 'This demo gives you a preview of the review desk. In practice, BriefLayer collects and ranks your sources every day. All you have to do is approve before sending.',
-    sectionOrder: ['Top stories', 'Bills in discussion', 'On the radar'],
-    mail: {
-      windowLabel: 'Monitoring briefing',
-      badge: 'PREVIEW',
-      from: '[Your firm]',
-      to: '[Client · energy group]',
-      when: 'Mon 07:14',
-      avatar: 'YF',
-      subject: 'Energy monitoring · week of 13 July 2026',
-      period: 'Week of 13 July 2026',
-      greeting: 'Hello, here is your energy monitoring for the week.',
-      whyLabel: 'Why it matters',
-      sourceLabel: 'Source',
-      keptWord: 'kept',
-      signalsWord: 'signals',
-      footer: 'Sources: Official Journal · National Assembly · Senate · CRE · European Commission · trade press. Briefing produced automatically, then validated before sending.'
-    },
-    items: [{
-      id: 'cap',
-      date: '15 Jul',
-      today: true,
-      score: 88,
-      category: 'Regulation · decree',
-      source: 'legifrance.gouv.fr',
-      title: 'Capacity mechanism: draft decree open for consultation',
-      whyScore: 'Regulation with direct impact on the client’s revenue; consultation open.',
-      rubrique: 'Capacity market',
-      section: 'Top stories',
-      body: 'The draft decree reforming the electricity capacity mechanism is open for public consultation until 4 August. It changes how capacity is certified, introduces a quarterly declaration of available volumes and tightens the 2027 auction calendar. The window to contest certified volumes drops from thirty to fifteen days.',
-      impact: 'Direct impact on your 2027 capacity revenue and reporting workload. The consultation closes in three weeks. A submission is still possible.',
-      bulletinSource: 'Ministry for the Energy Transition · public consultation'
-    }, {
-      id: 'turpe',
-      date: '15 Jul',
-      today: true,
-      score: 82,
-      category: 'Ruling · regulator',
-      source: 'cre.fr',
-      title: 'TURPE: CRE opens the next tariff period',
-      whyScore: 'Regulator ruling that will shape the client’s network costs.',
-      rubrique: 'Networks & tariffs',
-      section: 'Top stories',
-      body: 'The energy regulator (CRE) has published the scoping document for the next network tariff period (TURPE 7). It sets a higher investment trajectory for network operators and opens the debate on how costs are shared between withdrawal and injection.',
-      impact: 'The trade-offs in this ruling will shape your network costs for the next four years.',
-      bulletinSource: 'CRE · scoping ruling'
-    }, {
-      id: 'lpec',
-      date: '14 Jul',
-      today: false,
-      score: 74,
-      category: 'Legislation · government bill',
-      source: 'assemblee-nationale.fr',
-      title: 'Energy-climate programming bill: committee stage',
-      whyScore: 'A structuring bill, but still far from adoption: worth watching.',
-      rubrique: 'Legislative framework',
-      section: 'Bills in discussion',
-      body: 'The articles setting renewable and nuclear capacity targets were examined in committee at the National Assembly. Several adopted amendments ease environmental permitting for projects designated as of major national interest.',
-      impact: 'The permitting regime directly governs the timeline of your development projects.',
-      bulletinSource: 'National Assembly · legislative file'
-    }, {
-      id: 'raccord',
-      date: '13 Jul',
-      today: false,
-      score: 68,
-      category: 'Legislation · private member’s bill',
-      source: 'senat.fr',
-      title: 'Grid connections: Senate bill',
-      whyScore: 'Relevant to project lead times; adoption uncertain.',
-      rubrique: 'Networks & tariffs',
-      section: 'Bills in discussion',
-      body: 'A bill to speed up grid connections has been tabled in the Senate. It provides for an enforceable maximum lead time on the network operator and a simplified procedure for existing industrial sites.',
-      impact: 'Connection lead times are often the critical path of your projects; an enforceable deadline would change your schedules.',
-      bulletinSource: 'Senate · bill'
-    }, {
-      id: 'aides',
-      date: '13 Jul',
-      today: false,
-      score: 63,
-      category: 'Public consultation',
-      source: 'ec.europa.eu',
-      title: 'Energy state aid: revision of the EU framework',
-      whyScore: 'Upstream signal: consultation ahead, potential but not immediate impact.',
-      rubrique: 'Aid & funding',
-      section: 'On the radar',
-      body: 'The European Commission is preparing to revise its framework for state aid to energy and the environment. A consultation is expected in the autumn, with a possible tightening of eligibility conditions for support to industry.',
-      impact: 'This framework will govern the eligibility of your future public support schemes. Watch for the consultation opening.',
-      bulletinSource: 'European Commission · roadmap'
-    }, {
-      id: 'telecom',
-      date: '15 Jul',
-      today: true,
-      score: 22,
-      category: 'Sector news',
-      source: 'news.google.com',
-      title: 'A telecom operator launches a €5/month mobile plan',
-      whyScore: 'Out of scope: nothing to do with energy regulation.',
-      rubrique: 'Out of scope',
-      section: 'On the radar',
-      body: 'A telecom operator has launched a new low-cost consumer mobile plan.',
-      impact: 'Link to your energy scope: negligible.',
-      bulletinSource: 'news.google.com'
-    }, {
-      id: 'results',
-      date: '14 Jul',
-      today: false,
-      score: 41,
-      category: 'Sector news',
-      source: 'news.google.com',
-      title: 'An energy supplier reports quarterly results',
-      whyScore: 'Market news, with no direct regulatory bearing.',
-      rubrique: 'Market watch',
-      section: 'On the radar',
-      body: 'A major energy supplier reported higher quarterly results, driven by industrial demand.',
-      impact: 'Market information; no regulatory stake for the client.',
-      bulletinSource: 'news.google.com'
-    }, {
-      id: 'tribune',
-      date: '13 Jul',
-      today: false,
-      score: 38,
-      category: 'Institutional communication',
-      source: 'presse.fr',
-      title: 'Op-ed: "we must speed up the energy transition"',
-      whyScore: 'An opinion piece, not an enforceable regulatory source.',
-      rubrique: 'Uncategorised',
-      section: 'On the radar',
-      body: 'A collective op-ed calls on the government to accelerate the energy transition timetable.',
-      impact: 'Opinion, with no direct legal effect.',
-      bulletinSource: 'trade press · op-ed'
-    }, {
-      id: 'salon',
-      date: '12 Jul',
-      today: false,
-      score: 19,
-      category: 'Other signal',
-      source: 'news.google.com',
-      title: 'European energy trade show: 2027 dates announced',
-      whyScore: 'An events signal, no decision at stake.',
-      rubrique: 'Uncategorised',
-      section: 'On the radar',
-      body: 'The organiser of the European energy trade show has announced the dates of its 2027 edition.',
-      impact: 'Purely an event.',
-      bulletinSource: 'news.google.com'
-    }, {
-      id: 'thinktank',
-      date: '12 Jul',
-      today: false,
-      score: 48,
-      category: 'Report · study',
-      source: 'news.google.com',
-      title: 'A think tank publishes a study on electricity prices',
-      whyScore: 'An interesting third-party study, but weak client link: weak signal.',
-      rubrique: 'Market watch',
-      section: 'On the radar',
-      body: 'A think tank publishes a forward-looking study on electricity price trends to 2030.',
-      impact: 'Useful but indirect context; better archived than sent.',
-      bulletinSource: 'study · think tank'
-    }]
-  }
-};
-function BulletinDemoWindow({
-  lang,
-  items,
-  onClose,
-  compact,
-  tokens,
-  fonts
-}) {
-  const {
-    surface,
-    surface2,
-    border,
-    ink,
-    ink2,
-    muted,
-    accent,
-    accent2,
-    bg,
-    chipFg,
-    isDark
-  } = tokens;
-  const {
-    sans,
-    mono,
-    body
-  } = fonts;
-  const headingWide = {
-    letterSpacing: 0,
-    fontVariationSettings: '"wdth" 112'
-  };
-  const d = VEILLE_DEMO[lang] || VEILLE_DEMO.fr;
-  const m = d.mail;
-  const kept = items || [];
-  const total = d.items.length;
-  const groups = d.sectionOrder.map(sec => ({
-    name: sec,
-    items: kept.filter(it => it.section === sec)
-  })).filter(g => g.items.length);
-  React.useEffect(() => {
-    const onKey = e => {
-      if (e.key === 'Escape') onClose();
-    };
-    document.addEventListener('keydown', onKey);
-    const prevOverflow = document.body.style.overflow;
-    document.body.style.overflow = 'hidden';
-    return () => {
-      document.removeEventListener('keydown', onKey);
-      document.body.style.overflow = prevOverflow;
-    };
-  }, [onClose]);
-  return /*#__PURE__*/React.createElement("div", {
-    className: "bulletin-backdrop",
-    onClick: onClose,
-    style: {
-      position: 'fixed',
-      inset: 0,
-      zIndex: 2000,
-      background: 'rgba(6, 10, 24, .58)',
-      backdropFilter: 'blur(6px)',
-      WebkitBackdropFilter: 'blur(6px)',
-      display: 'flex',
-      alignItems: 'flex-start',
-      justifyContent: 'center',
-      padding: compact ? '14px 8px 40px' : '46px 20px',
-      overflowY: 'auto'
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    role: "dialog",
-    "aria-modal": "true",
-    "aria-label": m.windowLabel,
-    onClick: e => e.stopPropagation(),
-    className: "bulletin-window",
-    style: {
-      width: '100%',
-      maxWidth: 720,
-      margin: 'auto',
-      background: isDark ? bg : '#ffffff',
-      border: `1px solid ${border}`,
-      borderRadius: compact ? 14 : 16,
-      boxShadow: '0 40px 120px rgba(6, 10, 24, .5)',
-      overflow: 'hidden'
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: 'flex',
-      alignItems: 'center',
-      gap: 10,
-      padding: compact ? '10px 12px' : '12px 16px',
-      background: isDark ? surface2 : '#f2f6fb',
-      borderBottom: `1px solid ${border}`
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: 'flex',
-      gap: 6,
-      flex: 'none'
-    }
-  }, ['#ff5f57', '#febc2e', '#28c840'].map(c => /*#__PURE__*/React.createElement("span", {
-    key: c,
-    style: {
-      width: 11,
-      height: 11,
-      borderRadius: 999,
-      background: c
-    }
-  }))), /*#__PURE__*/React.createElement("div", {
-    style: {
-      flex: 1,
-      textAlign: 'center',
-      font: `600 11px/1 ${mono}`,
-      color: muted,
-      letterSpacing: '.05em',
-      whiteSpace: 'nowrap',
-      overflow: 'hidden',
-      textOverflow: 'ellipsis'
-    }
-  }, compact ? m.windowLabel : `${m.windowLabel} · ${m.subject}`), /*#__PURE__*/React.createElement("span", {
-    style: {
-      font: `800 9px/1 ${mono}`,
-      letterSpacing: '.12em',
-      color: accent2,
-      border: `1px solid ${accent2}55`,
-      background: `${accent2}14`,
-      padding: '4px 7px',
-      borderRadius: 999,
-      flex: 'none'
-    }
-  }, m.badge), /*#__PURE__*/React.createElement("button", {
-    onClick: onClose,
-    "aria-label": lang === 'fr' ? 'Fermer' : 'Close',
-    style: {
-      border: `1px solid ${border}`,
-      background: isDark ? surface : '#fff',
-      color: ink,
-      width: 26,
-      height: 26,
-      borderRadius: 7,
-      cursor: 'pointer',
-      font: `700 13px/1 ${sans}`,
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      flex: 'none'
-    }
-  }, "\u2715")), /*#__PURE__*/React.createElement("div", {
-    style: {
-      padding: compact ? '14px 16px' : '18px 24px',
-      borderBottom: `1px solid ${border}`,
-      background: isDark ? bg : '#fff'
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: 'flex',
-      alignItems: 'center',
-      gap: 12
-    }
-  }, /*#__PURE__*/React.createElement("span", {
-    style: {
-      width: 40,
-      height: 40,
-      borderRadius: 999,
-      background: accent,
-      color: chipFg,
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      font: `800 14px/1 ${sans}`,
-      flex: 'none'
-    }
-  }, m.avatar), /*#__PURE__*/React.createElement("div", {
-    style: {
-      minWidth: 0,
-      flex: 1
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: 'flex',
-      justifyContent: 'space-between',
-      gap: 10,
-      alignItems: 'baseline'
-    }
-  }, /*#__PURE__*/React.createElement("span", {
-    style: {
-      font: `800 13.5px/1.3 ${sans}`,
-      color: ink,
-      whiteSpace: 'nowrap',
-      overflow: 'hidden',
-      textOverflow: 'ellipsis'
-    }
-  }, m.from), /*#__PURE__*/React.createElement("span", {
-    style: {
-      font: `500 11px/1 ${mono}`,
-      color: muted,
-      flex: 'none'
-    }
-  }, m.when)), /*#__PURE__*/React.createElement("div", {
-    style: {
-      font: `400 12px/1.4 ${mono}`,
-      color: muted,
-      marginTop: 3,
-      whiteSpace: 'nowrap',
-      overflow: 'hidden',
-      textOverflow: 'ellipsis'
-    }
-  }, lang === 'fr' ? 'À : ' : 'To: ', m.to))), /*#__PURE__*/React.createElement("div", {
-    style: {
-      font: `800 15px/1.32 ${sans}`,
-      color: ink,
-      marginTop: 12
-    }
-  }, m.subject)), /*#__PURE__*/React.createElement("div", {
-    style: {
-      padding: compact ? '20px 16px 24px' : '28px 30px 32px',
-      background: isDark ? bg : '#fff'
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      font: `800 11px/1.4 ${mono}`,
-      color: accent,
-      letterSpacing: '.12em',
-      textTransform: 'uppercase',
-      marginBottom: 10
-    }
-  }, m.period, " \xB7 ", kept.length, " ", m.keptWord, " ", lang === 'fr' ? 'sur' : 'of', " ", total, " ", m.signalsWord), /*#__PURE__*/React.createElement("h3", {
-    style: {
-      font: `900 ${compact ? '22px' : '26px'}/1.1 ${sans}`,
-      ...headingWide,
-      margin: 0,
-      color: ink
-    }
-  }, m.windowLabel, " \xB7 ", lang === 'fr' ? "régulation de l'énergie" : 'energy regulation'), /*#__PURE__*/React.createElement("p", {
-    style: {
-      font: `400 14px/1.6 ${body}`,
-      color: ink2,
-      margin: '14px 0 24px'
-    }
-  }, m.greeting), groups.map((sec, si) => /*#__PURE__*/React.createElement("div", {
-    key: si,
-    style: {
-      marginBottom: si === groups.length - 1 ? 4 : 24
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: 'flex',
-      alignItems: 'center',
-      gap: 12,
-      marginBottom: 14
-    }
-  }, /*#__PURE__*/React.createElement("span", {
-    style: {
-      font: `900 11px/1 ${mono}`,
-      color: accent2,
-      letterSpacing: '.16em',
-      textTransform: 'uppercase',
-      flex: 'none'
-    }
-  }, sec.name), /*#__PURE__*/React.createElement("span", {
-    style: {
-      flex: 1,
-      height: 1,
-      background: border
-    }
-  })), /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: 'grid',
-      gap: 18
-    }
-  }, sec.items.map((it, ii) => /*#__PURE__*/React.createElement("article", {
-    key: ii,
-    style: {
-      borderLeft: `2px solid ${accent}55`,
-      paddingLeft: 15
-    }
-  }, /*#__PURE__*/React.createElement("h4", {
-    style: {
-      font: `800 ${compact ? '15px' : '16px'}/1.3 ${sans}`,
-      color: ink,
-      margin: '0 0 7px'
-    }
-  }, it.title), /*#__PURE__*/React.createElement("p", {
-    style: {
-      font: `400 ${compact ? '13.5px' : '14px'}/1.64 ${body}`,
-      color: ink2,
-      margin: '0 0 10px'
-    }
-  }, it.body), /*#__PURE__*/React.createElement("p", {
-    style: {
-      font: `400 13.5px/1.58 ${body}`,
-      color: ink,
-      margin: '0 0 7px'
-    }
-  }, /*#__PURE__*/React.createElement("span", {
-    style: {
-      font: `800 10px/1 ${mono}`,
-      color: accent,
-      textTransform: 'uppercase',
-      letterSpacing: '.08em',
-      marginRight: 8
-    }
-  }, m.whyLabel), it.impact), /*#__PURE__*/React.createElement("div", {
-    style: {
-      font: `500 11.5px/1.4 ${mono}`,
-      color: muted
-    }
-  }, m.sourceLabel, " \xB7 ", it.bulletinSource)))))), /*#__PURE__*/React.createElement("div", {
-    style: {
-      marginTop: 24,
-      paddingTop: 16,
-      borderTop: `1px solid ${border}`,
-      font: `400 11.5px/1.58 ${mono}`,
-      color: muted
-    }
-  }, m.footer))));
-}
-function VeilleTriageDemo({
-  lang,
-  compact,
-  density,
-  tokens,
-  fonts,
-  onGenerate
-}) {
-  const {
-    surface,
-    surface2,
-    border,
-    ink,
-    ink2,
-    muted,
-    accent,
-    accent2,
-    bg,
-    chipFg,
-    isDark
-  } = tokens;
-  const {
-    sans,
-    mono,
-    body
-  } = fonts;
-  const headingWide = {
-    letterSpacing: 0,
-    fontVariationSettings: '"wdth" 112'
-  };
-  const d = VEILLE_DEMO[lang] || VEILLE_DEMO.fr;
-  const items = d.items;
-  const [decisions, setDecisions] = React.useState({});
-  const [index, setIndex] = React.useState(0);
-  const rootRef = React.useRef(null);
-  const done = index >= items.length;
-  const keptItems = items.filter(it => decisions[it.id] === 'kept');
-  const keptCount = keptItems.length;
-  const decide = React.useCallback(verdict => {
-    setIndex(i => {
-      const it = items[i];
-      if (it) setDecisions(prev => ({
-        ...prev,
-        [it.id]: verdict
-      }));
-      return Math.min(i + 1, items.length);
-    });
-  }, [items]);
-  const reset = () => {
-    setDecisions({});
-    setIndex(0);
-  };
-  React.useEffect(() => {
-    if (done) return;
-    const onKey = e => {
-      if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
-      const el = rootRef.current;
-      if (!el) return;
-      const r = el.getBoundingClientRect();
-      const visible = r.top < window.innerHeight * 0.9 && r.bottom > window.innerHeight * 0.1;
-      if (!visible) return;
-      e.preventDefault();
-      decide(e.key === 'ArrowRight' ? 'kept' : 'ignored');
-    };
-    window.addEventListener('keydown', onKey);
-    return () => window.removeEventListener('keydown', onKey);
-  }, [done, decide]);
-  const bandOf = score => score >= 80 ? {
-    label: d.scoreBands.prio,
-    color: accent2
-  } : score >= 60 ? {
-    label: d.scoreBands.pert,
-    color: accent
-  } : {
-    label: d.scoreBands.faible,
-    color: muted
-  };
-  const current = items[index];
-  const pct = Math.round(Math.min(index, items.length) / items.length * 100);
-  const chip = (text, color) => /*#__PURE__*/React.createElement("span", {
-    style: {
-      font: `600 10px/1 ${mono}`,
-      color,
-      border: `1px solid ${color}44`,
-      background: `${color}12`,
-      padding: '5px 8px',
-      borderRadius: 999,
-      whiteSpace: 'nowrap'
-    }
-  }, text);
-  return /*#__PURE__*/React.createElement("div", {
-    ref: rootRef
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      font: `800 12px/1 ${mono}`,
-      color: accent,
-      letterSpacing: '.14em',
-      textTransform: 'uppercase',
-      margin: '0 auto 12px',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      gap: 8,
-      textAlign: 'center'
-    }
-  }, /*#__PURE__*/React.createElement("span", {
-    style: {
-      width: 7,
-      height: 7,
-      borderRadius: 999,
-      background: '#22c55e',
-      boxShadow: '0 0 0 3px #22c55e33'
-    }
-  }), d.eyebrow), /*#__PURE__*/React.createElement("h2", {
-    style: {
-      font: `900 ${compact ? '30px' : density === 'dense' ? '40px' : '46px'}/1.03 ${sans}`,
-      ...headingWide,
-      margin: '0 auto 14px',
-      maxWidth: 680,
-      color: ink,
-      textAlign: 'center',
-      textWrap: 'balance'
-    }
-  }, d.h2a, " ", /*#__PURE__*/React.createElement("span", {
-    style: {
-      color: accent
-    }
-  }, d.h2b)), /*#__PURE__*/React.createElement("p", {
-    style: {
-      font: `400 16px/1.6 ${body}`,
-      color: muted,
-      margin: '0 auto 20px',
-      maxWidth: 680,
-      textAlign: 'center',
-      textWrap: 'balance'
-    }
-  }, d.intro), /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      gap: 8,
-      flexWrap: 'wrap',
-      marginBottom: 22,
-      font: `500 11.5px/1.5 ${mono}`,
-      color: muted
-    }
-  }, chip(`${d.clientLabel} · ${d.clientName}`, accent), chip(d.themeLabel, muted), chip(`${items.length} ${d.collectedLabel}`, muted)), /*#__PURE__*/React.createElement("div", {
-    style: {
-      maxWidth: 620,
-      margin: '0 auto'
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      marginBottom: 14
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: 'flex',
-      justifyContent: 'space-between',
-      font: `600 11px/1 ${mono}`,
-      color: muted,
-      marginBottom: 6,
-      letterSpacing: '.04em'
-    }
-  }, /*#__PURE__*/React.createElement("span", null, Math.min(index, items.length), "/", items.length, " ", d.sortedWord), /*#__PURE__*/React.createElement("span", {
-    style: {
-      color: accent
-    }
-  }, keptCount, " ", d.keptWord)), /*#__PURE__*/React.createElement("div", {
-    style: {
-      height: 6,
-      borderRadius: 999,
-      background: isDark ? surface2 : '#e9eff6',
-      overflow: 'hidden'
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      width: `${pct}%`,
-      height: '100%',
-      background: accent,
-      borderRadius: 999,
-      transition: 'width .3s cubic-bezier(.16,1,.3,1)'
-    }
-  }))), !done ? (() => {
-    const band = bandOf(current.score);
-    return /*#__PURE__*/React.createElement("article", {
-      className: "triage-card",
-      key: current.id,
-      style: {
-        background: surface,
-        border: `1px solid ${border}`,
-        borderRadius: 14,
-        boxShadow: `0 16px 40px ${accent}12`,
-        padding: compact ? '16px 16px' : '22px 24px'
-      }
-    }, /*#__PURE__*/React.createElement("div", {
-      style: {
-        display: 'flex',
-        alignItems: 'flex-start',
-        justifyContent: 'space-between',
-        gap: 14,
-        marginBottom: 12
-      }
-    }, /*#__PURE__*/React.createElement("div", {
-      style: {
-        minWidth: 0,
-        display: 'flex',
-        gap: 8,
-        flexWrap: 'wrap'
-      }
-    }, chip(`${current.date}${current.today ? ' · ' + d.todayWord : ''}`, muted), chip(current.category, accent)), /*#__PURE__*/React.createElement("div", {
-      style: {
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'flex-end',
-        gap: 5,
-        flex: 'none'
-      }
-    }, /*#__PURE__*/React.createElement("div", {
-      style: {
-        display: 'inline-flex',
-        alignItems: 'baseline',
-        gap: 3,
-        padding: '6px 10px',
-        borderRadius: 8,
-        border: `1px solid ${band.color}66`,
-        background: `${band.color}14`,
-        color: band.color
-      }
-    }, /*#__PURE__*/React.createElement("span", {
-      style: {
-        font: `900 17px/1 ${sans}`
-      }
-    }, current.score), /*#__PURE__*/React.createElement("span", {
-      style: {
-        font: `600 10px/1 ${mono}`
-      }
-    }, d.scoreOutOf)), /*#__PURE__*/React.createElement("span", {
-      style: {
-        font: `800 9px/1 ${mono}`,
-        letterSpacing: '.1em',
-        textTransform: 'uppercase',
-        color: band.color
-      }
-    }, band.label))), /*#__PURE__*/React.createElement("h3", {
-      style: {
-        font: `800 ${compact ? '16px' : '18px'}/1.3 ${sans}`,
-        color: ink,
-        margin: '0 0 10px'
-      }
-    }, current.title), /*#__PURE__*/React.createElement("div", {
-      style: {
-        font: `400 13px/1.55 ${body}`,
-        color: ink2,
-        margin: '0 0 14px'
-      }
-    }, /*#__PURE__*/React.createElement("span", {
-      style: {
-        font: `800 9.5px/1 ${mono}`,
-        color: muted,
-        textTransform: 'uppercase',
-        letterSpacing: '.08em',
-        marginRight: 8
-      }
-    }, d.whyScoreLabel), current.whyScore), /*#__PURE__*/React.createElement("div", {
-      style: {
-        display: 'flex',
-        justifyContent: 'space-between',
-        gap: 12,
-        flexWrap: 'wrap',
-        font: `500 11px/1.4 ${mono}`,
-        color: muted,
-        marginBottom: 18,
-        paddingTop: 12,
-        borderTop: `1px solid ${border}`
-      }
-    }, /*#__PURE__*/React.createElement("span", null, d.rubriqueLabel, " \xB7 ", /*#__PURE__*/React.createElement("span", {
-      style: {
-        color: ink2
-      }
-    }, current.rubrique)), /*#__PURE__*/React.createElement("span", null, d.sourceWord, " \xB7 ", current.source)), /*#__PURE__*/React.createElement("div", {
-      style: {
-        display: 'grid',
-        gridTemplateColumns: '1fr 1fr',
-        gap: 10
-      }
-    }, /*#__PURE__*/React.createElement("button", {
-      type: "button",
-      className: "triage-btn",
-      onClick: () => decide('ignored'),
-      style: {
-        cursor: 'pointer',
-        padding: '13px 14px',
-        borderRadius: 10,
-        border: `1px solid ${border}`,
-        background: isDark ? surface2 : '#fff',
-        color: ink2,
-        font: `800 13px/1 ${sans}`
-      }
-    }, "\u2715 ", d.ignoreBtn), /*#__PURE__*/React.createElement("button", {
-      type: "button",
-      className: "triage-btn",
-      onClick: () => decide('kept'),
-      style: {
-        cursor: 'pointer',
-        padding: '13px 14px',
-        borderRadius: 10,
-        border: `1px solid ${accent}`,
-        background: accent,
-        color: chipFg,
-        font: `800 13px/1 ${sans}`,
-        boxShadow: `0 10px 26px ${accent}44`
-      }
-    }, "\u2713 ", d.keepBtn)), /*#__PURE__*/React.createElement("div", {
-      style: {
-        textAlign: 'center',
-        marginTop: 12,
-        font: `500 10.5px/1 ${mono}`,
-        color: muted,
-        letterSpacing: '.06em'
-      }
-    }, d.kbdHint));
-  })() : /*#__PURE__*/React.createElement("div", {
-    style: {
-      background: surface,
-      border: `1px solid ${border}`,
-      borderRadius: 14,
-      boxShadow: `0 16px 40px ${accent}12`,
-      padding: compact ? '24px 18px' : '32px 28px',
-      textAlign: 'center'
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      width: 46,
-      height: 46,
-      borderRadius: 999,
-      margin: '0 auto 14px',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      background: keptCount > 0 ? `${accent}18` : `${muted}18`,
-      color: keptCount > 0 ? accent : muted,
-      font: `900 20px/1 ${sans}`
-    }
-  }, keptCount > 0 ? '✓' : '·'), /*#__PURE__*/React.createElement("h3", {
-    style: {
-      font: `900 ${compact ? '20px' : '24px'}/1.1 ${sans}`,
-      ...headingWide,
-      margin: '0 0 8px',
-      color: ink
-    }
-  }, d.doneTitle), /*#__PURE__*/React.createElement("p", {
-    style: {
-      font: `400 14px/1.55 ${body}`,
-      color: muted,
-      margin: '0 auto 22px',
-      maxWidth: 420
-    }
-  }, keptCount > 0 ? `${keptCount} ${keptCount > 1 ? d.keptNounPlural : d.keptNoun}` : d.emptyKept), /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: 'flex',
-      gap: 10,
-      justifyContent: 'center',
-      flexWrap: 'wrap'
-    }
-  }, keptCount > 0 && /*#__PURE__*/React.createElement("button", {
-    type: "button",
-    className: "triage-btn",
-    onClick: () => onGenerate(keptItems),
-    style: {
-      cursor: 'pointer',
-      padding: '14px 22px',
-      borderRadius: 10,
-      border: `1px solid ${accent}`,
-      background: accent,
-      color: chipFg,
-      font: `800 14px/1 ${sans}`,
-      boxShadow: `0 14px 34px ${accent}55`
-    }
-  }, "\u26A1 ", d.generateBtn, " \xB7 ", keptCount), /*#__PURE__*/React.createElement("button", {
-    type: "button",
-    className: "triage-btn",
-    onClick: reset,
-    style: {
-      cursor: 'pointer',
-      padding: '14px 20px',
-      borderRadius: 10,
-      border: `1px solid ${border}`,
-      background: isDark ? surface2 : '#fff',
-      color: ink2,
-      font: `700 13px/1 ${sans}`
-    }
-  }, d.restartBtn)))), /*#__PURE__*/React.createElement("p", {
-    style: {
-      margin: '18px auto 0',
-      font: `400 12.5px/1.55 ${mono}`,
-      color: muted,
-      maxWidth: 680,
-      textAlign: 'center'
-    }
-  }, d.guardrail));
-}
 function WfOperator({
   lang,
   density,
@@ -5632,7 +4544,6 @@ function WfOperator({
     });
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
-  const [bulletinItems, setBulletinItems] = React.useState(null);
   const compact = vw < 760;
   const medium = vw < 1040;
   const pagePad = compact ? 24 : pad;
@@ -5781,7 +4692,7 @@ function WfOperator({
       textDecoration: 'none',
       fontWeight: 800
     },
-    href: "#demo"
+    href: "demo.html"
   }, L === 'fr' ? 'Démo' : 'Demo'), /*#__PURE__*/React.createElement("a", {
     style: {
       color: muted,
@@ -5894,32 +4805,76 @@ function WfOperator({
     style: {
       ...sectionFrame,
       scrollMarginTop: compact ? 138 : 116,
-      animationDelay: '0.09s'
+      animationDelay: '0.09s',
+      padding: compact ? '38px 22px' : '58px 48px',
+      textAlign: 'center',
+      background: isDark ? 'linear-gradient(145deg, ' + surface + ' 0%, ' + surface2 + ' 100%)' : 'linear-gradient(145deg, rgba(255,255,255,.99) 0%, rgba(234,248,255,.98) 100%)'
     }
-  }, /*#__PURE__*/React.createElement(VeilleTriageDemo, {
-    lang: L,
-    compact: compact,
-    density: density,
-    tokens: {
-      surface,
-      surface2,
-      border,
-      ink,
-      ink2,
-      muted,
-      accent,
-      accent2,
-      bg,
-      chipFg,
-      isDark
-    },
-    fonts: {
-      sans,
-      mono,
-      body
-    },
-    onGenerate: setBulletinItems
-  })), /*#__PURE__*/React.createElement("section", {
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      maxWidth: 760,
+      margin: '0 auto'
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      marginBottom: 14,
+      color: accent,
+      font: '800 12px/1.4 ' + mono,
+      letterSpacing: '.09em',
+      textTransform: 'uppercase'
+    }
+  }, L === 'fr' ? 'Démo · à vous de jouer' : 'Demo · try it yourself'), /*#__PURE__*/React.createElement("h2", {
+    style: {
+      margin: '0 0 18px',
+      color: ink,
+      font: '900 clamp(2rem, 4.4vw, 3.35rem)/1.08 ' + sans,
+      letterSpacing: 0,
+      fontVariationSettings: '"wdth" 112',
+      textWrap: 'balance'
+    }
+  }, L === 'fr' ? /*#__PURE__*/React.createElement(React.Fragment, null, 'Faites le tri. ', /*#__PURE__*/React.createElement("span", {
+    style: { color: accent }
+  }, 'Le bulletin se génère.')) : /*#__PURE__*/React.createElement(React.Fragment, null, 'Triage the signals. ', /*#__PURE__*/React.createElement("span", {
+    style: { color: accent }
+  }, 'Generate the briefing.'))), /*#__PURE__*/React.createElement("p", {
+    style: {
+      maxWidth: 650,
+      margin: '0 auto 28px',
+      color: ink2,
+      font: '400 ' + (compact ? '16px' : '18px') + '/1.6 ' + body
+    }
+  }, L === 'fr' ? "Découvrez l'espace de validation BriefLayer avec des données anonymisées, puis testez le parcours complet jusqu'à la génération du bulletin." : 'Explore the BriefLayer validation workspace with anonymised data, then try the complete workflow through to briefing generation.'), /*#__PURE__*/React.createElement("a", {
+    className: "demo-cta-link",
+    href: "demo.html",
+    style: {
+      minHeight: 48,
+      padding: '0 22px',
+      display: 'inline-flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      gap: 10,
+      borderRadius: 9,
+      background: accent,
+      color: chipFg,
+      textDecoration: 'none',
+      font: '800 14px/1 ' + sans,
+      boxShadow: '0 14px 34px ' + accent + '36'
+    }
+  }, L === 'fr' ? 'Ouvrir la démo interactive' : 'Open the interactive demo', /*#__PURE__*/React.createElement("svg", {
+    viewBox: "0 0 24 24",
+    "aria-hidden": "true",
+    style: {
+      width: 18,
+      height: 18,
+      fill: 'none',
+      stroke: 'currentColor',
+      strokeWidth: 2,
+      strokeLinecap: 'round',
+      strokeLinejoin: 'round'
+    }
+  }, /*#__PURE__*/React.createElement("path", {
+    d: "M5 12h14M13 6l6 6-6 6"
+  }))))), /*#__PURE__*/React.createElement("section", {
     className: "section-reveal",
     style: {
       marginBottom: proofSectionGap,
@@ -6560,39 +5515,14 @@ function WfOperator({
       flexWrap: 'wrap',
       gap: 16
     }
-  }, /*#__PURE__*/React.createElement("div", null, "\xA9 2026 BriefLayer \xB7 ", C.whyMe.name), /*#__PURE__*/React.createElement("div", null, t(C.footer.legal))))), bulletinItems && /*#__PURE__*/React.createElement(BulletinDemoWindow, {
-    lang: L,
-    items: bulletinItems,
-    compact: compact,
-    onClose: () => setBulletinItems(null),
-    tokens: {
-      surface,
-      surface2,
-      border,
-      ink,
-      ink2,
-      muted,
-      accent,
-      accent2,
-      bg,
-      chipFg,
-      isDark
-    },
-    fonts: {
-      sans,
-      mono,
-      body
-    }
-  }));
+  }, /*#__PURE__*/React.createElement("div", null, "\xA9 2026 BriefLayer \xB7 ", C.whyMe.name), /*#__PURE__*/React.createElement("div", null, t(C.footer.legal))))));
 }
 Object.assign(window, {
   WfOperator,
   OPERATOR_THEMES,
   StreamCard,
   ClientChip,
-  MethodPipeline,
-  BulletinDemoWindow,
-  VeilleTriageDemo
+  MethodPipeline
 });
 </script>
 
