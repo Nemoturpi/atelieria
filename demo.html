@@ -48,6 +48,7 @@
   .client-tabs .tab { min-width: 150px; padding: 14px 22px; border-radius: 8px; border-left-width: 6px; font-size: 18px; font-weight: 650; text-align: center; text-transform: uppercase; }
   .client-tabs .tab:hover { border-color: var(--step-bulletin); }
   .client-tabs .tab.on { background: var(--ink); border-color: var(--ink); color: #fff; }
+  .session-note { margin: -6px 0 16px; padding: 10px 12px; border: 1px solid #cfe0ef; border-radius: 8px; background: #f7fbff; color: #2f5f88; font-size: 12.5px; line-height: 1.4; }
   .hidden-filters { display: none; }
   .bar { display: flex; gap: 10px; align-items: center; margin-bottom: 16px; font-size: 13px; color: var(--ink-mute); flex-wrap: wrap; }
   .bar select { padding: 7px 9px; border: 1px solid var(--line); border-radius: 8px; background: #fff; font-size: 12.5px; font-family: 'Inter', sans-serif; color: var(--ink); }
@@ -289,10 +290,11 @@
 </header>
 <main>
   <div class="tabs client-tabs" id="tabs"></div>
+  <div class="session-note">Session de démonstration locale : vos choix restent dans cet onglet et ne modifient aucune donnée partagée.</div>
   <select id="f-jours" onchange="render()" style="display:none" aria-hidden="true">
     <option value="today">Aujourd'hui</option>
-    <option value="3" selected>3 derniers jours</option>
-    <option value="0">Tout</option>
+    <option value="3">3 derniers jours</option>
+    <option value="0" selected>Tout</option>
   </select>
   <div class="hidden-filters" aria-hidden="true">
     <select id="f-type" onchange="render()">
@@ -310,7 +312,7 @@
     </select>
     <span id="f-themes"></span>
   </div>
-  <div id="list"></div>
+  <div id="list"><div class="empty">Chargement de la démonstration…</div></div>
   <details class="control-panel faq-section" id="faq" aria-label="Questions fréquentes">
     <summary>FAQ - Questions fréquentes</summary>
     <div class="panel-body faq-body">
@@ -417,7 +419,91 @@ const EMBED = {
   url: 'https://xkqeqajeccsacocnfqca.supabase.co',
   key: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhrcWVxYWplY2NzYWNvY25mcWNhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODExNjc4OTIsImV4cCI6MjA5Njc0Mzg5Mn0.7NmmzyrXt-kVMBl-_WFqPuBP_9r-BAuIbavRO_sIryk'
 };
-let sb = null, clients = [], current = null, rows = [], manualRows = [], manualStorageError = '', themes = new Set(), activeStage = 'todo', listMode = false, pendingBulletin = null;
+let sb = null, clients = [], current = null, baseRows = [], rows = [], baseManualRows = [], manualRows = [], manualStorageError = '', themes = new Set(), activeStage = 'todo', listMode = false, pendingBulletin = null;
+const DEMO_SESSION_KEY = 'atelieria-demo-session-v1';
+
+function newSessionId() {
+  try {
+    if (crypto && typeof crypto.randomUUID === 'function') return crypto.randomUUID();
+  } catch (e) {}
+  return Date.now().toString(36) + '-' + Math.random().toString(36).slice(2);
+}
+function emptyDemoSession() {
+  return { version: 1, id: newSessionId(), counter: 0, matchPatches: {}, manualPatches: {}, manualItems: [], bulletins: [] };
+}
+function loadDemoSession() {
+  try {
+    const saved = JSON.parse(sessionStorage.getItem(DEMO_SESSION_KEY) || 'null');
+    if (saved && saved.version === 1) {
+      return {
+        ...emptyDemoSession(),
+        ...saved,
+        matchPatches: saved.matchPatches || {},
+        manualPatches: saved.manualPatches || {},
+        manualItems: Array.isArray(saved.manualItems) ? saved.manualItems : [],
+        bulletins: Array.isArray(saved.bulletins) ? saved.bulletins : []
+      };
+    }
+  } catch (e) {}
+  return emptyDemoSession();
+}
+let demoSession = loadDemoSession();
+function saveDemoSession() {
+  try { sessionStorage.setItem(DEMO_SESSION_KEY, JSON.stringify(demoSession)); } catch (e) {}
+}
+function nextLocalId(prefix) {
+  demoSession.counter += 1;
+  saveDemoSession();
+  return `${prefix}-${demoSession.id}-${demoSession.counter}`;
+}
+function activeProfileId() {
+  const c = clients.find(x => x.id === current);
+  return c && c.client_profiles && c.client_profiles[0] ? c.client_profiles[0].id : null;
+}
+function refreshRowsFromSession() {
+  rows = baseRows
+    .map(row => ({ ...row, ...(demoSession.matchPatches[String(row.id)] || {}) }))
+    .filter(row => !row.bulletin_id);
+  rows.sort(sortByScore);
+}
+function patchSessionMatches(ids, patchOrFactory) {
+  const wanted = new Set((ids || []).map(id => String(id)));
+  baseRows.forEach(base => {
+    const key = String(base.id);
+    if (!wanted.has(key)) return;
+    const currentRow = { ...base, ...(demoSession.matchPatches[key] || {}) };
+    const patch = typeof patchOrFactory === 'function' ? patchOrFactory(currentRow) : patchOrFactory;
+    demoSession.matchPatches[key] = { ...(demoSession.matchPatches[key] || {}), ...(patch || {}) };
+  });
+  saveDemoSession();
+  refreshRowsFromSession();
+}
+function refreshManualRowsFromSession() {
+  const profileId = activeProfileId();
+  const localItems = demoSession.manualItems.filter(item => item.profile_id === profileId);
+  manualRows = [...baseManualRows, ...localItems]
+    .map(item => ({ ...item, ...(demoSession.manualPatches[String(item.id)] || {}) }))
+    .filter(item => !item.deleted && item.status === 'pending' && !item.bulletin_id);
+}
+function patchSessionManualItems(ids, patchOrFactory) {
+  const wanted = new Set((ids || []).map(id => String(id)));
+  [...baseManualRows, ...demoSession.manualItems].forEach(base => {
+    const key = String(base.id);
+    if (!wanted.has(key)) return;
+    const currentItem = { ...base, ...(demoSession.manualPatches[key] || {}) };
+    const patch = typeof patchOrFactory === 'function' ? patchOrFactory(currentItem) : patchOrFactory;
+    demoSession.manualPatches[key] = { ...(demoSession.manualPatches[key] || {}), ...(patch || {}) };
+  });
+  saveDemoSession();
+  refreshManualRowsFromSession();
+}
+function localBulletins(profileId) {
+  return demoSession.bulletins.filter(b => b.profile_id === profileId && b.status !== 'reopened');
+}
+function updateLocalBulletin(id, patch) {
+  demoSession.bulletins = demoSession.bulletins.map(b => b.id === id ? { ...b, ...patch } : b);
+  saveDemoSession();
+}
 const TAGLABELS = { energie: 'Énergie', environnement: 'Environnement', sante: 'Santé', numerique: 'Numérique', donnees_personnelles: 'Données personnelles', fiscalite: 'Fiscalité', travail_emploi: 'Travail & emploi', transports: 'Transports', agriculture_alimentation: 'Agriculture', industrie: 'Industrie', finance: 'Finance', logement_urbanisme: 'Logement & urbanisme', education_recherche: 'Éducation & recherche', culture_medias: 'Culture & médias', defense_securite: 'Défense & sécurité', justice: 'Justice', collectivites_territoriales: 'Collectivités', europe_ue: 'Europe / UE', international: 'International', concurrence: 'Concurrence', marches_publics: 'Marchés publics', aides_etat: "Aides d'État", consommation: 'Consommation', institutions: 'Institutions' };
 const LEGACY_TITLE_TRANSLATIONS = new Map([
   ['Quality and AI in focus at the annual Main SACEPO meeting', "La qualité et l'IA au coeur de la réunion plénière annuelle du SACEPO"],
@@ -464,7 +550,7 @@ async function loadClients() {
   const { data, error } = await sb.from('clients').select('id,tenant_id,name,client_profiles(id,brief)').eq('active', true).order('name');
   if (error) { $('hdr-info').textContent = 'erreur : ' + error.message; return; }
   clients = (data || []).filter(c => c.client_profiles && c.client_profiles.length);
-  $('hdr-info').textContent = clients.length + ' client(s)';
+  $('hdr-info').textContent = clients.length + ' client(s) · session locale';
   if (!current && clients.length) current = clients[0].id;
   renderTabs(); load();
 }
@@ -481,14 +567,18 @@ async function load() {
   if (!c) { $('list').innerHTML = '<div class="empty">Aucun client configuré.</div>'; return; }
   const pid = c.client_profiles[0].id;
   const statuts = ['proposed', 'grey', 'approved', 'incubated', 'edited', 'rejected'];
-  const { data, error } = await sb.from('matches')
-    .select('id,llm_score,rationale,client_summary,status,reviewed_at,items(title,url,url_canonical,source_id,raw_content,published_at,act_type,urgency,key_dates,tags)', { count: 'exact' })
-    .eq('profile_id', pid).in('status', statuts).is('bulletin_id', null)
-    .order('created_at', { ascending: false }).limit(1000);
+  $('list').innerHTML = '<div class="empty">Chargement des informations…</div>';
+  const [matchesResult] = await Promise.all([
+    sb.from('matches')
+      .select('id,llm_score,rationale,client_summary,status,reviewed_at,bulletin_id,items(title,url,url_canonical,source_id,published_at,act_type,urgency,key_dates,tags)', { count: 'exact' })
+      .eq('profile_id', pid).in('status', statuts).is('bulletin_id', null)
+      .order('created_at', { ascending: false }).limit(1000),
+    loadManualItems(pid, c.tenant_id)
+  ]);
+  const { data, error } = matchesResult;
   if (error) { $('list').innerHTML = '<div class="empty">Erreur : ' + error.message + '</div>'; return; }
-  rows = (data || []).map(withFrenchLegacyTitle);
-  rows.sort(sortByScore);
-  await loadManualItems(pid, c.tenant_id);
+  baseRows = (data || []).map(withFrenchLegacyTitle);
+  refreshRowsFromSession();
   renderThemes(); render();
 }
 
@@ -497,7 +587,7 @@ function sortByScore(a, b) {
 }
 
 function filteredRows() {
-  const period = $('f-jours').value || '3';
+  const period = $('f-jours').value || '0';
   const jours = Number(period) || 0;
   const type = $('f-type').value;
   const todayStart = new Date();
@@ -523,7 +613,7 @@ function toggleListMode() {
   render();
 }
 function renderPeriodPicker() {
-  const value = $('f-jours').value || '3';
+  const value = $('f-jours').value || '0';
   const options = [
     ['today', "Aujourd'hui"],
     ['3', '3 derniers jours'],
@@ -642,27 +732,32 @@ function manualItems() {
 }
 async function loadManualItems(profileId, tenantId) {
   const result = await sb.from('manual_items')
-    .select('id,title,body,source,status,created_at')
+    .select('id,title,body,source,status,created_at,updated_at,bulletin_id')
     .eq('profile_id', profileId).eq('status', 'pending').is('bulletin_id', null)
     .order('created_at', { ascending: true });
-  if (result.error) {
-    manualRows = [];
-    manualStorageError = 'Le stockage partagé des informations supplémentaires doit être activé dans Supabase.';
-    return;
-  }
+  baseManualRows = result.error ? [] : (result.data || []);
   manualStorageError = '';
-  manualRows = result.data || [];
   try {
     const legacy = JSON.parse(localStorage.getItem(manualKey()) || '[]');
-    if (!manualRows.length && Array.isArray(legacy) && legacy.length) {
-      const payload = legacy.map(item => ({ tenant_id: tenantId, profile_id: profileId, title: item.title || '', body: item.body || '', source: item.source || null, status: 'pending', created_at: item.created_at || new Date().toISOString() }));
-      const migrated = await sb.from('manual_items').insert(payload).select('id,title,body,source,status,created_at');
-      if (!migrated.error) {
-        manualRows = migrated.data || [];
-        localStorage.removeItem(manualKey());
-      }
+    const hasLocalItems = demoSession.manualItems.some(item => item.profile_id === profileId);
+    if (!baseManualRows.length && !hasLocalItems && Array.isArray(legacy) && legacy.length) {
+      const migrated = legacy.map(item => ({
+        id: nextLocalId('manual'),
+        tenant_id: tenantId,
+        profile_id: profileId,
+        title: item.title || '',
+        body: item.body || '',
+        source: item.source || null,
+        status: 'pending',
+        created_at: item.created_at || new Date().toISOString(),
+        bulletin_id: null
+      }));
+      demoSession.manualItems.push(...migrated);
+      saveDemoSession();
+      localStorage.removeItem(manualKey());
     }
   } catch (e) {}
+  refreshManualRowsFromSession();
 }
 function incubatedIds() { return new Set(); }
 function saveIncubatedIds() {}
@@ -672,12 +767,8 @@ function isIncubated(rowOrId) {
 function removeIncubation() {}
 async function resumeIncubation(id) {
   const row = rows.find(r => r.id === id);
-  if (row && row.status === 'incubated') {
-    const { error } = await sb.from('matches').update({ status: 'approved', reviewed_at: null }).eq('id', id);
-    if (error) { toast('Erreur : ' + error.message); return; }
-  }
+  if (row && row.status === 'incubated') patchSessionMatches([id], { status: 'approved', reviewed_at: null });
   removeIncubation(id);
-  rows = rows.map(r => r.id === id ? { ...r, status: 'approved' } : r);
   toast('Remis à trier');
   render();
 }
@@ -685,10 +776,8 @@ async function recallIncubationToTodo(id) {
   const row = rows.find(r => r.id === id);
   if (!row) return;
   const next = fallbackStatus(row);
-  const { error } = await sb.from('matches').update({ status: next, reviewed_at: null }).eq('id', id);
-  if (error) { toast('Erreur : ' + error.message); return; }
+  patchSessionMatches([id], { status: next, reviewed_at: null });
   removeIncubation(id);
-  rows = rows.map(r => r.id === id ? { ...r, status: next, reviewed_at: null } : r);
   activeStage = 'todo';
   toast('Remis au tri');
   render();
@@ -697,9 +786,7 @@ async function recallReadyToTodo(id) {
   const row = rows.find(r => r.id === id);
   if (!row) return;
   const next = fallbackStatus(row);
-  const { error } = await sb.from('matches').update({ status: next, reviewed_at: null, bulletin_id: null }).eq('id', id);
-  if (error) { toast('Erreur : ' + error.message); return; }
-  rows = rows.map(r => r.id === id ? { ...r, status: next, reviewed_at: null, bulletin_id: null } : r);
+  patchSessionMatches([id], { status: next, reviewed_at: null, bulletin_id: null });
   activeStage = next === 'grey' ? 'grey' : 'todo';
   toast('Remis au tri');
   render();
@@ -708,10 +795,8 @@ async function incubate(id) {
   const row = rows.find(r => r.id === id);
   if (!row) return;
   const summary = $('sum-' + id) ? $('sum-' + id).value : row.client_summary;
-  const { error } = await sb.from('matches').update({ status: 'incubated', client_summary: summary, reviewed_at: new Date().toISOString() }).eq('id', id);
-  if (error) { toast('Report impossible : ' + error.message); return; }
+  patchSessionMatches([id], { status: 'incubated', client_summary: summary, reviewed_at: new Date().toISOString() });
   removeIncubation(id);
-  rows = rows.map(r => r.id === id ? { ...r, status: 'incubated', client_summary: summary } : r);
   advanceStageIfDone();
   render();
   toast('Reporté hors bulletin courant');
@@ -724,12 +809,21 @@ async function saveManualInfo() {
   const body = bodyEl ? bodyEl.value.trim() : '';
   const source = sourceEl ? sourceEl.value.trim() : '';
   if (!title && !body) { toast('Ajoutez au moins un titre ou un contenu.'); return; }
-  if (manualStorageError) { toast(manualStorageError); return; }
   const c = clients.find(x => x.id === current); if (!c) return;
-  const payload = { tenant_id: c.tenant_id, profile_id: c.client_profiles[0].id, title, body, source: source || null, status: 'pending' };
-  const saved = await sb.from('manual_items').insert(payload).select('id,title,body,source,status,created_at').single();
-  if (saved.error) { toast('Ajout impossible : ' + saved.error.message); return; }
-  manualRows = [...manualRows, saved.data];
+  const saved = {
+    id: nextLocalId('manual'),
+    tenant_id: c.tenant_id,
+    profile_id: c.client_profiles[0].id,
+    title,
+    body,
+    source: source || null,
+    status: 'pending',
+    created_at: new Date().toISOString(),
+    bulletin_id: null
+  };
+  demoSession.manualItems.push(saved);
+  saveDemoSession();
+  refreshManualRowsFromSession();
   if (titleEl) titleEl.value = '';
   if (bodyEl) bodyEl.value = '';
   if (sourceEl) sourceEl.value = '';
@@ -858,7 +952,7 @@ function stageSummary(main, detail, showPeriod = true, extra = '') {
 }
 function emptyTodoSuggestion(count) {
   if (count) return '';
-  const isToday = ($('f-jours').value || '3') === 'today';
+  const isToday = ($('f-jours').value || '0') === 'today';
   return `<div class="keyboard-tip">
     ${isToday ? "Aucune information visible aujourd'hui. Il y a peut-être des signaux faibles à examiner, ou des éléments récents sur les 3 derniers jours." : 'Aucune information dans cette période. Vous pouvez examiner les signaux faibles ou élargir la période.'}
     <div class="suggestion-actions">
@@ -1210,10 +1304,8 @@ function advanceStageIfDone() {
 async function decide(id, statut) {
   const summary = $('sum-' + id) ? $('sum-' + id).value : null;
   const reviewDate = ['proposed', 'grey'].includes(statut) ? null : new Date().toISOString();
-  const { error } = await sb.from('matches').update({ status: statut, client_summary: summary, reviewed_at: reviewDate }).eq('id', id);
-  if (error) { toast('Erreur : ' + error.message); return; }
+  patchSessionMatches([id], { status: statut, client_summary: summary, reviewed_at: reviewDate });
   removeIncubation(id);
-  rows = rows.map(r => r.id === id ? { ...r, status: statut, client_summary: summary, reviewed_at: reviewDate } : r);
   advanceStageIfDone();
   renderThemes(); render(); renderTabs();
   const labels = { proposed: 'Remis au tri', grey: 'Remis en signal faible', approved: 'À trier', edited: 'Retenu pour ce bulletin', rejected: 'Ignoré' };
@@ -1225,11 +1317,8 @@ async function retainAllSelected() {
   if (!selected.length) { toast('Aucune information gardée à retenir.'); return; }
   const ids = selected.map(r => r.id);
   const reviewDate = new Date().toISOString();
-  const { error } = await sb.from('matches').update({ status: 'edited', reviewed_at: reviewDate }).in('id', ids);
-  if (error) { toast('Erreur : ' + error.message); return; }
+  patchSessionMatches(ids, { status: 'edited', reviewed_at: reviewDate });
   ids.forEach(removeIncubation);
-  const selectedIds = new Set(ids);
-  rows = rows.map(r => selectedIds.has(r.id) ? { ...r, status: 'edited', reviewed_at: reviewDate } : r);
   renderThemes(); render(); renderTabs();
   toast(`${ids.length} information${ids.length > 1 ? 's retenues' : ' retenue'} pour ce bulletin`);
 }
@@ -1239,26 +1328,34 @@ async function resetRetained() {
   const manualPending = (manualRows || []).filter(m => !m.bulletin_id);
   if (!editedRows.length && !manualPending.length) { toast('Aucune info retenue à réinitialiser.'); return; }
   if (!confirm('Réinitialiser les infos retenues pour ce bulletin ?\n• Les infos RSS validées repartent au tri.\n• Les infos ajoutées à la main sont retirées.')) return;
-  for (const r of editedRows) {
-    const { error } = await sb.from('matches').update({ status: fallbackStatus(r), reviewed_at: null, bulletin_id: null }).eq('id', r.id);
-    if (error) { toast('Erreur : ' + error.message); return; }
-  }
-  if (manualPending.length) {
-    const { error } = await sb.from('manual_items').delete().in('id', manualPending.map(m => m.id)).eq('status', 'pending').is('bulletin_id', null);
-    if (error) { toast('Erreur infos manuelles : ' + error.message); return; }
-  }
+  patchSessionMatches(editedRows.map(r => r.id), row => ({ status: fallbackStatus(row), reviewed_at: null, bulletin_id: null }));
+  patchSessionManualItems(manualPending.map(m => m.id), { deleted: true });
   listMode = false;
-  await load();
+  renderThemes(); render();
   toast('Infos retenues réinitialisées');
 }
 
 async function approvedRows() {
-  const c = clients.find(x => x.id === current); if (!c) return [];
-  const pid = c.client_profiles[0].id;
-  const { data } = await sb.from('matches')
-    .select('id,status,reviewed_at,rationale,client_summary,items(title,url,url_canonical,source_id,raw_content,published_at,act_type,urgency,key_dates)')
-    .eq('profile_id', pid).eq('status', 'edited').is('bulletin_id', null);
-  return currentReadyRows((data || []).map(withFrenchLegacyTitle));
+  const approved = currentReadyRows(rows);
+  if (!approved.length) return approved;
+  const ids = approved.map(row => row.id);
+  const chunks = [];
+  for (let i = 0; i < ids.length; i += 100) chunks.push(ids.slice(i, i + 100));
+  const responses = await Promise.all(chunks.map(chunk =>
+    sb.from('matches').select('id,items(raw_content)').in('id', chunk)
+  ));
+  const failed = responses.find(result => result.error);
+  if (failed) {
+    toast('Impossible de charger le contenu des sources : ' + failed.error.message);
+    return [];
+  }
+  const contentByMatch = new Map(
+    responses.flatMap(result => result.data || []).map(row => [String(row.id), ((row.items || {}).raw_content || '')])
+  );
+  return approved.map(row => ({
+    ...row,
+    items: { ...(row.items || {}), raw_content: contentByMatch.get(String(row.id)) || '' }
+  }));
 }
 
 function promptExcerpt(text, max = 6500) {
@@ -1367,12 +1464,23 @@ async function generateBulletin() {
     return;
   }
   const brief = c.client_profiles[0].brief || '';
-const demoName = demoClientName(c);
-const prompt = buildPrompt(demoName, anonymizeDemoText(brief), a, manual);
-  const { data: bul, error } = await sb.from('bulletins').insert({ tenant_id: c.tenant_id, profile_id: c.client_profiles[0].id, prompt_text: prompt, status: 'draft' }).select('id').single();
-  if (error) { toast('Erreur bulletin : ' + error.message); return; }
-  pendingBulletin = { id: bul.id, matchIds: a.map(r => r.id), manualIds: manual.map(item => item.id) };
-$('m-client').textContent = demoName;  $('m-prompt').textContent = prompt;
+  const demoName = demoClientName(c);
+  const prompt = buildPrompt(demoName, anonymizeDemoText(brief), a, manual);
+  const bul = {
+    id: nextLocalId('bulletin'),
+    tenant_id: c.tenant_id,
+    profile_id: c.client_profiles[0].id,
+    prompt_text: prompt,
+    status: 'draft',
+    created_at: new Date().toISOString(),
+    matchIds: a.map(r => r.id),
+    manualIds: manual.map(item => item.id)
+  };
+  demoSession.bulletins.push(bul);
+  saveDemoSession();
+  pendingBulletin = bul;
+  $('m-client').textContent = demoName;
+  $('m-prompt').textContent = prompt;
   $('m-copy').onclick = async () => { try { await navigator.clipboard.writeText(prompt); toast('Copié'); } catch (e) {} };
   $('m-finalize').style.display = 'inline-block';
   $('m-finalize').onclick = finalizeBulletin;
@@ -1389,50 +1497,38 @@ $('m-client').textContent = demoName;  $('m-prompt').textContent = prompt;
 async function finalizeBulletin() {
   if (!pendingBulletin) { toast('Aucun brouillon à valider dans cette session.'); return; }
   const draft = pendingBulletin;
-  if (draft.matchIds.length) {
-    const linked = await sb.from('matches').update({ bulletin_id: draft.id }).in('id', draft.matchIds).is('bulletin_id', null);
-    if (linked.error) { toast('Erreur rattachement : ' + linked.error.message); return; }
-  }
-  if (draft.manualIds.length) {
-    const linkedManual = await sb.from('manual_items').update({ bulletin_id: draft.id, status: 'included', updated_at: new Date().toISOString() }).in('id', draft.manualIds).eq('status', 'pending');
-    if (linkedManual.error) {
-      if (draft.matchIds.length) await sb.from('matches').update({ bulletin_id: null }).eq('bulletin_id', draft.id);
-      toast('Erreur infos supplémentaires : ' + linkedManual.error.message);
-      return;
-    }
-  }
-  const written = await sb.from('bulletins').update({ status: 'written' }).eq('id', draft.id);
-  if (written.error) {
-    if (draft.matchIds.length) await sb.from('matches').update({ bulletin_id: null }).eq('bulletin_id', draft.id);
-    if (draft.manualIds.length) await sb.from('manual_items').update({ bulletin_id: null, status: 'pending', updated_at: new Date().toISOString() }).in('id', draft.manualIds);
-    toast('Validation annulée : ' + written.error.message);
-    return;
-  }
-  const includedManual = new Set(draft.manualIds);
-  manualRows = manualRows.filter(item => !includedManual.has(item.id));
+  patchSessionMatches(draft.matchIds, { bulletin_id: draft.id });
+  patchSessionManualItems(draft.manualIds, { bulletin_id: draft.id, status: 'included', updated_at: new Date().toISOString() });
+  updateLocalBulletin(draft.id, { status: 'written' });
   pendingBulletin = null;
   $('m-finalize').style.display = 'none';
   $('modal').style.display = 'none';
-  await load();
-  toast('Bulletin validé : les informations ont été archivées');
+  renderThemes(); render();
+  toast('Bulletin validé dans cette session locale');
 }
 
 async function openLastBulletin() {
   const c = clients.find(x => x.id === current); if (!c) return;
-  const { data } = await sb.from('bulletins').select('id,prompt_text,created_at').eq('profile_id', c.client_profiles[0].id).order('created_at', { ascending: false }).limit(1);
-  if (!data || !data.length) { toast('Aucun bulletin généré pour ce client.'); return; }
-  const b = data[0];
+  const profileId = c.client_profiles[0].id;
+  const { data } = await sb.from('bulletins').select('id,prompt_text,created_at').eq('profile_id', profileId).order('created_at', { ascending: false }).limit(1);
+  const candidates = [...localBulletins(profileId), ...(data || [])]
+    .sort((a, b) => String(b.created_at || '').localeCompare(String(a.created_at || '')));
+  if (!candidates.length) { toast('Aucun bulletin généré pour ce client.'); return; }
+  const b = candidates[0];
+  const isLocal = demoSession.bulletins.some(item => item.id === b.id);
   $('m-client').textContent = demoClientName(c) + ' — généré le ' + new Date(b.created_at).toLocaleDateString('fr-FR');
   $('m-prompt').textContent = b.prompt_text || '';
   try { await navigator.clipboard.writeText(b.prompt_text || ''); toast('Texte de travail copié'); } catch (e) {}
   $('m-copy').onclick = async () => { try { await navigator.clipboard.writeText(b.prompt_text || ''); toast('Copié'); } catch (e) {} };
   $('m-finalize').style.display = 'none';
-  $('m-reopen').style.display = 'inline-block';
+  $('m-reopen').style.display = isLocal ? 'inline-block' : 'none';
   $('m-reopen').onclick = async () => {
-    await sb.from('matches').update({ bulletin_id: null }).eq('bulletin_id', b.id);
+    patchSessionMatches(b.matchIds || [], { bulletin_id: null });
+    patchSessionManualItems(b.manualIds || [], { bulletin_id: null, status: 'pending', updated_at: new Date().toISOString() });
+    updateLocalBulletin(b.id, { status: 'reopened' });
     $('modal').style.display = 'none'; $('m-reopen').style.display = 'none';
-    toast('Infos rouvertes : elles comptent à nouveau pour la génération');
-    load();
+    await load();
+    toast('Infos rouvertes dans cette session locale');
   };
   $('modal').style.display = 'flex';
 }
@@ -1441,11 +1537,12 @@ async function resetReview() {
   const c = clients.find(x => x.id === current); if (!c) return;
   if (!confirm('Remettre toutes les propositions de ' + c.name + ' à l\'état initial ?\nLes décisions de tri et les bulletins générés seront annulés.')) return;
   const pid = c.client_profiles[0].id;
-  const r1 = await sb.from('matches').update({ status: 'proposed', reviewed_at: null, bulletin_id: null }).eq('profile_id', pid).gte('llm_score', 60);
-  const r2 = await sb.from('matches').update({ status: 'grey', reviewed_at: null, bulletin_id: null }).eq('profile_id', pid).lt('llm_score', 60);
-  if (r1.error || r2.error) { toast('Erreur : ' + (r1.error || r2.error).message); return; }
-  toast('Réinitialisé : toutes les propositions sont de retour');
-  renderTabs(); load();
+  patchSessionMatches(baseRows.map(r => r.id), row => ({ status: fallbackStatus(row), reviewed_at: null, bulletin_id: null }));
+  demoSession.bulletins = demoSession.bulletins.filter(b => b.profile_id !== pid);
+  saveDemoSession();
+  pendingBulletin = null;
+  renderThemes(); renderTabs(); render();
+  toast('Session locale réinitialisée : toutes les propositions sont de retour');
 }
 async function resetCurrentStep() {
   const list = ['manual', 'generate'].includes(activeStage) ? rows : filteredRows();
@@ -1453,10 +1550,7 @@ async function resetCurrentStep() {
   if (activeStage === 'manual') {
     if (!manualItems().length) { toast('Aucune info manuelle à retirer.'); return; }
     if (!confirm('Retirer les informations supplémentaires du client actif ?')) return;
-    const c = clients.find(x => x.id === current); if (!c) return;
-    const removed = await sb.from('manual_items').delete().eq('profile_id', c.client_profiles[0].id).eq('status', 'pending').is('bulletin_id', null);
-    if (removed.error) { toast('Suppression impossible : ' + removed.error.message); return; }
-    manualRows = [];
+    patchSessionManualItems(manualRows.map(item => item.id), { deleted: true });
     render();
     toast('Étape infos supplémentaires réinitialisée');
     return;
@@ -1482,18 +1576,12 @@ async function resetCurrentStep() {
   if (!confirm(label)) return;
   const ids = [...new Set(candidates.map(r => r.id))];
   if (activeStage === 'todo' || activeStage === 'grey') {
-    const results = await Promise.all(ids.map(id => {
-      const row = rows.find(r => r.id === id);
-      return sb.from('matches').update({ status: fallbackStatus(row), reviewed_at: null }).eq('id', id);
-    }));
-    const failed = results.find(x => x.error);
-    if (failed) { toast('Erreur : ' + failed.error.message); return; }
+    patchSessionMatches(ids, row => ({ status: fallbackStatus(row), reviewed_at: null }));
   } else {
-    const { error } = await sb.from('matches').update({ status: 'approved', reviewed_at: null }).in('id', ids);
-    if (error) { toast('Erreur : ' + error.message); return; }
+    patchSessionMatches(ids, { status: 'approved', reviewed_at: null });
   }
   listMode = false;
-  await load();
+  renderThemes(); render();
   toast('Étape réinitialisée');
 }
 
